@@ -1,21 +1,19 @@
 # Group_24
 
 ## Members
-| Name        | Github    | Email                       |
-| ----------- | --------- | --------------------------- |
-| ...         | ...       | ...                         |
-| ...         | ...       | ...                         |
-| Ivan Huang  | rtv4box   | hbhuang2@myseneca.ca        |
+| Name              | Github    | Email                       |
+| ----------------- | --------- | --------------------------- |
+| Quan Pham         | ...       | qpham4@myseneca.ca          |
+| Parsa Parichehreh | ...       | pparichehreh1@myseneca.ca   |
+| Ivan Huang        | rtv4box   | hbhuang2@myseneca.ca        |
 
 ## Project Description
-In this project, a website tailored for faculty members teaching CAPSTONE project courses is developed. This website will feature a number of tools to aid faculty during the process of teaching these courses. The two most important tools are a timeslot picking tool, and a group messaging tool, which are discussed in what follows:
+The purpose of this project is to develop a hotel booking website. The main two types of users are hotel clients and hotel employees, there will be different functionalities based on the type of user that logs in. The key features for clients are to create, edit, and cancel a hotel reservation, as well as browsing available hotel rooms based on their preference and making a payment through the website. The hotel employees can create, edit, and delete a hotel room. These functionalities will be further explained below:
 
-### Timeslot Picking Tool
-This tool will allow faculty members to create a number of timeslots available for groups of students to pick their preferred meeting times. After the timeslots are created, students are able to log in and click on available timeslots. The tool should also message all group members with details about the chosen timeslots. Note that the tool does not have an option to allow students to change their option. This is done by design to ensure that students will discuss with their groups as soon as possible (as opposed to a student simply trying to keep a placeholder and discussing later).
+### Account System
 
-### Group Messaging Tool
-This tool will allow the faculty to quickly visualize all groups and its members. Moreover, this toll should allow facutly to quickly craft an email message to specific groups.
+### Client Account
 
-Note that both these tools require the website to have an authentication system in which users can take two different roles (faculty or student), each role with specific capabilities. Due to the fact that users are only allowed into the system as per faculty's invitation, no authentication APIs, such as [Facebook](https://developers.facebook.com/docs/facebook-login/), or [Google](https://developers.google.com/identity/sign-in/web/sign-in), are implemented.
+### Hotel Employee Account
 
-## Testing....
+### Payment System
