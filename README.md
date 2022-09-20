@@ -4,7 +4,7 @@
 | Name              | Github      | Email                       |
 | ----------------- | ----------- | --------------------------- |
 | Quan Pham         | Pun-slinger | qpham4@myseneca.ca          |
-| Parsa Parichehreh | assangha    | pparichehreh1@myseneca.ca   |
+| Ajaipal Singh Sangha | assangha    | assangha2@myseneca.ca   |
 | Ivan Huang        | rtv4box     | hbhuang2@myseneca.ca        |
 
 ## Project Description
