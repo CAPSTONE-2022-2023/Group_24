@@ -22,6 +22,10 @@ A feature available for both clients and hotel employee once they are loged in. 
 
 In the 2nd page, user will enter their guest details such as full name, contact information, and number of guests. The page will also feature additional room requests options for guest with special demands for their hotel room during their stay. At the bottom of the page will contain the sum ups of the reversation details as well as grand total price along with a button that will takes the user to another page that will take the user's payment information to complete the reservation.
 
+### Employee's Hotel Room Modification System
+
+### Reversation Viewing Tool
+
 ~### Client Account Features
 The client can browse from a list of available hotel rooms once they login. There will be filters and a search bar to sort the list of hotel rooms. These include sorting by price range, room type, and recommended amount of guests. Clients can also expand a chosen hotel room to view additonal information and to book the room. Once a room is booked, it will be viewable on their profile and the client can choose to edit or cancel the reservation. Client won't be able to cancel reservation 24hrs before the reservation time.~
 
