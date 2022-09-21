@@ -14,6 +14,9 @@ The purpose of this project is to develop a room booking website for a hotel. Th
 The website will allow both clients and hotel employees to register and login with their accounts. An account will contain important information such as type, full name, email, and password. 
 For employees it will ask employee id so that only employees can edit rooms and other clients reservations. Once the user creates an account, it will be saved to the database. The user can choose to edit information about their account at any time through their profile page.
 
+### Hotel Room Showcase
+This page will showcase the site vistor a list of available hotel room with photo along with its name. To assist the user in choosing their desired room, the hotel list will include filters, and sorting functionality by price range, room type, and recommended amount of guest. Once the site vistor decide to take a look at a specific room, they can select the chosen room on the list and will be taken to another page contain more informations about the selected room including prices, amount of guest recommended, commodities, additional photos, descriptions, and a button taking the user to the booking page. 
+
 ~### Client Account Features
 The client can browse from a list of available hotel rooms once they login. There will be filters and a search bar to sort the list of hotel rooms. These include sorting by price range, room type, and recommended amount of guests. Clients can also expand a chosen hotel room to view additonal information and to book the room. Once a room is booked, it will be viewable on their profile and the client can choose to edit or cancel the reservation. Client won't be able to cancel reservation 24hrs before the reservation time.~
 
