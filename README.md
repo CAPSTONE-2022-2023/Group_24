@@ -23,6 +23,10 @@ A feature available for both clients and hotel employee once they are loged in. 
 In the 2nd page, user will enter their guest details such as full name, contact information, and number of guests. The page will also feature additional room requests options for guest with special demands for their hotel room during their stay. At the bottom of the page will contain the sum ups of the reversation details as well as grand total price along with a button that will takes the user to another page that will take the user's payment information to complete the reservation.
 
 ### Employee's Hotel Room Modification System
+As a hotel employee, the user have the ability to modify, manipulating and delete existing room as well as add new rooms to the system. To assist employees in such task, the Hotel Room Modification System will be included in the website. 
+When the user chose to create addiational hotel room, the employee home page will take them to another page to input the information regarding the room, such as available time slots, included amenities, images, and recommended amount of guests. 
+If an existing room's information needs to be editted, the user can access its editting page from either the room page itself with an edit button that will appears after logging in or simply select from the employee homepage.
+Similar to modifying the room, the delete fuctionality can also be used from the room page or the employee homepage.
 
 ### Reversation Viewing Tool
 
