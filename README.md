@@ -20,7 +20,7 @@ This page will showcase the site vistor a list of available hotel room with phot
 ### Room Booking Tool
 A feature available for both clients and hotel employee once they are loged in. The room booking tool allows users to begin making reversation upon selecting the booking button on the hotel room showcase page. User on this page will select their arrival and departure date in which then the system will checked for availability. If desired room is available, user will be taken to a 2nd page.
 
-In the 2nd page, user will enter their guest details such as full name, contact information, and number of guests. The page will also feature additional room requests options for guest with special demands for their hotel room during their stay. At the bottom of the page will contain the sum ups of the reversation details as well as grand total price along with a button that will takes the user to another page that will take the user's payment information to complete the reservation.
+In the 2nd page, user will enter their guest details such as full name, contact information, and number of guests. The page will also feature additional room requests options for guest with special demands for their hotel room during their stay. At the bottom of the page will contain the sum ups of the reversation details as well as grand total price along with a button that will takes the user to another page that will take the user's payment information to complete the reservation. It will give them reservation number upon completion.
 
 ### Employee's Hotel Room Modification System
 As a hotel employee, the user have the ability to modify, manipulating and delete existing room as well as add new rooms to the system. To assist employees in such task, the Hotel Room Modification System will be included in the website. 
@@ -31,7 +31,9 @@ If an existing room's information needs to be editted, the user can access its e
 
 Similar to modifying the room, the delete fuctionality can also be used from the room page or the employee homepage.
 
-### Reversation Viewing Tool
+### Reversation Viewing & editing Tool
+
+When user is logged in, they can use this tool to view their current reservation. For employee, they will be entering client's reservation number which will be assigned to them upon successfull reservation. From there user can select edit to change their reservation. They will be asked same info which was asked while making reservation. They will also get cancel option to cancel their reservation but they won't be able to cancel the reservation if it less than 24hrs from the reservation date and time. 
 
 ~### Client Account Features
 The client can browse from a list of available hotel rooms once they login. There will be filters and a search bar to sort the list of hotel rooms. These include sorting by price range, room type, and recommended amount of guests. Clients can also expand a chosen hotel room to view additonal information and to book the room. Once a room is booked, it will be viewable on their profile and the client can choose to edit or cancel the reservation. Client won't be able to cancel reservation 24hrs before the reservation time.~
