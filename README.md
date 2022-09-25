@@ -31,15 +31,9 @@ If an existing room's information needs to be editted, the user can access its e
 
 Similar to modifying the room, the delete fuctionality can also be used from the room page or the employee homepage.
 
-### Reversation Viewing & editing Tool
+### Reversation Viewing & Editing Tool
 
 When user is logged in, they can use this tool to view their current reservation. For employee, they will be entering client's reservation number which will be assigned to them upon successfull reservation. From there user can select edit to change their reservation. They will be asked same info which was asked while making reservation. They will also get cancel option to cancel their reservation but they won't be able to cancel the reservation if it less than 24hrs from the reservation date and time. 
-
-~### Client Account Features
-The client can browse from a list of available hotel rooms once they login. There will be filters and a search bar to sort the list of hotel rooms. These include sorting by price range, room type, and recommended amount of guests. Clients can also expand a chosen hotel room to view additonal information and to book the room. Once a room is booked, it will be viewable on their profile and the client can choose to edit or cancel the reservation. Client won't be able to cancel reservation 24hrs before the reservation time.~
-
-~### Hotel Employee Account Features
-The hotel employee can view a list of hotel rooms that are listed. They can choose to create additional hotel rooms which will take them to another page to input the information regarding the room, such as available time slots, included amenities, images, and recommended amount of guests. They will also be able to edit any existing hotel rooms and can choose to delete them. Once a room is booked, its status will be updated to reflect that and the employee can view it within the page that shows all reserved rooms as well as information on the guests.~
 
 ### Payment System
 The hotel will ultized the third party payment system (Visa, Paypal, etc...) which will allow the hotel employee to register the hotel on third party system and they will take care of the payments.
