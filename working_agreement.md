@@ -13,5 +13,8 @@ Prefered programing practices:
  - Database will be hosted on MongoDB
 
 Sharing Work:
- - Work done will be uploaded to github and appropriate methods will be used to download it and share it (not used for reference)
+ - Sharing and merging work will be done using github and git functionalities:
+   - Each member will be given their own branches which mirror the main branch from the start to work on
+      - Git pull, push, and commit will be used to download and push completed work to respective branch 
+   - When a member's work is done, one person will do the final test said work before merging it to the main branch 
  - Secondary methods like email will be used to share the work if anything fails.
