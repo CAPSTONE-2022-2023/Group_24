@@ -3,6 +3,5 @@
 3. All features is tested for correct outcome
 4. All features is tested for incorrect outcome and proper error messages
 5. Tested and working on all browsing platforms
-6. Automatic test created ( reconsider pending )
-7. All documentation required is complete
-8. All member of team agreed the project is officially finished
+6. All documentation required is complete
+7. All member of team agreed the project is officially finished
