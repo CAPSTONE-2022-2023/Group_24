@@ -1,4 +1,4 @@
-1. Work of all individual branches are merged into the main branch of the share repository
+1. Work of all individual branches are merged into the main branch of the shared repository
 2. Met all acceptance criteria according to user story / all functionalities are included in the project
 3. All features are tested for correct outcome
 4. All features are tested for incorrect outcome and proper error messages
