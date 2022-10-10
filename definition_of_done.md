@@ -5,4 +5,3 @@
 5. Tested and working on all browsing platforms
 6. Code is peer-reviewed to follow correct guidelines
 7. All documentations required are complete
-8. All members of team agreed the project is officially finished
