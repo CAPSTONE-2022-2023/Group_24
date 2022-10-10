@@ -9,12 +9,12 @@ Meeting schedules:
  - Among group members: Every Monday evening
 
 Coding styles:
- - Every function required commenting
- - 
+ - Every function required commenting before it
+ - Variable and Function name will use Camel Case
+ - Google JavaScript coding style (https://google.github.io/styleguide/jsguide.html) will be partially adopted
 
 Sharing Work:
  - Sharing and merging work will be done using github and git functionalities:
    - Each member will create their own branches which mirror the main branch from the start to work on
       - Git pull, push, and commit will be used to download and push completed work to respective branch 
    - When a member's work is done, one person will do the final test for said work before merging it to the main branch
- - Secondary methods like email will be used to share the work if anything fails.
