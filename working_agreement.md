@@ -8,10 +8,9 @@ Meeting schedules:
  - With professor: Every Tuesday at 11:40 am
  - Among group members: Every Monday evening
 
-Preferred programing practices:
- - React will be used for coding and every page will be tested to meet requirements before proceeding further.
- - Error Handling will be practiced
- - Database will be hosted on MongoDB
+Coding styles:
+ - Every function required commenting
+ - 
 
 Sharing Work:
  - Sharing and merging work will be done using github and git functionalities:
