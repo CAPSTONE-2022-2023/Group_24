@@ -25,14 +25,21 @@
   i. Select "Source Control"
   
   ii. Stage:
+  
      - Select "..." button -> "Changes" -> "Stage All Changes"
+     
      - Select "+" button on selected individual changes
+     
   iii. Commit:
+  
      - Select "Commit"
+     
      - Enter commit message
      
 5. Push changes to Github
+6. 
   - Select "Source Control" -> "Sync Changes"
+  - 
   - Select "Source Control" -> "..." button -> "Pull, Push" -> "Push"
 
 6. Merge personal branch to main branch with Pull Requests
