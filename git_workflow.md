@@ -31,10 +31,10 @@
      - Select "+" button on selected individual changes
      
    iii. Commit:
-     - Select "Commit"
-     - Enter commit message
+     a. Select "Commit"
+     b. Enter commit message
      
-5. Push branch to Github
+5. Publish and push branch to Github
    - Select "Source Control" -> "Publish Branch"
    - Select "Source Control" -> "..." button -> "Branch" -> "Publish Branch..."
 
