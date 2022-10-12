@@ -14,14 +14,12 @@
      
       ii. Select branch to pull from
 
-2. Create and publish new branch with proper name
+2. Create new branch with proper name
 
    i. Select "Source Control" -> "..." button -> "Branch" -> "Create branch"
   
    ii. Enter branch name
   
-   iii. Publish branch
-
 3. Make/Add changes to the code and test 
 
 4. Stage and commit the changes
@@ -36,10 +34,12 @@
      - Select "Commit"
      - Enter commit message
      
-5. Push changes to Github
-   - Select "Source Control" -> "Sync Changes"
-   - Select "Source Control" -> "..." button -> "Pull, Push" -> "Push"
+5. Push branch to Github
+   - Select "Source Control" -> "Publish Branch"
+   - Select "Source Control" -> "..." button -> "Branch" -> "Publish Branch..."
 
-6. Merge personal branch to main branch with Pull Requests
+6. Create and review Pull Request
 
-7. Return to step 1
+7. Merge personal branch to main branch with Pull Requests
+
+8. Delete branch
