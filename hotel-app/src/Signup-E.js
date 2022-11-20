@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -83,6 +81,17 @@ export default function SignUp_E() {
                 <TextField
                   required
                   fullWidth
+                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                  id="phone"
+                  label="Phone Number"
+                  name="phone"
+                  autoComplete="phone"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
@@ -98,6 +107,16 @@ export default function SignUp_E() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="emp-code"
+                  label="Employee Code"
+                  name="emp-code"
+                  autoComplete="emp-code"
                 />
               </Grid>
             </Grid>
