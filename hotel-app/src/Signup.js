@@ -3,8 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import { MenuItem, FormControl, InputLabel, Select } from '@mui/material';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -59,6 +58,22 @@ export default function SignUp() {
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="title-select-label">Title</InputLabel>
+                  <Select
+                    labelId="title-select-label"
+                    id="title-select"
+                    label="Title"
+                  >
+                    <MenuItem value={0}>None</MenuItem>
+                    <MenuItem value={1}>Mr.</MenuItem>
+                    <MenuItem value={2}>Ms.</MenuItem>
+                    <MenuItem value={3}>Mrs.</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}></Grid>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
@@ -77,6 +92,17 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                  id="phone"
+                  label="Phone Number"
+                  name="phone"
+                  autoComplete="phone"
                 />
               </Grid>
               <Grid item xs={12}>
