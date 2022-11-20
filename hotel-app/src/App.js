@@ -88,10 +88,18 @@ export default function SignIn() {
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Not a member? Sign Up!"}
-                </Link>
+              <Grid container>
+                <Grid item>
+                  <Link href="/Signup/Customer" variant="body2">
+                    {"Are you a customer? Sign up here"}
+                  </Link>
+                </Grid>
+
+                <Grid item>
+                  <Link href="/Signup/Employee" variant="body2">
+                    {"Employee? Sign up your account here"}
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Box>
