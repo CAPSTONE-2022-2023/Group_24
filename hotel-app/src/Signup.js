@@ -11,6 +11,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
+import {useState} from "react";
 
 function Copyright(props) {
   return (
@@ -28,124 +30,64 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const [input, setInput] = useState({
+    name: '',
+    phone: 0,
+    address: '',
+    username: '',
+    password: '',
+  })
+
+  function handleChange(event) {
+    const {name, value} = event.target;
+
+    setInput(prevInput => {
+      return {
+        ...prevInput,
+        [name]: value
+      }
+    })
+  }
+
+  function handleClick(event) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+    const newClient = {
+      name: input.name,
+      phone: input.phone,
+      address: input.address,
+      username: input.username,
+      password: input.password
+    }
+
+    axios.post('https://localhost:3001/signup/customer', newClient);
+  }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Customer Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel id="title-select-label">Title</InputLabel>
-                  <Select
-                    labelId="title-select-label"
-                    id="title-select"
-                    label="Title"
-                  >
-                    <MenuItem value={0}>None</MenuItem>
-                    <MenuItem value={1}>Mr.</MenuItem>
-                    <MenuItem value={2}>Ms.</MenuItem>
-                    <MenuItem value={3}>Mrs.</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}></Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                  id="phone"
-                  label="Phone Number"
-                  name="phone"
-                  autoComplete="phone"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+    <div className = 'container'>
+      <h1> Signup for a Client Account</h1>
+      <form>
+        <div className = 'form-group'>
+          <input onChange={handleChange} name ="name" autoComplete = "off" className = "form-control" placeholder = "Full Name"></input>
+        </div>
+
+        <div className = 'form-group'>
+          <input onChange={handleChange} name ="phone" autoComplete = "off" className = "form-control" placeholder = "Phone Number"></input>
+        </div>
+
+        <div className = 'form-group'>
+          <input onChange={handleChange} name ="address" autoComplete = "off" className = "form-control" placeholder = "Address"></input>
+        </div>
+
+        <div className = 'form-group'>
+          <input onChange={handleChange} name ="username" autoComplete = "off" className = "form-control" placeholder = "Username"></input>
+        </div>
+
+        <div className = 'form-group'>
+          <input onChange={handleChange} name ="password" autoComplete = "off" className = "form-control" placeholder = "Password"></input>
+        </div>
+
+        <button onClick={handleClick} className= "btn btn-lg btn-info" >Sign Up</button>
+      </form>
+    </div>
   );
 }
