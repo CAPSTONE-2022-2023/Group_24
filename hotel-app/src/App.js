@@ -52,17 +52,14 @@ function SignIn() {
       if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
         if (accountType == 0) {
           // redirect to client page
-          //navigate('/homepage/customer');
-          console.log("Account type: Client");
-          console.log(accountType);
+          navigate('/homepage/customer');
         }
         if (accountType == 1) {
           // redirect to employee page
-          //navigate('/homepage/employee');
-          console.log("Account type: Employee");
-          console.log(accountType);
+          navigate('/homepage/employee');
         }
-        console.log(accountType);
+        // reset account type on login page when successfully logged in
+        accountType = 0;
       }
       else {
         // display error message
