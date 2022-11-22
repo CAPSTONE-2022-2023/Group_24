@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const employeesSchema = {
+const employeeSchema = {
     name: String,
     phone: String,
     address: String,
@@ -9,6 +9,6 @@ const employeesSchema = {
     employeeNum: String
 }
 
-const Employee = mongoose.model("Employee", employeesSchema);
+const Employee = mongoose.model("Employee", employeeSchema);
 
 module.exports = Employee;

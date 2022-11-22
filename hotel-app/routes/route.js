@@ -41,4 +41,14 @@ router.route("/signup/employee").post((req, res) => {
     newEmployee.save();
 })
 
+router.route("/signin/customer").get((req, res) => {
+    Client.find()
+    .then(foundClients => res.json(foundClients))
+})
+
+router.route("/signin/employee").get((req, res) => {
+    Employee.find()
+    .then(foundEmployees => res.json(foundEmployees))
+})
+
 module.exports = router;

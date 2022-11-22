@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CHome from './client-home';
 import EHome from './employee-home';
 import axios from "axios";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
@@ -38,45 +38,80 @@ function SignIn() {
     password: ''
   }])
 
+  const [employees, setEmployees] = useState([{
+    name: '',
+    phone: 0,
+    address: '',
+    username: '',
+    password: ''
+  }])
+
   useEffect(() => {
-    fetch("http://localhost:3001").then(res => {
-      if(res.ok) {
+    fetch("http://localhost:3001/signin/customer").then(res => {
+      if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
+
+    fetch("http://localhost:3001/signin/employee").then(res => {
+      if (res.ok) {
+        return res.json()
+      }
+    }).then(jsonRes => setEmployees(jsonRes));
   })
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     var arrLength = clients.length;
-    for (var i = 0; i < arrLength; i++) {
-      console.log(clients[i].username);
-      if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
-        if (accountType == 0) {
-          // redirect to client page
-          navigate('/homepage/customer',{state: clients[i]});
+    var arrLengthE = employees.length;
+
+    // for (var i = 0; i < arrLength; i++) {
+    //   console.log("Clients: " + clients[i].username);
+    //   if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
+    //     if (accountType == 0) {
+    //       // redirect to client page
+    //       navigate('/homepage/customer',{state: clients[i]});
+    //     }
+    //     if (accountType == 1) {
+    //       // redirect to employee page
+    //       navigate('/homepage/employee',{state: clients[i]});
+    //     }
+    //     // reset account type on login page when successfully logged in
+    //     accountType = 0;
+    //   }
+    //   else {
+    //     // display error message
+    //   }
+    // }
+
+    if (accountType == 0) {
+      for (var i = 0; i < arrLength; i++) {
+        console.log("Clients: " + clients[i].username);
+        if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
+          navigate('/homepage/customer', { state: clients[i] });
+          accountType = 0;
         }
-        if (accountType == 1) {
-          // redirect to employee page
-          navigate('/homepage/employee',{state: clients[i]});
-        }
-        // reset account type on login page when successfully logged in
-        accountType = 0;
       }
-      else {
-        // display error message
+    }
+    if (accountType == 1) {
+      for (var i = 0; i < arrLengthE; i++) {
+        console.log("Employees: " + employees[i].username);
+        if (employees[i].username === data.get('username') && employees[i].password === data.get('password')) {
+          navigate('/homepage/employee', { state: employees[i] });
+          accountType = 0;
+        }
       }
     }
   }
-  
+
   const handleChange = (event) => {
     if (event.target.checked) {
       accountType = 1;
     } else {
       accountType = 0;
     }
-    console.log(accountType);
+    console.log("Account Type: " + accountType);
   };
 
   return (

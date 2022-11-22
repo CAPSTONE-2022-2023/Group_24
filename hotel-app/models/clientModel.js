@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const clientsSchema = {
+const clientSchema = {
     title: String,
     name: String,
     phone: String,
