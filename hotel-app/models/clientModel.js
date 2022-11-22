@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const clientSchema = {
+    title: String,
     name: String,
-    phone: Number,
+    phone: String,
     address: String,
     username: String,
     password: String
