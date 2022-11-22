@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
 import {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -23,7 +24,9 @@ const theme = createTheme({
   }
 });
 
-export default function SignIn() {
+function SignIn() {
+  const navigate = useNavigate();
+  var accountType = 0;
   const [clients, setClients] = useState([{
     name: '',
     phone: 0,
@@ -40,15 +43,112 @@ export default function SignIn() {
     }).then(jsonRes => setClients(jsonRes));
   })
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    var arrLength = clients.length;
+    for (var i = 0; i < arrLength; i++) {
+      console.log(clients[i].username);
+      if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
+        if (accountType === 0) {
+          // redirect to client page
+          // navigate('/clientPage');
+        }
+        else {
+          // redirect to employee page
+          // navigate('/employeePage');
+        }
+      }
+      else {
+        // display error message
+      }
+    }
+  }
+  
+  const handleChange = (event) => {
+    if (event.target.checked) {
+      console.log('Checkbox is checked');
+    } else {
+      console.log('Checkbox is NOT checked');
+    }
+  };
+
   return (
-    <div className='container'>
-      <h1>Sign In</h1>
-      {clients.map(client =>
-        <div>
-          <h1>{client.username}</h1>
-          <h1>{client.password}</h1>
-        </div>
-      )}
-    </div>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Client Login
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox onChange={handleChange} value="accType" color="primary" />}
+              label="Are you an employee?"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid container>
+                <Grid item>
+                  <Link href="/Signup/Customer" variant="body2">
+                    {"Are you a customer? Sign up here"}
+                  </Link>
+                </Grid>
+
+                <Grid item>
+                  <Link href="/Signup/Employee" variant="body2">
+                    {"Employee? Sign up your account here"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
+
+export default SignIn;
