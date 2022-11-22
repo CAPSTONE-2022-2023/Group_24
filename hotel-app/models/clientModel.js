@@ -6,10 +6,9 @@ const clientsSchema = {
     phone: String,
     address: String,
     username: String,
-    password: String,
-    clientNum: String
+    password: String
 }
 
-const Client = mongoose.model("Client", clientsSchema);
+const Client = mongoose.model("Client", clientSchema);
 
 module.exports = Client;

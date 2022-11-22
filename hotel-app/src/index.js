@@ -13,11 +13,15 @@ export default function Application() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
-          <Route index element={<SignIn />} />
-          <Route path="Signup">
-            <Route path="Customer" element={<SignUp />} />
-            <Route path="Employee" element={<SignUp_E />} />
+      <Route path="/">
+            <Route index element={<SignIn />} />
+      <Route path="Homepage">
+        <Route path="Customer" element={<CHome />} />
+        <Route path="Employee" element={<EHome />} />
+            <Route path="Signup">
+              <Route path="Customer" element={<SignUp />} />
+              <Route path="Employee" element={<SignUp_E />} />
+            </Route>
           </Route>
           <Route path="Home">
             <Route path="Customer" element={<CHome />} />
