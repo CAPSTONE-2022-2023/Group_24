@@ -33,93 +33,22 @@ export default function SignIn() {
   }])
 
   useEffect(() => {
-    fetch("/").then(res => {
+    fetch("http://localhost:3001").then(res => {
       if(res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
   })
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(clients);
-  };
-
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Client Login
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid container>
-                <Grid item>
-                  <Link href="/Signup/Customer" variant="body2">
-                    {"Are you a customer? Sign up here"}
-                  </Link>
-                </Grid>
-
-                <Grid item>
-                  <Link href="/Signup/Employee" variant="body2">
-                    {"Employee? Sign up your account here"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+    <div className='container'>
+      <h1>Sign In</h1>
+      {clients.map(client =>
+        <div>
+          <h1>{client.username}</h1>
+          <h1>{client.password}</h1>
+        </div>
+      )}
+    </div>
   );
 }
