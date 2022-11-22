@@ -12,7 +12,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from "axios";
 import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -24,9 +23,10 @@ const theme = createTheme({
   }
 });
 
+var accountType = 0;
+
 function SignIn() {
   const navigate = useNavigate();
-  var accountType = 0;
   const [clients, setClients] = useState([{
     name: '',
     phone: 0,
@@ -50,14 +50,19 @@ function SignIn() {
     for (var i = 0; i < arrLength; i++) {
       console.log(clients[i].username);
       if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
-        if (accountType === 0) {
+        if (accountType == 0) {
           // redirect to client page
-          // navigate('/clientPage');
+          //navigate('/homepage/customer');
+          console.log("Account type: Client");
+          console.log(accountType);
         }
-        else {
+        if (accountType == 1) {
           // redirect to employee page
-          // navigate('/employeePage');
+          //navigate('/homepage/employee');
+          console.log("Account type: Employee");
+          console.log(accountType);
         }
+        console.log(accountType);
       }
       else {
         // display error message
@@ -67,10 +72,11 @@ function SignIn() {
   
   const handleChange = (event) => {
     if (event.target.checked) {
-      console.log('Checkbox is checked');
+      accountType = 1;
     } else {
-      console.log('Checkbox is NOT checked');
+      accountType = 0;
     }
+    console.log(accountType);
   };
 
   return (
