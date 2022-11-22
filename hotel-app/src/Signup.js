@@ -11,6 +11,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
+import {useState} from "react";
 
 function Copyright(props) {
   return (
@@ -28,7 +30,26 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const [input, setInput] = useState({
+    name: '',
+    phone: 0,
+    address: '',
+    username: '',
+    password: '',
+  })
+
+  function handleChange(event) {
+    const {name, value} = event.target;
+
+    setInput(prevInput => {
+      return {
+        ...prevInput,
+        [name]: value
+      }
+    })
+  }
+
+  function handleClick(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
