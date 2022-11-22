@@ -33,6 +33,10 @@ export default function SignUp_E() {
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+      phone: data.get('phone'),
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      empCode: data.get('emp-code')
     });
   };
 

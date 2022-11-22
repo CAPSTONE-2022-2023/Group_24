@@ -5,6 +5,8 @@ import './index.css';
 import SignIn from './App';
 import SignUp from './Signup';
 import SignUp_E from './Signup-E';
+import CHome from './client-home';
+import EHome from './employee-home';
 import reportWebVitals from './reportWebVitals';
 
 export default function Application() {
@@ -16,6 +18,10 @@ export default function Application() {
           <Route path="Signup">
             <Route path="Customer" element={<SignUp />} />
             <Route path="Employee" element={<SignUp_E />} />
+          </Route>
+          <Route path="Home">
+            <Route path="Customer" element={<CHome />} />
+            <Route path="Employee" element={<EHome />} />
           </Route>
         </Route>
       </Routes>

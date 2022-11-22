@@ -34,6 +34,10 @@ export default function SignUp() {
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+      phone: data.get('phone'),
+      title: data.get('title'),
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName')
     });
   };
 
@@ -61,9 +65,11 @@ export default function SignUp() {
                 <FormControl fullWidth>
                   <InputLabel id="title-select-label">Title</InputLabel>
                   <Select
+                    name='title'
                     labelId="title-select-label"
                     id="title-select"
                     label="Title"
+                    defaultValue={0}
                   >
                     <MenuItem value={0}>None</MenuItem>
                     <MenuItem value={1}>Mr.</MenuItem>
