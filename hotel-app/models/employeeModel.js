@@ -1,15 +1,14 @@
 const mongoose = require("mongoose");
 
-const clientsSchema = {
-    title: String,
+const employeesSchema = {
     name: String,
     phone: String,
     address: String,
     username: String,
     password: String,
-    clientNum: String
+    employeeNum: String
 }
 
-const Client = mongoose.model("Client", clientsSchema);
+const Employee = mongoose.model("Employee", employeesSchema);
 
-module.exports = Client;
+module.exports = Employee;

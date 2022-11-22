@@ -10,7 +10,7 @@ app.use(express.json());
 mongoose.connect("mongodb+srv://group24:Group24@group24.ieekutj.mongodb.net/hotel")
 
 // require route
-app.use("/", require("./routes/clientRoute"));
+app.use("/", require("../routes/route"));
 
 app.listen(3001, function() {
     console.log("express server running at 3001");

@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
-import {useState} from "react";
 
 function Copyright(props) {
   return (
@@ -30,36 +29,30 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [input, setInput] = useState({
-    name: '',
-    phone: 0,
-    address: '',
-    username: '',
-    password: '',
-  })
-
-  function handleChange(event) {
-    const {name, value} = event.target;
-
-    setInput(prevInput => {
-      return {
-        ...prevInput,
-        [name]: value
-      }
-    })
-  }
-
-  function handleClick(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
+      username: data.get('username'),
       password: data.get('password'),
       phone: data.get('phone'),
       title: data.get('title'),
       firstName: data.get('firstName'),
-      lastName: data.get('lastName')
+      lastName: data.get('lastName'),
+      address: data.get('address')
     });
+
+    const newClient = {
+      title: data.get('title'),
+      name: data.get('firstName')+" "+data.get('lastName'),
+      phone: data.get('phone'),
+      address: data.get('address'),
+      username: data.get('username'),
+      password: data.get('password')
+    }
+
+    axios.post("http://localhost:3001/signup/customer", newClient);
+    alert("Client account sign up sucessful. Thank you " + data.get('firstName') + " for joining us!");
   };
 
   return (
@@ -136,10 +129,20 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="address"
+                  label="Address"
+                  name="address"
+                  autoComplete="address"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>

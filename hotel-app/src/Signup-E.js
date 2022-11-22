@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -31,13 +32,29 @@ export default function SignUp_E() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
+      username: data.get('username'),
       password: data.get('password'),
       phone: data.get('phone'),
       firstName: data.get('firstName'),
       lastName: data.get('lastName'),
       empCode: data.get('emp-code')
     });
+
+    if (data.get('emp-code') !== "1111") {
+      alert("Wrong employee password, please try again!");
+    }
+    else {
+      const newEmployee = {
+        name: data.get('firstName') + " " + data.get('lastName'),
+        phone: data.get('phone'),
+        address: data.get('address'),
+        username: data.get('username'),
+        password: data.get('password')
+      }
+
+      axios.post("http://localhost:3001/signup/employee", newEmployee);
+      alert("Employee sign up sucessful. Welcome " + data.get('firstName') + " to the team!");
+    }
   };
 
   return (
@@ -96,10 +113,20 @@ export default function SignUp_E() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="address"
+                  label="Address"
+                  name="address"
+                  autoComplete="address"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>
