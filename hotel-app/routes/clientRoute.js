@@ -20,4 +20,9 @@ router.route("/signup/customer").post((req, res) => {
     newClient.save();
 })
 
+router.route("/").get((req, res) => {
+    Client.find()
+    .then(foundClients => res.json(foundClients))
+})
+
 module.exports = router;

@@ -58,8 +58,7 @@ export default function SignUp() {
       username: input.username,
       password: input.password
     }
-
-    axios.post('https://localhost:3001/signup/customer', newClient);
+    axios.post("http://localhost:3001/signup/customer", newClient);
   }
 
   return (

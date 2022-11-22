@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
+import {useEffect, useState} from "react";
 
 const theme = createTheme({
   palette: {
@@ -23,9 +24,26 @@ const theme = createTheme({
 });
 
 export default function SignIn() {
+  const [clients, setClients] = useState([{
+    name: '',
+    phone: 0,
+    address: '',
+    username: '',
+    password: ''
+  }])
+
+  useEffect(() => {
+    fetch("/").then(res => {
+      if(res.ok) {
+        return res.json()
+      }
+    }).then(jsonRes => setClients(jsonRes));
+  })
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(clients);
   };
 
   return (
