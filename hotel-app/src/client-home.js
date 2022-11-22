@@ -6,6 +6,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useLocation} from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -25,6 +26,8 @@ export default function CHome() {
     });
   };
 
+  const location = useLocation();
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -41,7 +44,7 @@ export default function CHome() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Client Home
+            Client Home: {location.state.name}
           </Typography>
           
         </Box>

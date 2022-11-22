@@ -1,13 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
-import App from './App';
+import SignIn from './App';
+import SignUp from './Signup';
+import SignUp_E from './Signup-E';
+import CHome from './client-home';
+import EHome from './employee-home';
 import reportWebVitals from './reportWebVitals';
+
+export default function Application() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route index element={<SignIn />} />
+          <Route path="Homepage">
+            <Route path="Customer" element={<CHome />} />
+            <Route path="Employee" element={<EHome />} />
+          </Route>
+          <Route path="Signup">
+            <Route path="Customer" element={<SignUp />} />
+            <Route path="Employee" element={<SignUp_E />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter >
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Application />
   </React.StrictMode>
 );
 

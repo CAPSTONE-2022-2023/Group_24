@@ -14,6 +14,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CHome from './client-home';
 import EHome from './employee-home';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -22,14 +26,92 @@ const theme = createTheme({
   }
 });
 
-export default function SignIn() {
+var accountType = 0;
+
+function SignIn() {
+  const navigate = useNavigate();
+  const [clients, setClients] = useState([{
+    name: '',
+    phone: 0,
+    address: '',
+    username: '',
+    password: ''
+  }])
+
+  const [employees, setEmployees] = useState([{
+    name: '',
+    phone: 0,
+    address: '',
+    username: '',
+    password: ''
+  }])
+
+  useEffect(() => {
+    fetch("http://localhost:3001/signin/customer").then(res => {
+      if (res.ok) {
+        return res.json()
+      }
+    }).then(jsonRes => setClients(jsonRes));
+
+    fetch("http://localhost:3001/signin/employee").then(res => {
+      if (res.ok) {
+        return res.json()
+      }
+    }).then(jsonRes => setEmployees(jsonRes));
+  })
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    var arrLength = clients.length;
+    var arrLengthE = employees.length;
+
+    // for (var i = 0; i < arrLength; i++) {
+    //   console.log("Clients: " + clients[i].username);
+    //   if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
+    //     if (accountType == 0) {
+    //       // redirect to client page
+    //       navigate('/homepage/customer',{state: clients[i]});
+    //     }
+    //     if (accountType == 1) {
+    //       // redirect to employee page
+    //       navigate('/homepage/employee',{state: clients[i]});
+    //     }
+    //     // reset account type on login page when successfully logged in
+    //     accountType = 0;
+    //   }
+    //   else {
+    //     // display error message
+    //   }
+    // }
+
+    if (accountType == 0) {
+      for (var i = 0; i < arrLength; i++) {
+        console.log("Clients: " + clients[i].username);
+        if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
+          navigate('/homepage/customer', { state: clients[i] });
+          accountType = 0;
+        }
+      }
+    }
+    if (accountType == 1) {
+      for (var i = 0; i < arrLengthE; i++) {
+        console.log("Employees: " + employees[i].username);
+        if (employees[i].username === data.get('username') && employees[i].password === data.get('password')) {
+          navigate('/homepage/employee', { state: employees[i] });
+          accountType = 0;
+        }
+      }
+    }
+  }
+
+  const handleChange = (event) => {
+    if (event.target.checked) {
+      accountType = 1;
+    } else {
+      accountType = 0;
+    }
+    console.log("Account Type: " + accountType);
   };
 
   return (
@@ -55,10 +137,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
@@ -72,8 +154,8 @@ export default function SignIn() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              control={<Checkbox onChange={handleChange} value="accType" color="primary" />}
+              label="Are you an employee?"
             />
             <Button
               type="submit"
@@ -89,10 +171,18 @@ export default function SignIn() {
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Not a member? Sign Up!"}
-                </Link>
+              <Grid container>
+                <Grid item>
+                  <Link href="/Signup/Customer" variant="body2">
+                    {"Are you a customer? Sign up here"}
+                  </Link>
+                </Grid>
+
+                <Grid item>
+                  <Link href="/Signup/Employee" variant="body2">
+                    {"Employee? Sign up your account here"}
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Box>
@@ -101,3 +191,5 @@ export default function SignIn() {
     </ThemeProvider>
   );
 }
+
+export default SignIn;
