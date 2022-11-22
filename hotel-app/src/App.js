@@ -52,11 +52,11 @@ function SignIn() {
       if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
         if (accountType == 0) {
           // redirect to client page
-          navigate('/homepage/customer');
+          navigate('/homepage/customer',{state: clients[i]});
         }
         if (accountType == 1) {
           // redirect to employee page
-          navigate('/homepage/employee');
+          navigate('/homepage/employee',{state: clients[i]});
         }
         // reset account type on login page when successfully logged in
         accountType = 0;
