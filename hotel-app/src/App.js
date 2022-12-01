@@ -12,9 +12,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CHome from './client-home';
-import EHome from './employee-home';
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -67,11 +64,13 @@ function SignIn() {
     for (var i = 0; i < arrLength; i++) {
       console.log(clients[i].username);
       if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
-        if (accountType == 0) {
+        localStorage.setItem("username", clients[i].username);
+        localStorage.setItem("password", clients[i].password);
+        if (accountType === 0) {
           // redirect to client page
           navigate('/homepage/customer',{state: clients[i]});
         }
-        if (accountType == 1) {
+        if (accountType === 1) {
           // redirect to employee page
           navigate('/homepage/employee',{state: clients[i]});
         }
