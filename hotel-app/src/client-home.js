@@ -6,7 +6,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useLocation} from 'react-router-dom';
+import Button from '@mui/material/Button';
+import { useNavigate, Navigate } from "react-router-dom";
+
 
 const theme = createTheme({
   palette: {
@@ -17,38 +19,49 @@ const theme = createTheme({
 });
 
 export default function CHome() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const handleClick = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    localStorage.setItem("username", "");
+    localStorage.setItem("password", "");
+    navigate("/");
   };
 
-  const location = useLocation();
-
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Client Home: {location.state.name}
-          </Typography>
-          
-        </Box>
-      </Container>
-    </ThemeProvider>
-  );
+  if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+    return <Navigate to="/"/>;
+  }
+  else {
+    return (
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Client Home: {localStorage.getItem("username")}
+            </Typography>
+            <Button
+                onClick={handleClick}
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Logout
+            </Button>
+            
+          </Box>
+        </Container>
+      </ThemeProvider>
+    );
+  }
 }

@@ -50,13 +50,15 @@ function SignIn() {
     for (var i = 0; i < arrLength; i++) {
       console.log(clients[i].username);
       if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
-        if (accountType == 0) {
+        localStorage.setItem("username", clients[i].username);
+        localStorage.setItem("password", clients[i].password);
+        if (accountType === 0) {
           // redirect to client page
-          navigate('/homepage/customer',{state: clients[i]});
+          navigate('/homepage/customer');
         }
-        if (accountType == 1) {
+        if (accountType === 1) {
           // redirect to employee page
-          navigate('/homepage/employee',{state: clients[i]});
+          navigate('/homepage/employee');
         }
         // reset account type on login page when successfully logged in
         accountType = 0;
