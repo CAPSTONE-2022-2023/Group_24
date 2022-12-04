@@ -7,6 +7,7 @@ import SignUp from './Signup';
 import SignUp_E from './Signup-E';
 import CHome from './client-home';
 import EHome from './employee-home';
+import Room_Create from './Room-Create';
 import reportWebVitals from './reportWebVitals';
 
 export default function Application() {
@@ -22,6 +23,9 @@ export default function Application() {
           <Route path="Signup">
             <Route path="Customer" element={<SignUp />} />
             <Route path="Employee" element={<SignUp_E />} />
+          </Route>
+          <Route path="Room">
+            <Route path="Create" element={<Room_Create />} />
           </Route>
         </Route>
       </Routes>
