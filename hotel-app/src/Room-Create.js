@@ -36,13 +36,13 @@ export default function Room_Create() {
     const equipments = [];
     for (let i = 1; i < 11; i++) {
       if (data.get(`equip${i}`) != "") {
-        equipments.push(data.get(`equip${i}`))
+        equipments.push(data.get(`equip${i}`).trim())
       }
     }
 
     console.log({
       name: data.get('name'),
-      overview: data.get('overview'),
+      overview: data.get('overview').trim(),
       guestNum: data.get('guestNum'),
       size: data.get('size'),
       beds: data.get('bedNum') + " " + data.get('bedType'),
@@ -51,7 +51,7 @@ export default function Room_Create() {
 
     const newRoom = {
       name: data.get('name'),
-      overview: data.get('overview'),
+      overview: data.get('overview').trim(),
       guestNum: data.get('guestNum'),
       size: data.get('size'),
       beds: data.get('bedNum') + " " + data.get('bedType'),
@@ -62,16 +62,16 @@ export default function Room_Create() {
     alert(`Room ${data.get("name")} successful`);
   };
 
-  const handleSubmitEquipment = (event) => {
-    event.preventDefault();
-    console.log("Added equipment");
+  // const handleSubmitEquipment = (event) => {
+  //   event.preventDefault();
+  //   console.log("Added equipment");
 
 
-  };
-  if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
-    return <Navigate to="/" />;
-  }
-  else {
+  // };
+  // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+  //   return <Navigate to="/" />;
+  // }
+  // else {
     return (
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
@@ -173,6 +173,26 @@ export default function Room_Create() {
 
               <Grid container spacing={1} justifyContent="center" sx={{ mt: 0 }}>
                 <Grid item>
+                  <h5>Room Price:</h5>
+                </Grid>
+                <Grid item>
+                  <TextField
+                    required
+                    sx={{ width: 80 }}
+                    defaultValue={parseFloat(0.00).toFixed(2)}
+                    InputProps={{ inputProps: { min: 0 } }}
+                    id="size"
+                    name="size"
+                    autoComplete="size"
+                  />
+                </Grid>
+                <Grid item>
+                  <h5>CAD/night</h5>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={1} justifyContent="center" sx={{ mt: 0 }}>
+                <Grid item>
                   <h5>Bed(s):</h5>
                 </Grid>
                 <Grid item>
@@ -211,7 +231,7 @@ export default function Room_Create() {
 
               <Grid container spacing={1} justifyContent="center" sx={{ mt: 1 }}>
                 <Grid container direction="column" justifyContent="space-evenly" alignItems="center">
-                  <h5>Equipments:</h5>
+                  <h5>Equipments (Enter up to 10) :</h5>
                   {/* <Button
                   onClick={handleSubmitEquipment}
                   fullWidth
@@ -301,4 +321,4 @@ export default function Room_Create() {
       </ThemeProvider>
     );
   }
-}
+//}
