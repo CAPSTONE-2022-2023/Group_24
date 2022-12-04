@@ -45,6 +45,7 @@ export default function Room_Create() {
       overview: data.get('overview').trim(),
       guestNum: data.get('guestNum'),
       size: data.get('size'),
+      price: parseFloat(Number(data.get('price'))).toFixed(2),
       beds: data.get('bedNum') + " " + data.get('bedType'),
       equips: equipments
     });
@@ -54,6 +55,7 @@ export default function Room_Create() {
       overview: data.get('overview').trim(),
       guestNum: data.get('guestNum'),
       size: data.get('size'),
+      price: parseFloat(Number(data.get('price'))).toFixed(2),
       beds: data.get('bedNum') + " " + data.get('bedType'),
       equips: equipments
     }
@@ -179,11 +181,11 @@ export default function Room_Create() {
                   <TextField
                     required
                     sx={{ width: 80 }}
-                    defaultValue={parseFloat(0.00).toFixed(2)}
+                    defaultValue={parseFloat(0).toFixed(2)}
                     InputProps={{ inputProps: { min: 0 } }}
-                    id="size"
-                    name="size"
-                    autoComplete="size"
+                    id="price"
+                    name="price"
+                    autoComplete="price"
                   />
                 </Grid>
                 <Grid item>

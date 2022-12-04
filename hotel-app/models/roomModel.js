@@ -5,6 +5,7 @@ const roomSchema = {
     overview: String,
     guestNum: Number,
     size: Number,
+    price: Number,
     beds: String,
     equips: [String]
 }

@@ -47,6 +47,7 @@ router.route("/room/create").post((req, res) => {
     const overview = req.body.overview;
     const guestNum = req.body.guestNum;
     const size = req.body.size;
+    const price = req.body.price;
     const beds = req.body.beds;
     const equips = req.body.equips;
 
@@ -55,6 +56,7 @@ router.route("/room/create").post((req, res) => {
         overview,
         guestNum,
         size,
+        price,
         beds,
         equips
     });
