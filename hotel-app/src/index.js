@@ -9,6 +9,7 @@ import CHome from './client-home';
 import EHome from './employee-home';
 import Room_Create from './Room-Create';
 import reportWebVitals from './reportWebVitals';
+import Room_View from './Room-View';
 
 export default function Application() {
   return (
@@ -26,6 +27,7 @@ export default function Application() {
           </Route>
           <Route path="Room">
             <Route path="Create" element={<Room_Create />} />
+            <Route path="View" element={<Room_View />} />
           </Route>
         </Route>
       </Routes>
