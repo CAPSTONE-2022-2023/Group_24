@@ -4,31 +4,19 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import { MenuItem, FormControl, InputLabel, Select } from '@mui/material';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
 export default function Room_Edit() {
+  const navigate = useNavigate();
 
   // SELECTED ROOM DATA
   var oldName = localStorage.getItem("roomName");
@@ -39,12 +27,22 @@ export default function Room_Edit() {
   var oldBeds = localStorage.getItem("roomBeds");
   var oldEquips = JSON.parse(localStorage.getItem("roomEquips"));
 
-  console.log(oldName);
-  console.log(oldOverview);
-  console.log(oldGuestNum);
-  console.log(oldSize);
-  console.log(oldPrice);
-  console.log(oldBeds);
+  console.log("Old name: " + oldName);
+  console.log("Old Overview: " +oldOverview);
+  console.log("Old GuestNum: " +oldGuestNum);
+  console.log("Old Size: " +oldSize);
+  console.log("Old Price: " +oldPrice);
+  console.log("Old Beds: " +oldBeds);
+
+  const bedArray = oldBeds.split(" ", 2);
+  console.log(bedArray);
+  const oldBedNum = Number(bedArray[0]);
+  const oldBedType = bedArray[1];
+
+  if(oldBedType === "California"){
+    oldBedType.concat(" ", "King");
+  }
+
   for (var i = 0; i < oldEquips.length; i++) {
     console.log(oldEquips[i]);
   }
@@ -55,12 +53,13 @@ export default function Room_Edit() {
 
     const equipments = [];
     for (let i = 1; i < 11; i++) {
-      if (data.get(`equip${i}`) != "") {
+      if (data.get(`equip${i}`) !== "") {
         equipments.push(data.get(`equip${i}`).trim())
       }
     }
 
     console.log({
+      oldName: oldName,
       name: data.get('name'),
       overview: data.get('overview').trim(),
       guestNum: data.get('guestNum'),
@@ -80,8 +79,14 @@ export default function Room_Edit() {
       equips: equipments
     }
 
-    axios.post("http://localhost:3001/room/edit", newRoom);
+    const newRoomWithOldName = {
+      editRoom: newRoom,
+      oldRoomName: oldName
+    }
+
+    axios.post("http://localhost:3001/room/edit", newRoomWithOldName);
     alert(`Room ${data.get("name")} editted successful`);
+    navigate('/room/view');
   };
 
   // const handleSubmitEquipment = (event) => {
@@ -119,7 +124,7 @@ export default function Room_Edit() {
                 variant="contained"
                 sx={{ mt: 3, mb: 6 }}
               >
-                Edit Room
+                Update Room
               </Button>
               <Grid container spacing={0} justifyContent="center">
                 <Grid item xs={3} >
@@ -129,6 +134,7 @@ export default function Room_Edit() {
                   <TextField
                     required
                     fullWidth
+                    defaultValue={oldName}
                     id="name"
                     label="Room Name"
                     name="name"
@@ -147,6 +153,7 @@ export default function Room_Edit() {
                     fullWidth
                     multiline
                     minRows={3}
+                    defaultValue={oldOverview}
                     id="overview"
                     name="overview"
                     autoComplete="overview"
@@ -162,7 +169,7 @@ export default function Room_Edit() {
                   <TextField
                     required
                     sx={{ width: 75 }}
-                    defaultValue={1}
+                    defaultValue={oldGuestNum}
                     InputProps={{ inputProps: { min: 1, max: 10 } }}
                     type="number"
                     id="guestNum"
@@ -180,7 +187,7 @@ export default function Room_Edit() {
                   <TextField
                     required
                     sx={{ width: 80 }}
-                    defaultValue={0}
+                    defaultValue={oldSize}
                     InputProps={{ inputProps: { min: 1 } }}
                     type="number"
                     id="size"
@@ -201,7 +208,7 @@ export default function Room_Edit() {
                   <TextField
                     required
                     sx={{ width: 80 }}
-                    defaultValue={parseFloat(0).toFixed(2)}
+                    defaultValue={parseFloat(oldPrice).toFixed(2)}
                     InputProps={{ inputProps: { min: 0 } }}
                     id="price"
                     name="price"
@@ -221,7 +228,7 @@ export default function Room_Edit() {
                   <TextField
                     required
                     sx={{ width: 75 }}
-                    defaultValue={1}
+                    defaultValue={oldBedNum}
                     InputProps={{ inputProps: { min: 1, max: 10 } }}
                     type="number"
                     id="bedNum"
@@ -239,7 +246,7 @@ export default function Room_Edit() {
                       labelId="bedType-select-label"
                       id="bedType-select"
                       label="Bed Type"
-                      defaultValue={"Single"}
+                      defaultValue={oldBedType}
                     >
                       <MenuItem value={"Single"}>Single</MenuItem>
                       <MenuItem value={"Double"}>Double</MenuItem>
@@ -269,6 +276,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip1"
                     name="equip1"
+                    defaultValue={oldEquips[0]}
                   />
 
                   <TextField
@@ -276,6 +284,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip2"
                     name="equip2"
+                    defaultValue={oldEquips[1]}
                   />
 
                   <TextField
@@ -283,6 +292,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip3"
                     name="equip3"
+                    defaultValue={oldEquips[2]}
                   />
 
                   <TextField
@@ -290,6 +300,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip4"
                     name="equip4"
+                    defaultValue={oldEquips[3]}
                   />
 
                   <TextField
@@ -297,6 +308,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip5"
                     name="equip5"
+                    defaultValue={oldEquips[4]}
                   />
 
                   <TextField
@@ -304,6 +316,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip6"
                     name="equip6"
+                    defaultValue={oldEquips[5]}
                   />
 
                   <TextField
@@ -311,6 +324,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip7"
                     name="equip7"
+                    defaultValue={oldEquips[6]}
                   />
 
                   <TextField
@@ -318,6 +332,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip8"
                     name="equip8"
+                    defaultValue={oldEquips[7]}
                   />
 
                   <TextField
@@ -325,6 +340,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip9"
                     name="equip9"
+                    defaultValue={oldEquips[8]}
                   />
 
                   <TextField
@@ -332,6 +348,7 @@ export default function Room_Edit() {
                     sx={{ width: 350 }}
                     id="equip10"
                     name="equip10"
+                    defaultValue={oldEquips[9]}
                   />
                 </Grid>
               </Grid>

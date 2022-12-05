@@ -86,4 +86,21 @@ router.route("/room/delete").delete((req, res) => {
         console.log(error); // Failure
     });
 })
+
+router.route("/room/edit").post((req, res) => {
+    console.log("Old Room name" + req.body.oldRoomName);
+    console.log("Edit Room name" + req.body.editRoom.name);
+
+    Room.updateOne({ name: req.body.oldRoomName }, {$set: {name: req.body.editRoom.name, 
+                                                           overview: req.body.editRoom.overview,
+                                                           guestNum: req.body.editRoom.guestNum,
+                                                           size: req.body.editRoom.size,
+                                                           price: req.body.editRoom.price,
+                                                           beds: req.body.editRoom.beds,
+                                                           equips: req.body.editRoom.equips}}).then(function () {
+        console.log(req.body.oldRoomName + "Room Updated to " + req.body.editRoom.name + " Room"); // Success
+    }).catch(function (error) {
+        console.log(error); // Failure
+    });
+})
 module.exports = router;
