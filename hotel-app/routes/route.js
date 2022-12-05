@@ -79,7 +79,7 @@ router.route("/room/getAll").get((req, res) => {
         .then(foundRooms => res.json(foundRooms))
 })
 
-router.route("/room/delete").get((req, res) => {
+router.route("/room/delete").delete((req, res) => {
     Room.deleteOne({ name: req.body.name }).then(function () {
         console.log(req.body.name + "Room Deleted"); // Success
     }).catch(function (error) {

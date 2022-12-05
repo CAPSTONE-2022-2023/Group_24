@@ -6,14 +6,23 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { borders } from '@mui/system';
+import axios from "axios";
 
 const theme = createTheme();
 
 
 export default function Room_View() {
-  // function handleSubmitDelete(name){
-  //   console.log("Deleted " + name);
-  // };
+  const deleteRoombyName = (room) => {
+    console.log("Delete: " + room.name);
+
+    axios.delete("http://localhost:3001/room/delete", { data: room });
+  }
+
+  const editRoombyName = (room) => {
+    console.log("Edit: " + room.name);
+
+    //navigate('/room/edit',{state: room});
+  }
 
   const [rooms, setRooms] = useState([{
     name: String,
@@ -94,6 +103,9 @@ export default function Room_View() {
                     type="submit"
                     variant="contained"
                     sx={{ mt: 3, mb: 6 }}
+                    onClick={() => {
+                      editRoombyName(room);
+                    }}
                   >
                     Edit Room
                   </Button>
@@ -102,7 +114,9 @@ export default function Room_View() {
                     type="submit"
                     variant="contained"
                     sx={{ mt: 3, mb: 6 }}
-                    // onSubmit={handleSubmitDelete(room.name)}
+                    onClick={() => {
+                      deleteRoombyName(room);
+                    }}
                   >
                     Delete Room
                   </Button>
