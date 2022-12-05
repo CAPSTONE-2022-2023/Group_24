@@ -7,11 +7,12 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { borders } from '@mui/system';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
-
 export default function Room_View() {
+  const navigate = useNavigate();
   const deleteRoombyName = (room) => {
     console.log("Delete: " + room.name);
 
@@ -20,8 +21,14 @@ export default function Room_View() {
 
   const editRoombyName = (room) => {
     console.log("Edit: " + room.name);
-
-    //navigate('/room/edit',{state: room});
+    localStorage.setItem("roomName", room.name);
+    localStorage.setItem("roomOverview", room.overview);
+    localStorage.setItem("roomGuestNum", room.guestNum);
+    localStorage.setItem("roomSize", room.size);
+    localStorage.setItem("roomPrice", room.price);
+    localStorage.setItem("roomBeds", room.beds);
+    localStorage.setItem("roomEquips", JSON.stringify(room.equips));
+    navigate('/room/edit');
   }
 
   const [rooms, setRooms] = useState([{

@@ -30,6 +30,24 @@ const theme = createTheme();
 
 export default function Room_Edit() {
 
+  // SELECTED ROOM DATA
+  var oldName = localStorage.getItem("roomName");
+  var oldOverview = localStorage.getItem("roomOverview");
+  var oldGuestNum = parseInt(localStorage.getItem("roomGuestNum"));
+  var oldSize = parseInt(localStorage.getItem("roomSize"));
+  var oldPrice = parseInt(localStorage.getItem("roomPrice"));
+  var oldBeds = localStorage.getItem("roomBeds");
+  var oldEquips = JSON.parse(localStorage.getItem("roomEquips"));
+
+  console.log(oldName);
+  console.log(oldOverview);
+  console.log(oldGuestNum);
+  console.log(oldSize);
+  console.log(oldPrice);
+  console.log(oldBeds);
+  for (var i = 0; i < oldEquips.length; i++) {
+    console.log(oldEquips[i]);
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
