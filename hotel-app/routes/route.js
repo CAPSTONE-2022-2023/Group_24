@@ -66,17 +66,24 @@ router.route("/room/create").post((req, res) => {
 
 router.route("/signin/customer").get((req, res) => {
     Client.find()
-    .then(foundClients => res.json(foundClients))
+        .then(foundClients => res.json(foundClients))
 })
 
 router.route("/signin/employee").get((req, res) => {
     Employee.find()
-    .then(foundEmployees => res.json(foundEmployees))
+        .then(foundEmployees => res.json(foundEmployees))
 })
 
 router.route("/room/getAll").get((req, res) => {
     Room.find()
-    .then(foundRooms => res.json(foundRooms))
+        .then(foundRooms => res.json(foundRooms))
 })
 
+router.route("/room/delete").get((req, res) => {
+    Room.deleteOne({ name: req.body.name }).then(function () {
+        console.log(req.body.name + "Room Deleted"); // Success
+    }).catch(function (error) {
+        console.log(error); // Failure
+    });
+})
 module.exports = router;
