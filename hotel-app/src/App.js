@@ -60,19 +60,28 @@ function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    var arrLength = clients.length;
-    for (var i = 0; i < arrLength; i++) {
-      console.log(clients[i].username);
-      if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
-        localStorage.setItem("username", clients[i].username);
-        localStorage.setItem("password", clients[i].password);
-        if (accountType === 0) {
-          // redirect to client page
-          navigate('/homepage/customer',{state: clients[i]});
+    var arrLength = 0;
+
+    if (accountType == 0) {
+      arrLength = clients.length;
+      for (var i = 0; i < arrLength; i++) {
+        console.log(clients[i].username);
+        if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
+          localStorage.setItem("username", clients[i].username);
+          localStorage.setItem("password", clients[i].password);
+          navigate('/homepage/customer', { state: clients[i] });
         }
-        if (accountType === 1) {
-          // redirect to employee page
-          navigate('/homepage/employee',{state: clients[i]});
+      }
+    }
+
+    if (accountType == 1) {
+      arrLength = employees.length;
+      for (var i = 0; i < arrLength; i++) {
+        console.log(employees[i].username);
+        if (employees[i].username === data.get('username') && employees[i].password === data.get('password')) {
+          localStorage.setItem("username", employees[i].username);
+          localStorage.setItem("password", employees[i].password);
+          navigate('/homepage/employee', { state: employees[i] });
         }
       }
     }

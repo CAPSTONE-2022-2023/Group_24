@@ -13,6 +13,13 @@ const theme = createTheme();
 
 export default function Room_View() {
   const navigate = useNavigate();
+  const handleClick = (event) => {
+    event.preventDefault();
+    localStorage.setItem("username", "");
+    localStorage.setItem("password", "");
+    navigate("/");
+  };
+
   const deleteRoombyName = (room) => {
     console.log("Delete: " + room.name);
 
@@ -60,6 +67,13 @@ export default function Room_View() {
           alignItems: 'center',
         }}
       >
+        <div class="navbar">
+          <ul>
+            <li><a href='/homepage/employee'>Back to Homepage</a></li>
+            <li><a href='/room/create'>Create Rooms</a></li>
+            <li><a href='' onClick={handleClick}>Logout</a></li>
+          </ul>
+        </div>
         <div className="container">
           <h1 style={{ textAlign: "center" }}>List of Available Rooms</h1>
           {rooms.map(room =>
