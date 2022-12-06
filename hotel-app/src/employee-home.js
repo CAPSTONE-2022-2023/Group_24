@@ -5,10 +5,10 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import './home.css';
-import suite from './images/suite.jpg';
-import single from './images/single.jpg';
-import double from './images/double.jpg';
+import './home.css';/*
+import {suite} from './images/suite.jpg';
+import {single} from './images/single.jpg';
+import {double} from './images/double.jpg';*/
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useLocation} from 'react-router-dom';
 
@@ -47,10 +47,10 @@ export default function EHome() {
                     <li><a href='vacantrooms'>Vacant Rooms</a></li>
                 </ul>
             </div>
-            <div  class="gallery">        
-                <img src={single} class="img" alt="Single Bed" />
-                <img src={double} class="img" alt="Double Bed" />
-                <img src={suite} class="img" alt="Suite" />
+            <div  class="gallery">       
+                <img src="./images/single.jpg" class="img" alt="Single Bed" />
+                <img src="./images/double.jpg" class="img" alt="Double Bed" />
+                <img src="./images/suite.jpg" class="img" alt="Suite" />
             </div>
             <div class="main">
                 <div class="left">
