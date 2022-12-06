@@ -1,0 +1,135 @@
+.body{
+    display:block;
+    background-color: rgb(175, 246, 239);
+    color: rgb(8, 102, 156);
+    
+}
+
+.header{
+    font-family: cursive;
+    font-style: italic;
+    font-size: 5rem;
+    text-align: center;
+    padding: 1rem;
+}
+
+.navbar{
+    font-size: 2rem;
+    padding: 2rem;
+}
+
+.navbar ul{
+    display: inline-flex;
+    list-style: none;
+    margin: auto;
+    padding: auto;
+}
+
+.navbar ul li{
+    float: left;
+    margin: auto 1rem;
+    padding: auto 1rem;
+    
+}
+
+li a{
+    display: block;
+    text-align: center;
+    padding: .5rem 1rem;
+    margin: auto 1rem;
+    text-decoration: none;
+    color: aliceblue;
+    border: solid .2rem rgb(0, 157, 255);
+    background-color: rgb(8, 102, 156);
+
+}
+
+li a:hover{
+    background-color: rgb(8, 102, 156);
+    color: aliceblue;
+}
+
+
+.gallery{
+    display: inline-flex;
+    width: auto;
+    padding-top: 1rem;
+}
+
+.img{
+    width: 33.3%;
+    margin: 0.5%;
+    margin-top: .8%;
+    margin-bottom: .8%;
+    border: solid .2rem rgb(0, 157, 255);
+    
+}
+
+.main{
+    padding: 2rem;
+    font-size: 1.5rem;
+    display: flex;
+}
+
+.left{
+    padding: auto;
+}
+
+.left a{
+    display: block;
+    text-align: center;
+    padding: .5rem 1rem;
+    margin: auto 1rem;
+    text-decoration: none;
+    color: aliceblue;
+    border: solid .2rem rgb(0, 157, 255);
+    background-color: rgb(8, 102, 156);
+}
+
+td{
+    padding: .8rem 2rem;
+}
+
+.right{
+    display: block;
+    padding: auto;
+    margin: 1rem 20rem;
+}
+
+.right a{
+    margin-top: 2rem;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: aliceblue;
+    border: solid .2rem rgb(0, 157, 255);
+    background-color: rgb(8, 102, 156);
+}
+.main p{
+    padding: 2rem;
+    font-size: 1.2rem;   
+}
+
+.footer{
+    padding: 2rem;
+    display: flex;
+    color: aliceblue;
+    background-color: rgb(8, 102, 156);
+}
+
+.footer .cont{
+    display: block;
+}
+
+.footer ul{
+    margin: 2rem;
+    list-style: none;
+}
+
+.footer ul li{
+    margin-top: 2rem;
+}
+
+.footer iframe{
+    margin-left: 20rem;
+}
