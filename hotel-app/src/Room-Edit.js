@@ -84,7 +84,7 @@ export default function Room_Edit() {
       oldRoomName: oldName
     }
 
-    axios.post("http://localhost:3001/room/edit", newRoomWithOldName);
+    axios.post("http://localhost:3001/edit/room", newRoomWithOldName);
     alert(`Room ${data.get("name")} editted successful`);
     navigate('/room/view');
   };

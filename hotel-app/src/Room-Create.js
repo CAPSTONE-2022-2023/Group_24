@@ -48,7 +48,7 @@ export default function Room_Create() {
       equips: equipments
     }
 
-    axios.post("http://localhost:3001/room/create", newRoom);
+    axios.post("http://localhost:3001/create/room", newRoom);
     alert(`Room ${data.get("name")} successful`);
     navigate('/room/view');
   };

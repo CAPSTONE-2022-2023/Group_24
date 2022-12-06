@@ -23,7 +23,7 @@ export default function Room_View() {
   const deleteRoombyName = (room) => {
     console.log("Delete: " + room.name);
 
-    axios.delete("http://localhost:3001/room/delete", { data: room });
+    axios.delete("http://localhost:3001/delete/room", { data: room });
   }
 
   const editRoombyName = (room) => {
@@ -49,7 +49,7 @@ export default function Room_View() {
   }])
 
   useEffect(() => {
-    fetch("/room/getAll").then(res => {
+    fetch("/getAll/room").then(res => {
       if (res.ok) {
         return res.json()
       }
@@ -84,7 +84,7 @@ export default function Room_View() {
                 }}
                 border="3px solid black" color="white" style={{ 'postion': 'relative' }}>
                 <Grid container spacing={0} justifyContent="center">
-                  <h1>{room.name}</h1>
+                  <h1 style={{ textAlign: "center" }}>{room.name}</h1>
                 </Grid>
 
                 <Grid container rowSpacing={3} justifyContent="center">

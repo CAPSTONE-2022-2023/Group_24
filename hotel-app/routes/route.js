@@ -42,7 +42,7 @@ router.route("/signup/employee").post((req, res) => {
     newEmployee.save();
 })
 
-router.route("/room/create").post((req, res) => {
+router.route("/create/room").post((req, res) => {
     const name = req.body.name;
     const overview = req.body.overview;
     const guestNum = req.body.guestNum;
@@ -64,22 +64,22 @@ router.route("/room/create").post((req, res) => {
     newRoom.save();
 })
 
-router.route("/signin/customer").get((req, res) => {
+router.route("/getAll/customer").get((req, res) => {
     Client.find()
         .then(foundClients => res.json(foundClients))
 })
 
-router.route("/signin/employee").get((req, res) => {
+router.route("/getAll/employee").get((req, res) => {
     Employee.find()
         .then(foundEmployees => res.json(foundEmployees))
 })
 
-router.route("/room/getAll").get((req, res) => {
+router.route("/getAll/room").get((req, res) => {
     Room.find()
         .then(foundRooms => res.json(foundRooms))
 })
 
-router.route("/room/delete").delete((req, res) => {
+router.route("/delete/room").delete((req, res) => {
     Room.deleteOne({ name: req.body.name }).then(function () {
         console.log(req.body.name + "Room Deleted"); // Success
     }).catch(function (error) {
@@ -87,7 +87,7 @@ router.route("/room/delete").delete((req, res) => {
     });
 })
 
-router.route("/room/edit").post((req, res) => {
+router.route("/edit/room").post((req, res) => {
     console.log("Old Room name" + req.body.oldRoomName);
     console.log("Edit Room name" + req.body.editRoom.name);
 

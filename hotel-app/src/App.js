@@ -44,13 +44,13 @@ function SignIn() {
   }])
 
   useEffect(() => {
-    fetch("http://localhost:3001/signin/customer").then(res => {
+    fetch("http://localhost:3001/getAll/customer").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
 
-    fetch("http://localhost:3001/signin/employee").then(res => {
+    fetch("http://localhost:3001/getAll/employee").then(res => {
       if (res.ok) {
         return res.json()
       }
