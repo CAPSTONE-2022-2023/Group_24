@@ -6,9 +6,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import './home.css';
-import suite from './images/suite.jpg';
-import single from './images/single.jpg';
-import double from './images/double.jpg';
+import suite from 'images/suite.jpg';
+import single from 'images/single.jpg';
+import double from 'images/double.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useLocation} from 'react-router-dom';
 
