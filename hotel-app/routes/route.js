@@ -1,8 +1,11 @@
 const express = require("express");
+const cors = require("cors");
 const router = express.Router();
 const Client = require("../models/clientModel");
 const Employee = require("../models/employeeModel");
 const Room = require("../models/roomModel");
+
+router.use(cors());
 
 router.route("/signup/customer").post((req, res) => {
     const title = req.body.title;
