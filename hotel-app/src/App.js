@@ -52,6 +52,9 @@ function SignIn() {
     ipAddress = "http://localhost:3001/"
   }
 
+  console.log(ipAddress);
+  console.log(ipAddress + "getAll/customer");
+
   useEffect(() => {
     fetch(ipAddress + "getAll/customer").then(res => {
       if (res.ok) {
