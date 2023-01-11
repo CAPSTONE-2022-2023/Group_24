@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { borders } from '@mui/system';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -20,10 +19,19 @@ export default function Room_View() {
     navigate("/");
   };
 
+  var ipAddress;
+
+  if(typeof process.env.VERCEL_URL !== 'undefined'){
+    ipAddress = process.env.VERCEL_URL;
+  }
+  else{
+    ipAddress = "http://localhost:3001/"
+  }
+
   const deleteRoombyName = (room) => {
     console.log("Delete: " + room.name);
 
-    axios.delete("http://localhost:3001/delete/room", { data: room });
+    axios.delete(ipAddress + "delete/room", { data: room });
   }
 
   const editRoombyName = (room) => {
