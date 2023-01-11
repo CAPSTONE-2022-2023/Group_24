@@ -43,16 +43,15 @@ function SignIn() {
     password: ''
   }])
 
-  var ipAddress;
+  var ipAddress = process.env.VERCEL_URL;
 
-  if(process.env.VERCEL_URL){
-    ipAddress = process.env.VERCEL_URL;
+  if(ipAddress){
+    ipAddress = ipAddress;
   }
   else{
     ipAddress = "http://localhost:3001/"
   }
 
-  console.log(process.env.VERCEL_URL);
   console.log(ipAddress);
   console.log(ipAddress + "getAll/customer");
 
