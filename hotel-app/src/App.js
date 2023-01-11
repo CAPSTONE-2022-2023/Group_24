@@ -45,7 +45,7 @@ function SignIn() {
 
   var ipAddress;
 
-  if(typeof process.env.VERCEL_URL !== 'undefined'){
+  if(process.env.VERCEL_URL){
     ipAddress = process.env.VERCEL_URL;
   }
   else{
