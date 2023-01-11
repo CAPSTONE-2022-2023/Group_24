@@ -43,14 +43,23 @@ function SignIn() {
     password: ''
   }])
 
+  var ipAddress;
+
+  if(typeof process.env.VERCEL_URL !== 'undefined'){
+    ipAddress = process.env.VERCEL_URL;
+  }
+  else{
+    ipAddress = "http://localhost:3001/"
+  }
+
   useEffect(() => {
-    fetch(process.env.VERCEL_URL + "getAll/customer").then(res => {
+    fetch(ipAddress + "getAll/customer").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
 
-    fetch(process.env.VERCEL_URL + "getAll/employee").then(res => {
+    fetch(ipAddress + "getAll/employee").then(res => {
       if (res.ok) {
         return res.json()
       }

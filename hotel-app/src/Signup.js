@@ -44,14 +44,23 @@ export default function SignUp() {
 
     const newClient = {
       title: data.get('title'),
-      name: data.get('firstName')+" "+data.get('lastName'),
+      name: data.get('firstName') + " " + data.get('lastName'),
       phone: data.get('phone'),
       address: data.get('address'),
       username: data.get('username'),
       password: data.get('password')
     }
 
-    axios.post("http://localhost:3001/signup/customer", newClient);
+    var ipAddress;
+
+    if (typeof process.env.VERCEL_URL !== 'undefined') {
+      ipAddress = process.env.VERCEL_URL;
+    }
+    else {
+      ipAddress = "http://localhost:3001/"
+    }
+
+    axios.post(ipAddress + "signup/customer", newClient);
     alert("Client account sign up sucessful. Thank you " + data.get('firstName') + " for joining us!");
   };
 

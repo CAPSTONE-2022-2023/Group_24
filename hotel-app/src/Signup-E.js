@@ -52,7 +52,16 @@ export default function SignUp_E() {
         password: data.get('password')
       }
 
-      axios.post("http://localhost:3001/signup/employee", newEmployee);
+      var ipAddress;
+
+      if (typeof process.env.VERCEL_URL !== 'undefined') {
+        ipAddress = process.env.VERCEL_URL;
+      }
+      else {
+        ipAddress = "http://localhost:3001/"
+      }
+
+      axios.post(ipAddress + "signup/employee", newEmployee);
       alert("Employee sign up sucessful. Welcome " + data.get('firstName') + " to the team!");
     }
   };
