@@ -52,6 +52,7 @@ function SignIn() {
     ipAddress = "http://localhost:3001/"
   }
 
+  console.log(process.env.VERCEL_URL);
   console.log(ipAddress);
   console.log(ipAddress + "getAll/customer");
 
