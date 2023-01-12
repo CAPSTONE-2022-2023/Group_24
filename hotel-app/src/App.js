@@ -59,8 +59,9 @@ function SignIn() {
   // console.log(process.env.VERCEL_REGION)
 
   useEffect(() => {
-    fetch(process.env.VERCEL_URL + "getAll/customer").then(res => {
+    fetch("https://group-24.vercel.app/getAll/customer").then(res => {
       if (res.ok) {
+        console.log(res.json())
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
