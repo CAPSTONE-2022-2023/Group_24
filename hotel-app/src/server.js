@@ -4,12 +4,7 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-// app.use(cors());
-app.use(
-    cors({
-        origin: process.env.VERCEL_URL,
-    })
-);
+app.use(cors());
 app.use(express.json());
 
 // connect mongoose
