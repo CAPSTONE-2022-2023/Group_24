@@ -43,7 +43,7 @@ function SignIn() {
     password: ''
   }])
 
-  var ipAddress = process.env.REACT_APP_VERCEL_URL;
+  var ipAddress = process.env.VERCEL_URL;
 
   if(ipAddress){
     ipAddress = ipAddress;
@@ -54,6 +54,9 @@ function SignIn() {
 
   console.log(ipAddress);
   console.log(process.env);
+  console.log(process.env.VERCEL);
+  console.log(process.env.VERCEL_ENV)
+  console.log(process.env.VERCEL_REGION)
 
   useEffect(() => {
     fetch(ipAddress + "getAll/customer").then(res => {
