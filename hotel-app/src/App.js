@@ -61,7 +61,6 @@ function SignIn() {
   useEffect(() => {
     fetch("https://group-24.vercel.app/getAll/customer").then(res => {
       if (res.ok) {
-        console.log(res.json())
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
