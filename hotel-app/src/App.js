@@ -53,6 +53,7 @@ function SignIn() {
   }
 
   console.log(ipAddress);
+  console.log("vercel url: " + ipAddress.VERCEL_URL);
   console.log(process.env);
 
   useEffect(() => {
