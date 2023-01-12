@@ -43,29 +43,28 @@ function SignIn() {
     password: ''
   }])
 
-  // var ipAddress = process.env.VERCEL_URL;
+  var ipAddress = process.env.NEXT_PUBLIC_VERCEL_URL;
 
-  // if(ipAddress){
-  //   ipAddress = ipAddress;
-  // }
-  // else{
-  //   ipAddress = "http://localhost:3001/"
-  // }
+  if(ipAddress){
+    ipAddress = ipAddress;
+  }
+  else{
+    ipAddress = "http://localhost:3001/"
+  }
 
-  // console.log(ipAddress);
-  // console.log(process.env);
-  // console.log(process.env.VERCEL);
-  // console.log(process.env.VERCEL_ENV)
-  // console.log(process.env.VERCEL_REGION)
+  console.log(ipAddress);
+  console.log(process.env);
+  console.log(process.env.VERCEL_ENV)
+  console.log(process.env.VERCEL_REGION)
 
   useEffect(() => {
-    fetch("https://group-24.vercel.app/getAll/customer").then(res => {
+    fetch(ipAddress + "getAll/customer").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
 
-    fetch(process.env.VERCEL_URL + "getAll/employee").then(res => {
+    fetch(ipAddress + "getAll/employee").then(res => {
       if (res.ok) {
         return res.json()
       }
