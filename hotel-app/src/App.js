@@ -53,7 +53,9 @@ function SignIn() {
   }
 
   console.log(ipAddress);
-  console.log(ipAddress + "getAll/customer");
+  console.log(process.env);
+  console.log(process.env.VERCEL_ENV)
+  console.log(process.env.VERCEL_REGION)
 
   useEffect(() => {
     fetch(ipAddress + "getAll/customer").then(res => {
