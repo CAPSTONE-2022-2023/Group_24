@@ -43,27 +43,26 @@ function SignIn() {
     password: ''
   }])
 
-  var ipAddress = process.env.REACT_APP_VERCEL_URL;
+  const url = process.env.NODE_ENV === "development" ? process.env.SERVER_URI : `https://${process.env.VERCEL_URL}`;
 
-  if(ipAddress){
-    ipAddress = ipAddress;
-  }
-  else{
-    ipAddress = "http://localhost:3001/"
-  }
+  // if(ipAddress){
+  //   ipAddress = ipAddress;
+  // }
+  // else{
+  //   ipAddress = "http://localhost:3001/"
+  // }
 
-  console.log(ipAddress);
-  console.log("vercel url: " + ipAddress.REACT_APP_VERCEL_URL);
+  console.log(url);
   console.log(process.env);
 
   useEffect(() => {
-    fetch(ipAddress + "getAll/customer").then(res => {
+    fetch(url + "getAll/customer").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
 
-    fetch(ipAddress + "getAll/employee").then(res => {
+    fetch(url + "getAll/employee").then(res => {
       if (res.ok) {
         return res.json()
       }
