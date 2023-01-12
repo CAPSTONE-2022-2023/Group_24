@@ -7,6 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+console.log(process.env);
+
 
 // connect mongoose
 mongoose.connect("mongodb+srv://group24:Group24@group24.ieekutj.mongodb.net/hotel")
