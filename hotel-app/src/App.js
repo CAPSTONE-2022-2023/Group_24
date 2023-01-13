@@ -44,23 +44,23 @@ function SignIn() {
   }])
 
 
-  if(process.env.VERCEL_URL){
+  if(process.env.NEXT_PUBLIC_VERCEL_ENV){
     console.log("vercel");
   }
   else{
     console.log("localhost");
   }
 
-  console.log(process.env);
+  console.log(process.env.NEXT_PUBLIC_VERCEL_ENV);
 
   useEffect(() => {
-    fetch(process.env.VERCEL_URL + "getAll/customer").then(res => {
+    fetch(process.env.NEXT_PUBLIC_VERCEL_ENV + "getAll/customer").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
 
-    fetch(process.env.VERCEL_URL + "getAll/employee").then(res => {
+    fetch(process.env.NEXT_PUBLIC_VERCEL_ENV + "getAll/employee").then(res => {
       if (res.ok) {
         return res.json()
       }
