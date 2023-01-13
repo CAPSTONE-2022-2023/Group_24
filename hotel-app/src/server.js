@@ -15,4 +15,5 @@ app.use("/", require("../routes/route"));
 
 app.listen(process.env.PORT || 3001, function() {
     console.log("express server running at 3001");
+    console.log(process.env.VERCEL_URL);
 })
