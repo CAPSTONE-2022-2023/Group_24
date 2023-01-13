@@ -65,13 +65,11 @@ router.route("/create/room").post((req, res) => {
 })
 
 router.route("/getAll/customer").get((req, res) => {
-    console.log(process.env.VERCEL_URL);
     Client.find()
         .then(foundClients => res.json(foundClients))
 })
 
 router.route("/getAll/employee").get((req, res) => {
-    console.log(process.env.VERCEL_URL);
     Employee.find()
         .then(foundEmployees => res.json(foundEmployees))
 })
