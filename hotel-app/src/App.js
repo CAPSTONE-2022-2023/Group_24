@@ -43,25 +43,14 @@ function SignIn() {
     password: ''
   }])
 
-
-  if(process.env.VERCEL_URL){
-    console.log("vercel");
-  }
-  else{
-    console.log("localhost");
-  }
-
-  console.log(process.env.VERCEL_URL);
-  console.log(process.env);
-
   useEffect(() => {
-    fetch(process.env.VERCEL_URL + "getAll/customer").then(res => {
+    fetch("/getAll/customer").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
 
-    fetch(process.env.VERCEL_URL + "getAll/employee").then(res => {
+    fetch("/getAll/employee").then(res => {
       if (res.ok) {
         return res.json()
       }
