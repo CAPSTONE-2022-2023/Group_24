@@ -65,14 +65,15 @@ export default function Room_View() {
   })
 
   return <ThemeProvider theme={theme}>
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="fs">
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 1,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          backgroundColor: '#42daf5'
         }}
       >
         <div class="navbar">
@@ -82,15 +83,18 @@ export default function Room_View() {
             <li><a href='' onClick={handleClick}>Logout</a></li>
           </ul>
         </div>
-        <div className="container">
-          <h1 style={{ textAlign: "center" }}>List of Available Rooms</h1>
+        <h1 style={{ textAlign: "center", color: "white", backgroundColor: "primary" }}>List of Available Rooms</h1>
+        <Box display="flex" flexDirection='row' backgroundColor='#42daf5' flexWrap='wrap' >
           {rooms.map(room =>
             <div>
-              <Box
+              <Box flexDirection='row' width='350px' height='500px' overflow='auto'
                 sx={{
                   backgroundColor: 'primary.light',
+                  flexWrap: 'wrap',
+                  m: 1,
+                  ml: 4
                 }}
-                border="3px solid black" color="white" style={{ 'postion': 'relative' }}>
+                border="3px solid black" color="white">
                 <Grid container spacing={0} justifyContent="center">
                   <h1 style={{ textAlign: "center" }}>{room.name}</h1>
                 </Grid>
@@ -154,7 +158,7 @@ export default function Room_View() {
               &nbsp;
             </div>
           )}
-        </div>
+        </Box>
       </Box>
     </Container>
   </ThemeProvider>
