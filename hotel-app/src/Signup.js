@@ -51,16 +51,7 @@ export default function SignUp() {
       password: data.get('password')
     }
 
-    var ipAddress;
-
-    if (process.env.VERCEL_URL) {
-      ipAddress = process.env.VERCEL_URL;
-    }
-    else {
-      ipAddress = "http://localhost:3001/"
-    }
-
-    axios.post(ipAddress + "signup/customer", newClient);
+    axios.post("https://capstone-group24-server.onrender.com/signup/customer", newClient);
     alert("Client account sign up sucessful. Thank you " + data.get('firstName') + " for joining us!");
   };
 

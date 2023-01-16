@@ -44,13 +44,13 @@ function SignIn() {
   }])
 
   useEffect(() => {
-    fetch("https://group-24-server.vercel.app/getAll/customer").then(res => {
+    fetch("https://capstone-group24-server.onrender.com/getAll/customer").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
 
-    fetch("https://group-24-server.vercel.app/getAll/employee").then(res => {
+    fetch("https://capstone-group24-server.onrender.com/getAll/employee").then(res => {
       if (res.ok) {
         return res.json()
       }

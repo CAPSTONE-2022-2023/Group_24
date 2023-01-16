@@ -61,7 +61,7 @@ export default function SignUp_E() {
         ipAddress = "http://localhost:3001/"
       }
 
-      axios.post(ipAddress + "signup/employee", newEmployee);
+      axios.post("https://capstone-group24-server.onrender.com/signup/employee", newEmployee);
       alert("Employee sign up sucessful. Welcome " + data.get('firstName') + " to the team!");
     }
   };
