@@ -22,7 +22,16 @@ export default function Room_View() {
   const deleteRoombyName = (room) => {
     console.log("Delete: " + room.name);
 
-    axios.delete("https://capstone-group24-server.onrender.com/delete/room", { data: room });
+    var ipAddress;
+
+    if (process.env.REACT_APP_VERCEL_URL) {
+      ipAddress = "https://capstone-group24-server.onrender.com/";
+    }
+    else {
+      ipAddress = "http://localhost:3001/"
+    }
+
+    axios.delete(ipAddress + "delete/room", { data: room });
   }
 
   const editRoombyName = (room) => {

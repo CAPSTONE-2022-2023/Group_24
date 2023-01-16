@@ -48,7 +48,16 @@ export default function Room_Create() {
       equips: equipments
     }
 
-    axios.post("https://capstone-group24-server.onrender.com/create/room", newRoom);
+    var ipAddress;
+
+    if (process.env.REACT_APP_VERCEL_URL) {
+      ipAddress = "https://capstone-group24-server.onrender.com/";
+    }
+    else {
+      ipAddress = "http://localhost:3001/"
+    }
+
+    axios.post(ipAddress + "create/room", newRoom);
     alert(`Room ${data.get("name")} successful`);
     navigate('/room/view');
   };
