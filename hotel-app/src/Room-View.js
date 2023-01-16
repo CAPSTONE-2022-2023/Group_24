@@ -19,10 +19,7 @@ export default function Room_View() {
     navigate("/");
   };
 
-  const deleteRoombyName = (room) => {
-    console.log("Delete: " + room.name);
-
-    var ipAddress;
+  var ipAddress;
 
     if (process.env.REACT_APP_VERCEL_URL) {
       ipAddress = "https://capstone-group24-server.onrender.com/";
@@ -30,6 +27,9 @@ export default function Room_View() {
     else {
       ipAddress = "http://localhost:3001/"
     }
+
+  const deleteRoombyName = (room) => {
+    console.log("Delete: " + room.name);
 
     axios.delete(ipAddress + "delete/room", { data: room });
   }
@@ -57,7 +57,7 @@ export default function Room_View() {
   }])
 
   useEffect(() => {
-    fetch("/getAll/room").then(res => {
+    fetch(ipAddress + "/getAll/room").then(res => {
       if (res.ok) {
         return res.json()
       }
