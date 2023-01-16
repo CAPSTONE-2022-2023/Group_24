@@ -51,7 +51,16 @@ export default function SignUp() {
       password: data.get('password')
     }
 
-    axios.post("https://capstone-group24-server.onrender.com/signup/customer", newClient);
+    var ipAddress;
+
+    if (process.env.REACT_APP_VERCEL_URL) {
+      ipAddress = "https://capstone-group24-server.onrender.com/";
+    }
+    else {
+      ipAddress = "http://localhost:3001/"
+    }
+
+    axios.post(ipAddress + "signup/customer", newClient);
     alert("Client account sign up sucessful. Thank you " + data.get('firstName') + " for joining us!");
   };
 

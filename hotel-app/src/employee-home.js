@@ -4,7 +4,6 @@ import suite from './images/suite.jpg';
 import single from './images/single.jpg';
 import double from './images/double.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from '@mui/material/Button';
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 
 const theme = createTheme({
@@ -23,8 +22,6 @@ export default function EHome() {
         localStorage.setItem("password", "");
         navigate("/");
     };
-
-    const location = useLocation();
 
     if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
         return <Navigate to="/" />;

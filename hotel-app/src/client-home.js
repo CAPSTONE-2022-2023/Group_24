@@ -24,9 +24,6 @@ export default function CHome() {
         navigate("/");
     };
 
-    const location = useLocation();
-
-
     if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
         return <Navigate to="/" />;
     }

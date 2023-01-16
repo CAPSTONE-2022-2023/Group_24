@@ -54,14 +54,14 @@ export default function SignUp_E() {
 
       var ipAddress;
 
-      if(process.env.VERCEL_URL){
-        ipAddress = process.env.VERCEL_URL;
-      }
-      else {
-        ipAddress = "http://localhost:3001/"
-      }
+    if (process.env.REACT_APP_VERCEL_URL) {
+      ipAddress = "https://capstone-group24-server.onrender.com/";
+    }
+    else {
+      ipAddress = "http://localhost:3001/"
+    }
 
-      axios.post("https://capstone-group24-server.onrender.com/signup/employee", newEmployee);
+      axios.post(ipAddress + "signup/employee", newEmployee);
       alert("Employee sign up sucessful. Welcome " + data.get('firstName') + " to the team!");
     }
   };

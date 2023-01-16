@@ -43,14 +43,23 @@ function SignIn() {
     password: ''
   }])
 
+  var ipAddress;
+
+    if (process.env.REACT_APP_VERCEL_URL) {
+      ipAddress = "https://capstone-group24-server.onrender.com/";
+    }
+    else {
+      ipAddress = "http://localhost:3001/"
+    }
+
   useEffect(() => {
-    fetch("https://capstone-group24-server.onrender.com/getAll/customer").then(res => {
+    fetch(ipAddress + "getAll/customer").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setClients(jsonRes));
 
-    fetch("https://capstone-group24-server.onrender.com/getAll/employee").then(res => {
+    fetch(ipAddress + "getAll/employee").then(res => {
       if (res.ok) {
         return res.json()
       }
