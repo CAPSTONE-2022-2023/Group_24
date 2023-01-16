@@ -13,7 +13,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    background: {
+      default: "#42daf5"
+    }
+  }
+});
 
 export default function Room_Create() {
   const navigate = useNavigate();
