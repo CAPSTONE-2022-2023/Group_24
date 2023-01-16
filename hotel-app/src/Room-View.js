@@ -69,7 +69,8 @@ export default function Room_View() {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 1,
+          marginLeft: -3,
+          marginRight: -3,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
