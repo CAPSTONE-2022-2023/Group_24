@@ -19,19 +19,10 @@ export default function Room_View() {
     navigate("/");
   };
 
-  var ipAddress;
-
-  if(process.env.VERCEL_URL){
-    ipAddress = process.env.VERCEL_URL;
-  }
-  else{
-    ipAddress = "http://localhost:3001/"
-  }
-
   const deleteRoombyName = (room) => {
     console.log("Delete: " + room.name);
 
-    axios.delete(ipAddress + "delete/room", { data: room });
+    axios.delete("https://capstone-group24-server.onrender.com/delete/room", { data: room });
   }
 
   const editRoombyName = (room) => {

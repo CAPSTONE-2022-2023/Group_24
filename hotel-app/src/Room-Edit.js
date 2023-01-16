@@ -84,16 +84,7 @@ export default function Room_Edit() {
       oldRoomName: oldName
     }
 
-    var ipAddress;
-
-    if(process.env.VERCEL_URL){
-      ipAddress = process.env.VERCEL_URL;
-    }
-    else {
-      ipAddress = "http://localhost:3001/"
-    }
-
-    axios.post(ipAddress + "edit/room", newRoomWithOldName);
+    axios.post("https://capstone-group24-server.onrender.com/edit/room", newRoomWithOldName);
     alert(`Room ${data.get("name")} editted successful`);
     navigate('/room/view');
   };

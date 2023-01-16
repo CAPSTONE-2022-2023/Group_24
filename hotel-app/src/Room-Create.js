@@ -48,16 +48,7 @@ export default function Room_Create() {
       equips: equipments
     }
 
-    var ipAddress;
-
-    if(process.env.VERCEL_URL){
-      ipAddress = process.env.VERCEL_URL;
-    }
-    else {
-      ipAddress = "http://localhost:3001/"
-    }
-
-    axios.post(ipAddress + "create/room", newRoom);
+    axios.post("https://capstone-group24-server.onrender.com/create/room", newRoom);
     alert(`Room ${data.get("name")} successful`);
     navigate('/room/view');
   };
