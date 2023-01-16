@@ -57,7 +57,7 @@ export default function Room_View() {
   }])
 
   useEffect(() => {
-    fetch("/getAll/room").then(res => {
+    fetch(ipAddress + "/getAll/room").then(res => {
       if (res.ok) {
         return res.json()
       }
