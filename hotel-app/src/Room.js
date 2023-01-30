@@ -81,7 +81,7 @@ export default function Room() {
             <div style={{ marginBottom: "50px" }} class="nameMesg">
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>{room.name}</h1>
                 <p style={{ textAlign: "center", margin: "20px 20px 10px"}}>{room.overview}</p>
-                <div class="container" style={{ textAlign: "center", width: "25%", marginLeft: "630px", marginTop: "25px" }}>
+                <div class="container" style={{ textAlign: "center", marginLeft: "550px", marginRight: "550px", marginTop: "25px" }}>
                     <a href='Reservations'>Book Now</a>
                 </div>
             </div>
@@ -105,7 +105,14 @@ export default function Room() {
                     </ul>
                 </div>
             </div>
-            <div class="footer">
+
+            <div class="gallery" style={{padding: "0px", margin: "0px"}}>
+                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
+                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
+                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
+            </div>
+
+            <div class="footer" style={{marginTop: "-5px"}}>
                 <div class="cont">
                     <h2>Contact</h2>
                     <ul>

@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from './NavBar';
 
 const theme = createTheme({
   palette: {
@@ -106,6 +107,7 @@ function SignIn() {
   };
 
   return (
+    <div>
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -180,6 +182,7 @@ function SignIn() {
         </Box>
       </Container>
     </ThemeProvider>
+    </div>
   );
 }
 
