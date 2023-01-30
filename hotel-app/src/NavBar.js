@@ -127,7 +127,7 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? 1 : 0).map((page, index) => (
+            {pages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? 3 : 0).map((page, index) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
