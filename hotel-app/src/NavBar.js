@@ -13,12 +13,14 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {Link} from "react-router-dom";
+import { useNavigate, Navigate, useLocation } from "react-router-dom";
 
 const pages = ['', 'Homepage/Customer', 'Room/View'];
-const pagesName = ['Login', 'Homepage', 'View Rooms'];
+const pagesName = ['Logout', 'Homepage', 'View Rooms'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -35,6 +37,13 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    localStorage.setItem("username", "");
+    localStorage.setItem("password", "");
+    navigate("/");
   };
 
   return (
@@ -124,7 +133,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link style={{textDecoration: "none", color: "white" }} to={`/${page}`}>{pagesName[index]}</Link>
+                <Link onClick={page == 0 && handleClick} style={{textDecoration: "none", color: "white" }} to={`/${page}`}>{pagesName[index]}</Link>
               </Button>
             ))}
           </Box>
