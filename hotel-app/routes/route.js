@@ -64,6 +64,21 @@ router.route("/create/room").post((req, res) => {
     newRoom.save();
 })
 
+router.route("/get/room/:name").get((req, res) => {
+    Room.findOne({name: req.params.name})
+        .then(foundRoom => res.json(foundRoom))
+})
+
+router.route("/get/customer/:name").get((req, res) => {
+    Client.findOne({name: req.params.name})
+        .then(foundClient => res.json(foundClient))
+})
+
+router.route("/get/employee/:name").get((req, res) => {
+    Employee.findOne({name: req.params.name})
+        .then(foundEmployee => res.json(foundEmployee))
+})
+
 router.route("/getAll/customer").get((req, res) => {
     Client.find()
         .then(foundClients => res.json(foundClients))

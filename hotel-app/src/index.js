@@ -11,6 +11,8 @@ import Room_Create from './Room-Create';
 import reportWebVitals from './reportWebVitals';
 import Room_View from './Room-View';
 import Room_Edit from './Room-Edit';
+import Room_List from './room-list';
+import Room from './Room';
 
 export default function Application() {
   return (
@@ -30,6 +32,8 @@ export default function Application() {
             <Route path="Create" element={<Room_Create />} />
             <Route path="View" element={<Room_View />} />
             <Route path="Edit" element={<Room_Edit />} />
+            <Route path="List" element={<Room_List />} />
+            <Route path="Insight" element={<Room />} />
           </Route>
         </Route>
       </Routes>
