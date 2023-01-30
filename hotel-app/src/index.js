@@ -11,10 +11,12 @@ import Room_Create from './Room-Create';
 import reportWebVitals from './reportWebVitals';
 import Room_View from './Room-View';
 import Room_Edit from './Room-Edit';
+import NavBar from './NavBar';
 
 export default function Application() {
   return (
     <BrowserRouter>
+    <NavBar />
       <Routes>
         <Route path="/">
           <Route index element={<SignIn />} />
