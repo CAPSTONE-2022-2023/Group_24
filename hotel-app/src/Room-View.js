@@ -74,7 +74,7 @@ export default function Room_View() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: '#42daf5'
+          backgroundColor: 'rgb(175, 246, 239)'
         }}
       >
         <div class="navbar">
@@ -84,8 +84,8 @@ export default function Room_View() {
             <li><a href='' onClick={handleClick}>Logout</a></li>
           </ul>
         </div>
-        <h1 style={{ textAlign: "center", color: "white", backgroundColor: "primary" }}>List of Available Rooms</h1>
-        <Box display="flex" flexDirection='row' backgroundColor='#42daf5' flexWrap='wrap' >
+        <h1 style={{ textAlign: "center", color: "rgb(8, 102, 156)", backgroundColor: "primary" }}>List of Available Rooms</h1>
+        <Box display="flex" flexDirection='row' backgroundColor='#rgb(175, 246, 239)' flexWrap='wrap' >
           {rooms.map(room =>
             <div>
               <Box flexDirection='row' width='350px' height='500px' overflow='auto'
@@ -95,7 +95,7 @@ export default function Room_View() {
                   m: 1,
                   ml: 4
                 }}
-                border="3px solid black" color="white">
+                border="3px solid rgb(8, 102, 156)" color="white">
                 <Grid container spacing={0} justifyContent="center">
                   <h1 style={{ textAlign: "center" }}>{room.name}</h1>
                 </Grid>
