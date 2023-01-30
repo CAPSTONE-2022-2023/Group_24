@@ -13,10 +13,12 @@ import Room_View from './Room-View';
 import Room_Edit from './Room-Edit';
 import Room_List from './room-list';
 import Room from './Room';
+import NavBar from './NavBar';
 
 export default function Application() {
   return (
     <BrowserRouter>
+    <NavBar />
       <Routes>
         <Route path="/">
           <Route index element={<SignIn />} />
