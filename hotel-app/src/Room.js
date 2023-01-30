@@ -14,7 +14,7 @@ const theme = createTheme({
     }
 });
 
-export default function Room_List() {
+export default function Room() {
     const navigate = useNavigate();
     const handleClick = (event) => {
         event.preventDefault();
@@ -22,6 +22,11 @@ export default function Room_List() {
         localStorage.setItem("password", "");
         navigate("/");
     };
+
+    var roomName = localStorage.getItem("localRoomName");
+    var roomEquips = localStorage.getItem("localRoomEquips").split(",");
+    console.log("Room:" + roomName);
+
 
     // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
     //     return <Navigate to="/" />;
@@ -36,13 +41,7 @@ export default function Room_List() {
         ipAddress = "http://localhost:3001/"
     }
 
-    const roomNameLocal = (name, equips) => {
-        console.log("Local Room Name: " + name);
-        localStorage.setItem("localRoomName", name);
-        localStorage.setItem("localRoomEquips", equips)
-    }
-
-    const [rooms, setRooms] = useState([{
+    const [room, setRoom] = useState([{
         name: String,
         overview: String,
         guestNum: Number,
@@ -53,11 +52,11 @@ export default function Room_List() {
     }])
 
     useEffect(() => {
-        fetch(ipAddress + "getAll/room").then(res => {
+        fetch(ipAddress + "get/room/" + roomName).then(res => {
             if (res.ok) {
                 return res.json()
             }
-        }).then(jsonRes => setRooms(jsonRes));
+        }).then(jsonRes => setRoom(jsonRes));
     })
 
     return <ThemeProvider theme={theme}>
@@ -69,6 +68,7 @@ export default function Room_List() {
                 <ul>
                     <li><a href='/homepage/customer'>Homepage</a></li>
                     <li><a href='Reservations'>Reservations</a></li>
+                    <li><a href='List'>View Room List</a></li>
                     <li><a href='' onClick={handleClick}>Logout</a></li>
                 </ul>
             </div>
@@ -79,28 +79,31 @@ export default function Room_List() {
             </div>
 
             <div style={{ marginBottom: "50px" }} class="nameMesg">
-                <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>Our Signature Room Collection</h1>
-                <p style={{ textAlign: "center", margin: "0 0 10px" }}>Enjoy our Signature or Signature Plus guestrooms that are elegantly decorated to complement the breathtaking views of the Toronto skyline or Lake Ontario, from the over-sized opening window, accentuated by 9’ high ceilings.</p>
+                <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>{room.name}</h1>
+                <p style={{ textAlign: "center", margin: "20px 20px 10px"}}>{room.overview}</p>
                 <div class="container" style={{ textAlign: "center", width: "25%", marginLeft: "630px", marginTop: "25px" }}>
                     <a href='Reservations'>Book Now</a>
                 </div>
             </div>
-            <div class="roomlistTable">
-                <table style={{ textAlign: "center", display: "flex", flexWrap: "wrap", marginLeft: "75px" }}>
-                    {rooms.map(room =>
-                        <a href='Insight' style={{margin: "15px"}} onClick={() => {
-                            roomNameLocal(room.name, room.equips);
-                          }}>
-                            <div style={{ position: "relative", textAlign: "center"}}>
-                                <img src={suite} class="img" alt="Suite" style={{ width: "100%" }} />
-                                <div class="centered" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", width: "80%", backgroundColor: "rgba(0, 0, 0, .4)", borderRadius: "25px" }}>
-                                    <h1 style={{ fontFamily: "'Playfair Display',serif" }}>{room.name}</h1>
-                                    <p style={{ textAlign: "center", margin: "0 0 10px" }}>{room.overview}</p>
-                                </div>
-                            </div>
-                        </a>
-                    )}
-                </table>
+
+            <div class="main" style={{ backgroundColor: "rgba(0, 0, 0, .1)" }}>
+                <div class="left" style={{ width: "50%", backgroundColor: "rgba(0, 128, 255, .1)", borderRadius: "25px" }}>
+                    <h2 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginBottom: "0px" }}>Room Detail</h2>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>Ideal up to {room.guestNum} guest(s)</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>Approximately {room.size} sq ft</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>{room.beds} Bed(s)</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>${room.price}/night</p>
+                </div>
+                <div class="right" style={{ width: "100%" }}>
+                    <h2 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginBottom: "0px" }}>Downtown Toronto's Most Luxurious Accommodations</h2>
+                    <p>All rooms are equipped with the following:</p>
+                    <ul style={{ marginTop: "-10px", marginLeft: "10px", listStyleType: "square", fontSize: "20px" }}>
+
+                        {roomEquips.map(equip => {
+                            return <li style={{ marginTop: "5px" }}>{equip}</li>;
+                        })}
+                    </ul>
+                </div>
             </div>
             <div class="footer">
                 <div class="cont">

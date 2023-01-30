@@ -38,7 +38,7 @@ export default function CHome() {
                         <ul>
                             <li><a href='Reservations'>Reservations</a></li>
                             <li><a href='editreservations'>Edit Reservations</a></li>
-                            <li><a href='rooms'>View Room List</a></li>
+                            <li><a href='/Room/List'>View Room List</a></li>
                             <li><a href='vacantrooms'>Vacant Rooms</a></li>
                             <li><a href='' onClick={handleClick}>Logout</a></li>
                         </ul>
