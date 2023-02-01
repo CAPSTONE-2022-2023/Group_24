@@ -6,6 +6,10 @@ import suite from './images/suite.jpg';
 import single from './images/single.jpg';
 import double from './images/double.jpg';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBed } from '@fortawesome/free-solid-svg-icons'
+
+
 const theme = createTheme({
     palette: {
         primary: {
@@ -61,22 +65,14 @@ export default function Room() {
 
     return <ThemeProvider theme={theme}>
         <div class="body">
-            <div class="header">
-                Seneca Hotels
+            <div>
+                <img src={suite} class="img" alt="Suite" style={{width: "99.6%", height: "47vh",padding: "0px", margin: "0px 0px 0px"}} />
             </div>
-            <div class="navbar" style={{ textAlign: "center" }}>
-                <ul>
-                    <li><a href='/homepage/customer'>Homepage</a></li>
-                    <li><a href='Reservations'>Reservations</a></li>
-                    <li><a href='List'>View Room List</a></li>
-                    <li><a href='' onClick={handleClick}>Logout</a></li>
-                </ul>
-            </div>
-            <div class="gallery">
+            {/* <div class="gallery">
                 <img src={single} class="img" alt="Single Bed" />
                 <img src={double} class="img" alt="Double Bed" />
                 <img src={suite} class="img" alt="Suite" />
-            </div>
+            </div> */}
 
             <div style={{ marginBottom: "50px" }} class="nameMesg">
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>{room.name}</h1>
@@ -88,6 +84,7 @@ export default function Room() {
 
             <div class="main" style={{ backgroundColor: "rgba(0, 0, 0, .1)" }}>
                 <div class="left" style={{ width: "50%", backgroundColor: "rgba(0, 128, 255, .1)", borderRadius: "25px" }}>
+                    <h1 style={{ textAlign: "center"}}><FontAwesomeIcon icon={faBed} /></h1>
                     <h2 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginBottom: "0px" }}>Room Detail</h2>
                     <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>Ideal up to {room.guestNum} guest(s)</p>
                     <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>Approximately {room.size} sq ft</p>

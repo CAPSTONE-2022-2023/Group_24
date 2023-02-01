@@ -65,13 +65,6 @@ export default function Room_List() {
             <div class="header">
                 Seneca Hotels
             </div>
-            <div class="navbar" style={{ textAlign: "center" }}>
-                <ul>
-                    <li><a href='/homepage/customer'>Homepage</a></li>
-                    <li><a href='Reservations'>Reservations</a></li>
-                    <li><a href='' onClick={handleClick}>Logout</a></li>
-                </ul>
-            </div>
             <div class="gallery">
                 <img src={single} class="img" alt="Single Bed" />
                 <img src={double} class="img" alt="Double Bed" />
@@ -95,7 +88,7 @@ export default function Room_List() {
                                 <img src={suite} class="img" alt="Suite" style={{ width: "100%" }} />
                                 <div class="centered" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", width: "80%", backgroundColor: "rgba(0, 0, 0, .4)", borderRadius: "25px" }}>
                                     <h1 style={{ fontFamily: "'Playfair Display',serif" }}>{room.name}</h1>
-                                    <p style={{ textAlign: "center", margin: "0 0 10px" }}>{room.overview}</p>
+                                    <p style={{ textAlign: "center", margin: "0 0 10px" }}>Ideal for up to {room.guestNum} guest(s) with {room.beds} beds - Approximately {room.size} sq.ft</p>
                                 </div>
                             </div>
                         </a>

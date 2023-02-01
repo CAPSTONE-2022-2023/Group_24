@@ -77,13 +77,6 @@ export default function Room_View() {
           backgroundColor: 'rgb(175, 246, 239)'
         }}
       >
-        <div class="navbar">
-          <ul>
-            <li><a href='/homepage/employee'>Back to Homepage</a></li>
-            <li><a href='/room/create'>Create Rooms</a></li>
-            <li><a href='' onClick={handleClick}>Logout</a></li>
-          </ul>
-        </div>
         <h1 style={{ textAlign: "center", color: "rgb(8, 102, 156)", backgroundColor: "primary" }}>List of Available Rooms</h1>
         <Box display="flex" flexDirection='row' backgroundColor='#rgb(175, 246, 239)' flexWrap='wrap' >
           {rooms.map(room =>

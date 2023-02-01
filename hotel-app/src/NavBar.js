@@ -15,8 +15,21 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {Link} from "react-router-dom";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 
-const pages = ['', 'Homepage/Customer', 'Room/View'];
-const pagesName = ['Logout', 'Homepage', 'View Rooms'];
+const clientPages = ['', 'Homepage/Customer', 'Room/List'];
+const clientPagesName = ['Logout', 'Homepage', 'View Room Selections'];
+
+const employeePages = ['', 'Homepage/Employee', 'Room/View'];
+const employeePagesName = ['Logout', 'Homepage', 'Room Management'];
+
+const pages = [];
+const pagesName = [];
+
+clientPages.map(page => pages.push(page));
+employeePages.map(page => pages.push(page));
+
+clientPagesName.map(pageName => pagesName.push(pageName));
+employeePagesName.map(pageName => pagesName.push(pageName));
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -127,7 +140,7 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? 3 : 0).map((page, index) => (
+            {pages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? pages.length : 0).map((page, index) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}

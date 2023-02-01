@@ -28,6 +28,8 @@ var accountType = 0;
 
 function SignIn() {
   const navigate = useNavigate();
+  localStorage.clear();
+  console.log(localStorage);
   const [clients, setClients] = useState([{
     name: '',
     phone: 0,
@@ -79,6 +81,7 @@ function SignIn() {
         if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
           localStorage.setItem("username", clients[i].username);
           localStorage.setItem("password", clients[i].password);
+          localStorage.setItem("accountType", 0);
           navigate('/homepage/customer', { state: clients[i] });
         }
       }
@@ -91,6 +94,7 @@ function SignIn() {
         if (employees[i].username === data.get('username') && employees[i].password === data.get('password')) {
           localStorage.setItem("username", employees[i].username);
           localStorage.setItem("password", employees[i].password);
+          localStorage.setItem("accountType", 1);
           navigate('/homepage/employee', { state: employees[i] });
         }
       }
