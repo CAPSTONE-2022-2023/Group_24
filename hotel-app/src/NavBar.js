@@ -12,8 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Link} from "react-router-dom";
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const clientPages = ['', 'Homepage/Customer', 'Room/List'];
 const clientPagesName = ['Logout', 'Homepage', 'View Room Selections'];
@@ -79,7 +79,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            Hotel Reservation
+            Seneca Hotel
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -90,6 +90,7 @@ function ResponsiveAppBar() {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              disabled={localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? true : false}
             >
               <MenuIcon />
             </IconButton>
@@ -111,10 +112,19 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page, index) => (
+              {clientPages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? clientPages.length : (localStorage.getItem("accountType") === "0" ? 0 : clientPages.length)).map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link style={{textDecoration: "none", color: "white" }} to={`/${page}`}>{index}</Link>
+                    <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                      to={`/${page}`}>{clientPagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
+                  </Typography>
+                </MenuItem>
+              ))}
+              {employeePages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? employeePages.length : (localStorage.getItem("accountType") === "1" ? 0 : employeePages.length)).map((page, index) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                      to={`/${page}`}>{employeePagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
                   </Typography>
                 </MenuItem>
               ))}
@@ -122,10 +132,10 @@ function ResponsiveAppBar() {
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
-            variant="h5"
+            variant="h7"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -137,17 +147,28 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Seneca Hotel
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? pages.length : 0).map((page, index) => (
+            {clientPages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? clientPages.length : (localStorage.getItem("accountType") === "0" ? 0 : clientPages.length)).map((page, index) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link onClick={page == 0 && handleClick} style={{textDecoration: "none", color: "white" }}
-                 to={`/${page}`}>{pagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index+1 : index]}</Link>
+                <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                  to={`/${page}`}>{clientPagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
+              </Button>
+            ))}
+
+            {employeePages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? employeePages.length : (localStorage.getItem("accountType") === "1" ? 0 : employeePages.length)).map((page, index) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                  to={`/${page}`}>{employeePagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
               </Button>
             ))}
           </Box>

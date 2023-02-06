@@ -30,17 +30,6 @@ export default function EHome() {
         return (
             <ThemeProvider theme={theme}>
                 <div class="body">
-                    <div class="header">
-                        Seneca Hotels
-                    </div>
-                    <div class="navbar" style={{textAlign: "center"}}>
-                        <ul>
-                            <li><a href='Reservations'>Manage Reservations</a></li>
-                            <li><a href='/room/view'>Manage Rooms</a></li>
-                            <li><a href='vacantrooms'>Vacant Rooms</a></li>
-                            <li><a href='' onClick={handleClick}>Logout</a></li>
-                        </ul>
-                    </div>
                     <div class="gallery">
                         <img src={single} class="img" alt="Single Bed" />
                         <img src={double} class="img" alt="Double Bed" />

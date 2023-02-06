@@ -73,12 +73,11 @@ export default function Room_View() {
           marginRight: -3,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
           backgroundColor: 'rgb(175, 246, 239)'
         }}
       >
-        <h1 style={{ textAlign: "center", color: "rgb(8, 102, 156)", backgroundColor: "primary" }}>List of Available Rooms</h1>
-        <Box display="flex" flexDirection='row' backgroundColor='#rgb(175, 246, 239)' flexWrap='wrap' >
+        <h1 style={{ textAlign: "center", color: "rgb(8, 102, 156)", backgroundColor: "primary" }}>List of All Current Rooms</h1>
+        <Box display="inline-flex" justifyContent="center" flexDirection='row' backgroundColor='#rgb(175, 246, 239)' flexWrap='wrap' >
           {rooms.map(room =>
             <div>
               <Box flexDirection='row' width='350px' height='500px' overflow='auto'

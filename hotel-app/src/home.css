@@ -53,15 +53,12 @@ li a:hover{
 .gallery{
     display: inline-flex;
     width: auto;
-    padding-top: 1rem;
 }
 
 .img{
     width: 33.3%;
-    margin: 0.5%;
-    margin-top: .8%;
     margin-bottom: .8%;
-    border: solid .2rem rgb(0, 157, 255);
+    border: solid .1rem rgb(0, 157, 255);
     
 }
 

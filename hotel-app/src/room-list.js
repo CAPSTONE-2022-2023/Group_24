@@ -62,9 +62,6 @@ export default function Room_List() {
 
     return <ThemeProvider theme={theme}>
         <div class="body">
-            <div class="header">
-                Seneca Hotels
-            </div>
             <div class="gallery">
                 <img src={single} class="img" alt="Single Bed" />
                 <img src={double} class="img" alt="Double Bed" />
