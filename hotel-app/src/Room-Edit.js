@@ -16,7 +16,7 @@ import axios from "axios";
 const theme = createTheme({
   palette: {
     background: {
-      default: "#42daf5"
+      default: "rgb(175, 246, 239)"
     }
   }
 });
@@ -100,7 +100,7 @@ export default function Room_Edit() {
     }
 
     axios.post(ipAddress + "edit/room", newRoomWithOldName);
-    alert(`Room ${data.get("name")} editted successful`);
+    alert(`Room ${data.get("name")} edit successful`);
     navigate('/room/view');
   };
 
@@ -151,7 +151,6 @@ export default function Room_Edit() {
                   fullWidth
                   defaultValue={oldName}
                   id="name"
-                  label="Room Name"
                   name="name"
                   autoComplete="name"
                 />
