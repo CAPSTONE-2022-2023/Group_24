@@ -3,6 +3,7 @@ const router = express.Router();
 const Client = require("../models/clientModel");
 const Employee = require("../models/employeeModel");
 const Room = require("../models/roomModel");
+const Reservation = require("../models/reservationModel");
 
 router.route("/signup/customer").post((req, res) => {
     const title = req.body.title;
@@ -79,6 +80,16 @@ router.route("/get/employee/:name").get((req, res) => {
         .then(foundEmployee => res.json(foundEmployee))
 })
 
+router.route("/get/reservation/:id").get((req, res) => {
+    Reservation.findOne({id: req.params.id})
+        .then(foundReservation => res.json(foundReservation))
+})
+
+router.route("/get/reservation/:name").get((req, res) => {
+    Reservation.find({name: req.params.name})
+        .then(foundReservation => res.json(foundReservation))
+})
+
 router.route("/getAll/customer").get((req, res) => {
     Client.find()
         .then(foundClients => res.json(foundClients))
@@ -94,9 +105,22 @@ router.route("/getAll/room").get((req, res) => {
         .then(foundRooms => res.json(foundRooms))
 })
 
+router.route("/getAll/reservation").get((req, res) => {
+    Reservation.find()
+        .then(foundReservations => res.json(foundReservations))
+})
+
 router.route("/delete/room").delete((req, res) => {
     Room.deleteOne({ name: req.body.name }).then(function () {
         console.log(req.body.name + "Room Deleted"); // Success
+    }).catch(function (error) {
+        console.log(error); // Failure
+    });
+})
+
+router.route("/delete/reservation").delete((req, res) => {
+    Reservation.deleteOne({ id: req.body.id }).then(function () {
+        console.log("Reversation Cancel/Deleted"); // Success
     }).catch(function (error) {
         console.log(error); // Failure
     });
