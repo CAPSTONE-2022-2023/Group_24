@@ -172,4 +172,23 @@ router.route("/edit/room").post((req, res) => {
         console.log(error); // Failure
     });
 })
+
+router.route("/edit/reservation").post((req, res) => {
+    console.log("Edit Reservation ID" + req.body.editRes.id);
+
+    Room.updateOne({ name: req.body.editRes.id }, {$set: {name: req.body.editRes.name, 
+                                                           phone: req.body.editRes.phone,
+                                                           email: req.body.editRes.email,
+                                                           guestNum: req.body.editRes.guestNum,
+                                                           arrive: req.body.editRes.arrive,
+                                                           depart: req.body.editRes.depart,
+                                                           roomName: req.body.editRes.roomName,
+                                                           requests: req.body.editRes.requests,
+                                                           price: req.body.editRes.price,
+                                                           }}).then(function () {
+        console.log(`Reservation ${req.body.editRes.id} Updated`); // Success
+    }).catch(function (error) {
+        console.log(error); // Failure
+    });
+})
 module.exports = router;
