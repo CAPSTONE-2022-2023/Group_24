@@ -65,6 +65,34 @@ router.route("/create/room").post((req, res) => {
     newRoom.save();
 })
 
+router.route("/create/reservation").post((req, res) => {
+
+    const id = req.body.id;
+    const name = req.body.name;
+    const guestNum = req.body.guestNum;
+    const phone = req.body.phone;
+    const price = req.body.price;
+    const arrive = req.body.arrive;
+    const depart = req.body.depart;
+    const requests = req.body.requests;
+    const roomName = req.body.roomName;
+    
+
+    const newReservation = new Reservation({
+        id,
+        name,
+        phone,
+        guestNum,
+        arrive,
+        depart,
+        roomName,
+        requests,
+        price
+    });
+
+    newReservation.save();
+})
+
 router.route("/get/room/:name").get((req, res) => {
     Room.findOne({name: req.params.name})
         .then(foundRoom => res.json(foundRoom))

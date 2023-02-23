@@ -15,11 +15,11 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const clientPages = ['', 'Homepage/Customer', 'Room/List'];
-const clientPagesName = ['Logout', 'Homepage', 'View Room Selections'];
+const clientPages = ['', 'Homepage/Customer', 'Room/List', 'Reservation/Create'];
+const clientPagesName = ['Logout', 'Homepage', 'View Room Selections', 'Make a Reservation'];
 
-const employeePages = ['', 'Homepage/Employee', 'Room/View'];
-const employeePagesName = ['Logout', 'Homepage', 'Room Management'];
+const employeePages = ['', 'Homepage/Employee', 'Room/View','Reservation/List'];
+const employeePagesName = ['Logout', 'Homepage', 'Room Management', 'Manage Reservations'];
 
 const pages = [];
 const pagesName = [];

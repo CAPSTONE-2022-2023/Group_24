@@ -14,6 +14,8 @@ import Room_Edit from './Room-Edit';
 import Room_List from './room-list';
 import Room from './Room';
 import NavBar from './NavBar';
+import Reservation_Create from './Reservation-Create';
+import Reservation_List from './Reservation-List';
 
 export default function Application() {
   return (
@@ -36,6 +38,10 @@ export default function Application() {
             <Route path="Edit" element={<Room_Edit />} />
             <Route path="List" element={<Room_List />} />
             <Route path="Insight" element={<Room />} />
+          </Route>
+          <Route path="Reservation">
+            <Route path="Create" element={<Reservation_Create />} />
+            <Route path="List" element={<Reservation_List />} />
           </Route>
         </Route>
       </Routes>
