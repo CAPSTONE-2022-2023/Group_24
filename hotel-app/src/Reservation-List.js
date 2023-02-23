@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import './home.css';
-import suite from './images/suite.jpg';
-import single from './images/single.jpg';
-import double from './images/double.jpg';
 
 const theme = createTheme({
     palette: {
@@ -50,7 +47,7 @@ export default function Reservation_List() {
         arrive: Date,
         depart: Date,
         roomName: String,
-        requests: [string],
+        requests: [String],
         price: Number
     }])
 
@@ -59,29 +56,27 @@ export default function Reservation_List() {
             if (res.ok) {
                 return res.json()
             }
-        }).then(jsonRes => setreservations(jsonRes));
+        }).then(jsonRes => setReservations(jsonRes));
     })
 
     return <ThemeProvider theme={theme}>
         <div class="body">
-            <div class="gallery">
-                <img src={single} class="img" alt="Single Bed" />
-                <img src={double} class="img" alt="Double Bed" />
-                <img src={suite} class="img" alt="Suite" />
+            <div class="navbar">
+                <ul>
+                    <li><a href='/reservation/create/employee'>Book Reservation for Guests</a></li>
+                </ul>
             </div>
 
             <div style={{ marginBottom: "50px" }} class="nameMesg">
-
-                <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>Your Reservations</h1>
-                
+                <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif" }}>List of All Current Reservations</h1>
             </div>
             <div class="reservationlistTable">
-                <table style={{ textAlign: "center", display: "flex", flexWrap: "wrap", marginBottom: "20px"}}>
+                <table style={{ textAlign: "center", display: "flex", flexWrap: "wrap", marginBottom: "20px" }}>
                     {reservations.map(reservation =>
-                        <a href='Insight' style={{paddingLeft: "10px", paddingRight: "10px"}} onClick={() => {
+                        <a href='Insight' style={{ paddingLeft: "10px", paddingRight: "10px" }} onClick={() => {
                             reservationIdLocal(reservation.id);
-                          }}>
-                            <div style={{ position: "relative", textAlign: "center"}}>
+                        }}>
+                            <div style={{ position: "relative", textAlign: "center" }}>
                                 <div class="centered" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", width: "80%", backgroundColor: "rgba(0, 0, 0, .4)", borderRadius: "25px" }}>
                                     <h1 style={{ fontFamily: "'Playfair Display',serif" }}>{reservation.name}</h1>
 

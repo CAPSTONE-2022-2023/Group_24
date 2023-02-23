@@ -71,6 +71,7 @@ router.route("/create/reservation").post((req, res) => {
     const name = req.body.name;
     const guestNum = req.body.guestNum;
     const phone = req.body.phone;
+    const email = req.body.email;
     const price = req.body.price;
     const arrive = req.body.arrive;
     const depart = req.body.depart;
@@ -82,6 +83,7 @@ router.route("/create/reservation").post((req, res) => {
         id,
         name,
         phone,
+        email,
         guestNum,
         arrive,
         depart,

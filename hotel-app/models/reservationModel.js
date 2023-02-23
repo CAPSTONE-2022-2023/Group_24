@@ -9,7 +9,7 @@ const reservationSchema = {
     arrive: Date,
     depart: Date,
     roomName: String,
-    requests: [String],
+    requests: String,
     price: Number
 }
 

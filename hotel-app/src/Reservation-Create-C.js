@@ -21,7 +21,7 @@ const theme = createTheme({
   }
 });
 
-export default function Reservation_Create() {
+export default function Reservation_Create_C() {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -45,7 +45,7 @@ export default function Reservation_Create() {
     }
 
     console.log({
-        id:getRandomInt(),
+        resIdid:getRandomInt(),
         name: data.get('name'),
         phone: data.get('phone'),
         guestNum: data.get('guestNum'),

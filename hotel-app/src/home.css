@@ -14,29 +14,20 @@
 }
 
 .navbar{
-    font-size: 2rem;
-    padding: 2rem;
+    font-size: 1.5rem;
+    padding-top: 2rem;
 }
 
 .navbar ul{
     display: inline-flex;
     list-style: none;
-    margin: auto;
-    padding: auto;
-}
-
-.navbar ul li{
-    float: left;
-    margin: auto 1rem;
-    padding: auto 1rem;
-    
+    margin-top: auto;
 }
 
 li a{
     display: block;
     text-align: center;
     padding: .5rem 1rem;
-    margin: auto 1rem;
     text-decoration: none;
     color: aliceblue;
     border: solid .2rem rgb(0, 157, 255);
