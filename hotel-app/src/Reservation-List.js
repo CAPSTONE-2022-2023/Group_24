@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import './home.css';
 
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: "#42daf5"
-        }
-    }
-});
+const theme = createTheme();
+
+function formatDate(string) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(string).toLocaleDateString([], options);
+}
 
 export default function Reservation_List() {
     const navigate = useNavigate();
@@ -47,9 +49,17 @@ export default function Reservation_List() {
         arrive: Date,
         depart: Date,
         roomName: String,
-        requests: [String],
+        requests: String,
         price: Number
     }])
+
+    const deleteResbyName = (res) => {
+        //
+    }
+
+    const editResbyName = (res) => {
+        localStorage.setItem("resId", res._id);
+    }
 
     useEffect(() => {
         fetch(ipAddress + "getAll/reservation").then(res => {
@@ -70,31 +80,76 @@ export default function Reservation_List() {
             <div style={{ marginBottom: "50px" }} class="nameMesg">
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif" }}>List of All Current Reservations</h1>
             </div>
-            <div class="reservationlistTable">
-                <table style={{ textAlign: "center", display: "flex", flexWrap: "wrap", marginBottom: "20px" }}>
-                    {reservations.map(reservation =>
-                        <a href='Insight' style={{ paddingLeft: "10px", paddingRight: "10px" }} onClick={() => {
-                            reservationIdLocal(reservation.id);
-                        }}>
-                            <div style={{ position: "relative", textAlign: "center" }}>
-                                <div class="centered" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", width: "80%", backgroundColor: "rgba(0, 0, 0, .4)", borderRadius: "25px" }}>
-                                    <h1 style={{ fontFamily: "'Playfair Display',serif" }}>{reservation.name}</h1>
+            <Box display="inline-flex" justifyContent="center" flexDirection='row' backgroundColor='#rgb(175, 246, 239)' flexWrap='wrap' >
+                {reservations.map(reservation =>
+                    <div>
+                        <Box flexDirection='row' width='350px' height='500px' overflow='auto'
+                            sx={{
+                                backgroundColor: 'primary.light',
+                                flexWrap: 'wrap',
+                                m: 1,
+                                ml: 4
+                            }}
+                            border="3px solid rgb(8, 102, 156)" color="white">
+                            <Grid container spacing={0} justifyContent="center">
+                                <h1 style={{ textAlign: "center" }}>{reservation.name}</h1>
+                            </Grid>
 
-                                    <ol style={{ textAlign: "center", margin: "0 0 10px" }}>
-                                        <li>{reservation.phone}</li>
-                                        <li>{reservation.guestNum}</li>
-                                        <li>{reservation.arrive}</li>
-                                        <li>{reservation.depart}</li>
-                                        <li>{reservation.roomName}</li>
-                                        <li>{reservation.price}</li>
-                                        <li>{reservation.requests}</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </a>
-                    )}
-                </table>
-            </div>
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Phone Number: {reservation.phone}</h4>
+                            </Grid>
+
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Name of Room: {reservation.roomName}</h4>
+                            </Grid>
+
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Price of Room: {reservation.price}</h4>
+                            </Grid>
+
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Number of Guest(s): {reservation.guestNum}</h4>
+                            </Grid>
+
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Will Arrive on: {formatDate(reservation.arrive)}</h4>
+                            </Grid>
+
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Will Depart on: {formatDate(reservation.depart)}</h4>
+                            </Grid>
+
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Request(s): {reservation.requests}</h4>
+                            </Grid>
+
+                            <Grid container justifyContent="center">
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{ mt: 1, mb: 1 }}
+                                    onClick={() => {
+                                        editResbyName(reservation);
+                                    }}
+                                >
+                                    Edit Reservation
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{ mt: 1, mb: 1 }}
+                                    onClick={() => {
+                                        // delete function
+                                    }}
+                                >
+                                    Delete Reservation
+                                </Button>
+                            </Grid>
+                        </Box>
+                        &nbsp;
+                    </div>
+                )}
+            </Box>
             <div class="footer">
                 <div class="cont">
                     <h2>Contact</h2>
