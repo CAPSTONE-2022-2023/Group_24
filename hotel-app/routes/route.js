@@ -4,6 +4,10 @@ const Client = require("../models/clientModel");
 const Employee = require("../models/employeeModel");
 const Room = require("../models/roomModel");
 const Reservation = require("../models/reservationModel");
+const sgMail = require('@sendgrid/mail')
+
+console.log(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 router.route("/signup/customer").post((req, res) => {
     const title = req.body.title;
@@ -93,6 +97,36 @@ router.route("/create/reservation").post((req, res) => {
     });
 
     newReservation.save();
+})
+
+router.route("/post/sendCreateEmail").post((req, res) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const guestNum = req.body.guestNum;
+    const phone = req.body.phone;
+    const email = req.body.email;
+    const price = req.body.price;
+    const arrive = req.body.arrive;
+    const depart = req.body.depart;
+    const requests = req.body.requests;
+    const roomName = req.body.roomName;
+
+    const msg = {
+      to: email, // Change to your recipient
+      from: 'seneca.hotels@gmail.com', // Change to your verified sender
+      subject: 'Sending with SendGrid is Fun',
+      text: 'and easy to do anywhere, even with Node.js',
+      html: `<strong>and easy to do anywhere, even with Node.js</strong> Reservation name: ${name}, Res room: ${roomName}`,
+    }
+
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent');
+      })
+      .catch((error) => {
+        console.error(error);
+      })
 })
 
 router.route("/get/room/:name").get((req, res) => {

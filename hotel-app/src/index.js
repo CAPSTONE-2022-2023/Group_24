@@ -16,6 +16,7 @@ import Room from './Room';
 import NavBar from './NavBar';
 import Reservation_Create_E from './Reservation-Create-E';
 import Reservation_List from './Reservation-List';
+import Reservation_Edit from './Reservation-Edit';
 
 export default function Application() {
   return (
@@ -44,6 +45,7 @@ export default function Application() {
               <Route path="Employee" element={<Reservation_Create_E />} />
             </Route>
             <Route path="List" element={<Reservation_List />} />
+            <Route path="Edit" element={<Reservation_Edit />} />
           </Route>
         </Route>
       </Routes>

@@ -24,6 +24,7 @@ export default function Reservation_Edit() {
 
   // SELECTED RESERVATION DATA
   var resId = localStorage.getItem("resId");
+  console.log("resid = " + resId);
 
   var ipAddress;
 
@@ -72,15 +73,17 @@ export default function Reservation_Edit() {
       if (res.ok) {
         return res.json()
       }
-    }).then(jsonRes => setRoom(jsonRes));
+    }).then(jsonRes => setReservation(jsonRes));
   })
 
   console.log(reservation);
 
   var arriveDate = new Date(reservation.arrive);
   var arriveDateString = arriveDate.toISOString().slice(0, 10);
+  console.log(arriveDateString);
   var departDate = new Date(reservation.arrive);
   var departDateString = departDate.toISOString().slice(0, 10);
+  console.log(departDateString);
 
   var currentDate = new Date();
   var currentDateString = currentDate.toISOString().slice(0, 10);
@@ -164,7 +167,7 @@ export default function Reservation_Edit() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Create Reservation
+            Update Reservation
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: 500 }}>
             <Button
@@ -173,7 +176,7 @@ export default function Reservation_Edit() {
               variant="contained"
               sx={{ mt: 3, mb: 6 }}
             >
-              Create Reservation
+              Update Reservation
             </Button>
             <Grid container spacing={2} justifyContent="center">
               <FormControl fullWidth>

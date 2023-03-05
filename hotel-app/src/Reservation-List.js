@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import './home.css';
+import axios from "axios";
 
 const theme = createTheme();
 
@@ -57,8 +58,15 @@ export default function Reservation_List() {
         //
     }
 
-    const editResbyName = (res) => {
-        localStorage.setItem("resId", res._id);
+    const editResbyId = (res) => {
+        console.log("resId: " + res.id);
+        localStorage.setItem("resId", res.id);
+        navigate('/reservation/edit');
+    }
+
+    const deleteResbyId = (res) => {
+        console.log("Cancel reservation id: " + res.id);
+        axios.delete(ipAddress + "delete/reservation", { data: res });
     }
 
     useEffect(() => {
@@ -104,7 +112,7 @@ export default function Reservation_List() {
                             </Grid>
 
                             <Grid container rowSpacing={3}>
-                                <h4 style={{ marginLeft: "20px" }}>Price of Room: {reservation.price}</h4>
+                                <h4 style={{ marginLeft: "20px" }}>Price of Room: ${reservation.price}</h4>
                             </Grid>
 
                             <Grid container rowSpacing={3}>
@@ -129,7 +137,7 @@ export default function Reservation_List() {
                                     variant="contained"
                                     sx={{ mt: 1, mb: 1 }}
                                     onClick={() => {
-                                        editResbyName(reservation);
+                                        editResbyId(reservation);
                                     }}
                                 >
                                     Edit Reservation
@@ -140,6 +148,7 @@ export default function Reservation_List() {
                                     sx={{ mt: 1, mb: 1 }}
                                     onClick={() => {
                                         // delete function
+                                        deleteResbyId(reservation);
                                     }}
                                 >
                                     Delete Reservation

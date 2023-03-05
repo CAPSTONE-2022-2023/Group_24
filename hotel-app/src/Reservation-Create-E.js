@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -22,18 +22,17 @@ const theme = createTheme({
 export default function Reservation_Create_E() {
   const navigate = useNavigate();
 
+  var currentRoomIndex = useRef(-1);
+
   var currentDate = new Date();
   var currentDateString = currentDate.toISOString().slice(0, 10);
-  var previousDate = new Date();
-  previousDate.setDate(currentDate.getDate() - 1);
-  var previousDateString = previousDate.toISOString().slice(0, 10);
+  //var previousDate = new Date();
+  //previousDate.setDate(currentDate.getDate() - 1);
+  //var previousDateString = previousDate.toISOString().slice(0, 10);
   var nextDate = new Date();
   nextDate.setDate(currentDate.getDate() + 1);
   var nextDateString = nextDate.toISOString().slice(0, 10);
 
-  console.log(currentDateString);
-  console.log(previousDateString);
-  ;
   var ipAddress;
 
   if (process.env.REACT_APP_VERCEL_URL) {
@@ -63,52 +62,53 @@ export default function Reservation_Create_E() {
 
   console.log(rooms);
 
-  // const handleSubmitUpdatePrice = (event) => {
-  //   event.preventDefault();
-    
-  //   console.log("HANDLESUBMITUPDATEPRICE");
+  const handleChangeRoom = (event) => {
+    console.log("HandleChangeRoom");
+    event.preventDefault();
+    currentRoomIndex.current = event.target.value;
+    console.log("Room index = " + currentRoomIndex.current);
+    handleChangeUpdatePrice();
+  }
 
-  //   const data = new FormData(event.currentTarget);
+  function handleChangeUpdatePrice() {
+    console.log("HANDLE_CHANGE_UPDATE_PRICE");
 
-  //   function getPrice(roomIndex) {
-  //     /*
-  //     get price according to the room selected and multiply it with the nights staying. result should be the price charged to customer
-  //     */
-  //     let dateArrive = new Date(data.get('arrive'));
-  //     let dateDepart = new Date(data.get('depart'));
+    let roomIndex = currentRoomIndex.current.valueOf();
+    console.log("roomIndex = " + roomIndex);
 
-  //     let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
+    let price = 0;
 
-  //     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    let dateArrive = new Date(document.getElementById("arrive").value);
+    let dateDepart = new Date(document.getElementById("depart").value);
 
-  //     console.log(Difference_In_Days);
+    let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
-  //     let price = rooms[roomIndex].price * Difference_In_Days;
+    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-  //     console.log(price);
+    console.log("Diff Days: " + Difference_In_Days);
 
-  //     return price;
-  //   }
+    if (Difference_In_Days == 0) {
+      Difference_In_Days = 1;
+    }
 
-  //   let price = 0;
+    console.log("Curren room index = " + roomIndex);
 
-  //   if (data.get('roomName') != undefined) {
-  //     price = getPrice(data.get('roomName'));
-  //   }
+    if (roomIndex >= 0) {
+      price = rooms[roomIndex].price * Difference_In_Days;
 
-  //   document.getElementById("grand_total").innerHTML = price;
-  // }
+      console.log(price);
+
+      price = parseFloat(Number(price)).toFixed(2)
+
+      console.log(price);
+
+      document.getElementById("grand_total").innerHTML = `$+${price}`;
+    }
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
-    // const requests = [];
-    // for (let i = 1; i < 11; i++) {
-    //   if (data.get(`requests${i}`) != "") {
-    //     requests.push(data.get(`requests${i}`).trim())
-    //   }
-    // }
 
     function getRandomInt() {
       return Math.floor(Math.random() * 1000);
@@ -142,8 +142,8 @@ export default function Reservation_Create_E() {
       guestNum: data.get('guestNum'),
       arrive: data.get('arrive'),
       depart: data.get('depart'),
-      price: getPrice(data.get('roomName')),
-      roomName: data.get('roomName'),
+      price: parseFloat(Number(getPrice(data.get('roomName')))).toFixed(2),
+      roomName: rooms[data.get('roomName')].name,
       requests: data.get('requests')
     }
 
@@ -151,6 +151,7 @@ export default function Reservation_Create_E() {
 
     axios.post(ipAddress + "create/reservation", newReservation);
     alert(`Reservation ${newReservation.id} successful`);
+    axios.post(ipAddress + "post/sendCreateEmail", newReservation);
     navigate('/reservation/list');
   };
 
@@ -179,10 +180,19 @@ export default function Reservation_Create_E() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 6 }}
+              sx={{ mt: 3 }}
             >
               Create Reservation
             </Button>
+            <Grid container spacing={2} justifyContent="center" sx={{ mb: 3 }}>
+              <Grid item>
+                <h3>Grand Total: </h3>
+              </Grid>
+              <Grid item>
+                <h3 id="grand_total">$0</h3>
+              </Grid>
+            </Grid>
+
             <Grid container spacing={2} justifyContent="center">
               <FormControl fullWidth>
                 <InputLabel id="title-select-roomName">Select Room</InputLabel>
@@ -190,7 +200,7 @@ export default function Reservation_Create_E() {
                   name='roomName'
                   id="roomName-select"
                   label="Room"
-                  // onSubmit={handleSubmitUpdatePrice}
+                  onChange={handleChangeRoom}
                 >
                   {rooms.map((room, index) =>
                     <MenuItem value={index}>{room.name}</MenuItem>
@@ -225,10 +235,11 @@ export default function Reservation_Create_E() {
                     required
                     sx={{ width: 160 }}
                     defaultValue={currentDateString}
-                    InputProps={{ inputProps: { min: previousDateString } }}
+                    InputProps={{ inputProps: { min: currentDateString } }}
                     type="date"
                     id="arrive"
                     name="arrive"
+                    onChange={handleChangeUpdatePrice}
                     autoComplete="arrive"
                   />
                 </Grid>
@@ -243,10 +254,11 @@ export default function Reservation_Create_E() {
                     required
                     sx={{ width: 160 }}
                     defaultValue={nextDateString}
-                    InputProps={{ inputProps: { min: previousDateString } }}
+                    InputProps={{ inputProps: { min: currentDateString } }}
                     type="date"
                     id="depart"
                     name="depart"
+                    onChange={handleChangeUpdatePrice}
                     autoComplete="depart"
                   />
                 </Grid>
@@ -317,15 +329,6 @@ export default function Reservation_Create_E() {
                   minRows={3}
                   label="Room Requests"
                 />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={0} justifyContent="center">
-              <Grid item xs={3}>
-                <h3>Grand Total: </h3>
-              </Grid>
-              <Grid item xs={3}>
-                <h3 id="grand_total">0$</h3>
               </Grid>
             </Grid>
           </Box>
