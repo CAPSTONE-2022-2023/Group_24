@@ -52,12 +52,32 @@ export default function Reservation_Create_E() {
     equips: [String]
   }])
 
+  const [reservations, setReservations] = useState([{
+    id: String,
+    name: String,
+    phone: String,
+    guestNum: String,
+    arrive: Date,
+    depart: Date,
+    roomName: String,
+    requests: String,
+    price: Number
+  }])
+
   useEffect(() => {
     fetch(ipAddress + "getAll/room").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setRooms(jsonRes));
+  })
+
+  useEffect(() => {
+    fetch(ipAddress + "getAll/reservation").then(res => {
+        if (res.ok) {
+            return res.json()
+        }
+    }).then(jsonRes => setReservations(jsonRes));
   })
 
   console.log(rooms);
@@ -152,7 +172,7 @@ export default function Reservation_Create_E() {
     axios.post(ipAddress + "create/reservation", newReservation);
     alert(`Reservation ${newReservation.id} successful`);
     axios.post(ipAddress + "post/sendCreateEmail", newReservation);
-    navigate('/reservation/listC');
+    navigate('/Reservation/Client');
   };
 
   // };
@@ -160,7 +180,12 @@ export default function Reservation_Create_E() {
   //   return <Navigate to="/" />;
   // }
   // else {
-  return (
+  var clientRes = reservations.find(reservation => reservation.name == (localStorage.getItem("username")));
+  console.log(clientRes);
+  if (clientRes != null) {
+    navigate('/reservation/Client');
+  }
+  else { return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -336,5 +361,6 @@ export default function Reservation_Create_E() {
       </Container>
     </ThemeProvider>
   );
+}
 }
 //}

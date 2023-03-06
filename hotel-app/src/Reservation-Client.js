@@ -14,7 +14,7 @@ function formatDate(string) {
     return new Date(string).toLocaleDateString([], options);
 }
 
-export default function Reservation_List_C() {
+export default function Reservation_Client() {
     const navigate = useNavigate();
     const handleClick = (event) => {
         event.preventDefault();
@@ -83,17 +83,18 @@ export default function Reservation_List_C() {
             </div>
 
             <div style={{ marginBottom: "50px" }} class="nameMesg">
-                <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif" }}>Your Reservation</h1>
+                <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif" }}>You Currently have an Active Reservation</h1>
             </div>
-            <Box display="inline-flex" justifyContent="center" flexDirection='row' backgroundColor='#rgb(175, 246, 239)' flexWrap='wrap' >
+            <Box backgroundColor='#rgb(175, 246, 239)'>
                 {reservations.filter(reservation => reservation.name == (localStorage.getItem("username"))).map(filteredReservation =>
                     <div>
-                        <Box flexDirection='row' width='350px' height='500px' overflow='auto'
+                        <Box width='350px' height='500px' overflow='auto'
                             sx={{
                                 backgroundColor: 'primary.light',
-                                flexWrap: 'wrap',
-                                m: 1,
-                                ml: 4
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'column'
                             }}
                             border="3px solid rgb(8, 102, 156)" color="white">
                             <Grid container spacing={0} justifyContent="center">
