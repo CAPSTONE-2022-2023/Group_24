@@ -15,7 +15,9 @@ import Room_List from './room-list';
 import Room from './Room';
 import NavBar from './NavBar';
 import Reservation_Create_E from './Reservation-Create-E';
+import Reservation_Create_C from './Reservation-Create-C';
 import Reservation_List from './Reservation-List';
+import Reservation_List_C from './Reservation-List-C';
 import Reservation_Edit from './Reservation-Edit';
 
 export default function Application() {
@@ -42,9 +44,11 @@ export default function Application() {
           </Route>
           <Route path="Reservation">
             <Route path="Create">
+              <Route path="Customer" element={<Reservation_Create_C />} />
               <Route path="Employee" element={<Reservation_Create_E />} />
             </Route>
             <Route path="List" element={<Reservation_List />} />
+            <Route path="ListC" element={<Reservation_List_C />} />
             <Route path="Edit" element={<Reservation_Edit />} />
           </Route>
         </Route>
