@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -21,6 +21,8 @@ const theme = createTheme({
 
 export default function Reservation_Edit() {
   const navigate = useNavigate();
+
+  var currentRoomIndex = useRef(-1);
 
   // SELECTED RESERVATION DATA
   var resId = localStorage.getItem("resId");
@@ -69,7 +71,7 @@ export default function Reservation_Edit() {
   }])
 
   useEffect(() => {
-    fetch(ipAddress + "get/reservation/" + resId).then(res => {
+    fetch(ipAddress + "get/reservation/id/" + resId).then(res => {
       if (res.ok) {
         return res.json()
       }
@@ -78,32 +80,74 @@ export default function Reservation_Edit() {
 
   console.log(reservation);
 
-  var arriveDate = new Date(reservation.arrive);
-  var arriveDateString = arriveDate.toISOString().slice(0, 10);
-  console.log(arriveDateString);
-  var departDate = new Date(reservation.arrive);
-  var departDateString = departDate.toISOString().slice(0, 10);
-  console.log(departDateString);
+  rooms.forEach((room, index) => {
+    if (room.name === reservation.roomName) {
+      currentRoomIndex.current = index;
+    }
+  })
+  console.log("currentroomidex: " + currentRoomIndex.current);
 
   var currentDate = new Date();
   var currentDateString = currentDate.toISOString().slice(0, 10);
-  var previousDate = new Date();
-  previousDate.setDate(currentDate.getDate() - 1);
-  var previousDateString = previousDate.toISOString().slice(0, 10);
   var nextDate = new Date();
   nextDate.setDate(currentDate.getDate() + 1);
   var nextDateString = nextDate.toISOString().slice(0, 10);
+  console.log(nextDateString);
+
+  var arriveDate = new Date(reservation.arrive);
+  const arriveDateString = arriveDate.toLocaleDateString("fr-CA", {timeZone: 'UTC'});
+  console.log(arriveDateString);
+  var departDate = new Date(reservation.depart);
+  const departDateString = departDate.toLocaleDateString("fr-CA", {timeZone: 'UTC'});
+  console.log(departDateString);
+
+  const handleChangeRoom = (event) => {
+    console.log("HandleChangeRoom");
+    event.preventDefault();
+    currentRoomIndex.current = event.target.value;
+    console.log("Room index = " + currentRoomIndex.current);
+    handleChangeUpdatePrice();
+  }
+
+  function handleChangeUpdatePrice() {
+    console.log("HANDLE_CHANGE_UPDATE_PRICE");
+
+    let roomIndex = currentRoomIndex.current.valueOf();
+    console.log("roomIndex = " + roomIndex);
+
+    let price = 0;
+
+    let dateArrive = new Date(document.getElementById("arrive").value);
+    let dateDepart = new Date(document.getElementById("depart").value);
+
+    let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
+
+    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+    console.log("Diff Days: " + Difference_In_Days);
+
+    if (Difference_In_Days === 0) {
+      Difference_In_Days = 1;
+    }
+
+    console.log("Curren room index = " + roomIndex);
+
+    if (roomIndex >= 0) {
+      price = rooms[roomIndex].price * Difference_In_Days;
+
+      console.log(price);
+
+      price = parseFloat(Number(price)).toFixed(2)
+
+      console.log(price);
+
+      document.getElementById("grand_total").innerHTML = `$+${price}`;
+    }
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
-    // const requests = [];
-    // for (let i = 1; i < 11; i++) {
-    //   if (data.get(`requests${i}`) != "") {
-    //     requests.push(data.get(`requests${i}`).trim())
-    //   }
-    // }
 
     function getRandomInt() {
       return Math.floor(Math.random() * 1000);
@@ -137,15 +181,16 @@ export default function Reservation_Edit() {
       guestNum: data.get('guestNum'),
       arrive: data.get('arrive'),
       depart: data.get('depart'),
-      price: getPrice(data.get('roomName')),
-      roomName: data.get('roomName'),
+      price: parseFloat(Number(getPrice(data.get('roomName')))).toFixed(2),
+      roomName: rooms[data.get('roomName')].name,
       requests: data.get('requests')
     }
 
     console.log(newReservation);
 
-    axios.post(ipAddress + "create/reservation", newReservation);
-    alert(`Reservation ${newReservation.id} successful`);
+    axios.post(ipAddress + "edit/reservation", newReservation);
+    alert(`Reservation ${newReservation.id} update successful`);
+    axios.post(ipAddress + "post/sendUpdateEmail", newReservation);
     navigate('/reservation/list');
   };
 
@@ -178,6 +223,16 @@ export default function Reservation_Edit() {
             >
               Update Reservation
             </Button>
+
+            <Grid container spacing={2} justifyContent="center" sx={{ mb: 3 }}>
+              <Grid item>
+                <h3>Grand Total: </h3>
+              </Grid>
+              <Grid item>
+                <h3 id="grand_total">${reservation.price}</h3>
+              </Grid>
+            </Grid>
+
             <Grid container spacing={2} justifyContent="center">
               <FormControl fullWidth>
                 <InputLabel id="title-select-roomName">Select Room</InputLabel>
@@ -185,7 +240,8 @@ export default function Reservation_Edit() {
                   name='roomName'
                   id="roomName-select"
                   label="Room"
-                //Find a way to set defaultvalue to room index
+                  defaultValue={currentRoomIndex.current}
+                  onChange={handleChangeRoom}
                 >
                   {rooms.map((room, index) =>
                     <MenuItem value={index}>{room.name}</MenuItem>
@@ -206,7 +262,6 @@ export default function Reservation_Edit() {
                     type="number"
                     id="guestNum"
                     name="guestNum"
-                    autoComplete="guestNum"
                   />
                 </Grid>
               </Grid>
@@ -220,11 +275,11 @@ export default function Reservation_Edit() {
                     required
                     sx={{ width: 160 }}
                     defaultValue={arriveDateString}
-                    InputProps={{ inputProps: { min: previousDateString } }}
+                    InputProps={{ inputProps: { min: nextDateString } }}
                     type="date"
                     id="arrive"
                     name="arrive"
-                    autoComplete="arrive"
+                    onChange={handleChangeUpdatePrice}
                   />
                 </Grid>
               </Grid>
@@ -238,11 +293,11 @@ export default function Reservation_Edit() {
                     required
                     sx={{ width: 160 }}
                     defaultValue={departDateString}
-                    InputProps={{ inputProps: { min: previousDateString } }}
+                    InputProps={{ inputProps: { min: nextDateString } }}
                     type="date"
                     id="depart"
                     name="depart"
-                    autoComplete="depart"
+                    onChange={handleChangeUpdatePrice}
                   />
                 </Grid>
               </Grid>
@@ -259,10 +314,8 @@ export default function Reservation_Edit() {
                   required
                   fullWidth
                   id="name"
-                  label="Name"
                   name="name"
-                  autoComplete="name"
-                  defaultValue = {reservation.name}
+                  defaultValue={reservation.name}
                 />
               </Grid>
             </Grid>
@@ -276,9 +329,7 @@ export default function Reservation_Edit() {
                   required
                   fullWidth
                   id="phone"
-                  label="Phone"
                   name="phone"
-                  autoComplete="phone"
                   defaultValue={reservation.phone}
                 />
               </Grid>
@@ -293,9 +344,7 @@ export default function Reservation_Edit() {
                   required
                   fullWidth
                   id="email"
-                  label="Email"
                   name="email"
-                  autoComplete="email"
                   defaultValue={reservation.email}
                 />
               </Grid>
@@ -305,7 +354,7 @@ export default function Reservation_Edit() {
               <Grid container direction="column" justifyContent="space-evenly" alignItems="center">
                 <h5>Additional Room Requests:</h5>
               </Grid>
-              <Grid id="request_grid" container rowGap={2} direction="column" justifyContent="space-evenly" alignItems="center">
+              <Grid container rowGap={2} direction="column" justifyContent="space-evenly" alignItems="center">
                 <TextField
                   required
                   sx={{ width: 450 }}
@@ -313,18 +362,8 @@ export default function Reservation_Edit() {
                   name="requests"
                   multiline
                   minRows={3}
-                  label="Room Requests"
                   defaultValue={reservation.requests}
                 />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={0} justifyContent="center">
-              <Grid item xs={3}>
-                <h3>Grand Total: </h3>
-              </Grid>
-              <Grid item xs={3}>
-                <h3 id="grand_total">0$</h3>
               </Grid>
             </Grid>
           </Box>

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './home.css';
 import axios from "axios";
 
@@ -16,12 +16,6 @@ function formatDate(string) {
 
 export default function Reservation_List() {
     const navigate = useNavigate();
-    const handleClick = (event) => {
-        event.preventDefault();
-        localStorage.setItem("username", "");
-        localStorage.setItem("password", "");
-        navigate("/");
-    };
 
     // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
     //     return <Navigate to="/" />;
@@ -36,12 +30,6 @@ export default function Reservation_List() {
         ipAddress = "http://localhost:3001/"
     }
 
-    const reservationIdLocal = (id, requests) => {
-        console.log("Local reservation Id: " + id);
-        localStorage.setItem("localreservationId", id);
-        localStorage.setItem("localreservationRequests", requests)
-    }
-
     const [reservations, setReservations] = useState([{
         id: String,
         name: String,
@@ -53,10 +41,6 @@ export default function Reservation_List() {
         requests: String,
         price: Number
     }])
-
-    const deleteResbyName = (res) => {
-        //
-    }
 
     const editResbyId = (res) => {
         console.log("resId: " + res.id);

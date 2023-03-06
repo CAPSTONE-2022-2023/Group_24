@@ -129,6 +129,36 @@ router.route("/post/sendCreateEmail").post((req, res) => {
       })
 })
 
+router.route("/post/sendUpdateEmail").post((req, res) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const guestNum = req.body.guestNum;
+    const phone = req.body.phone;
+    const email = req.body.email;
+    const price = req.body.price;
+    const arrive = req.body.arrive;
+    const depart = req.body.depart;
+    const requests = req.body.requests;
+    const roomName = req.body.roomName;
+
+    const msg = {
+      to: email, // Change to your recipient
+      from: 'seneca.hotels@gmail.com', // Change to your verified sender
+      subject: 'Sending with SendGrid is Fun',
+      text: 'and easy to do anywhere, even with Node.js',
+      html: `<strong>and easy to do anywhere, even with Node.js</strong> Reservation name: ${name}, Res room: ${roomName}`,
+    }
+
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent');
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+})
+
 router.route("/get/room/:name").get((req, res) => {
     Room.findOne({name: req.params.name})
         .then(foundRoom => res.json(foundRoom))
@@ -144,12 +174,12 @@ router.route("/get/employee/:name").get((req, res) => {
         .then(foundEmployee => res.json(foundEmployee))
 })
 
-router.route("/get/reservation/:id").get((req, res) => {
+router.route("/get/reservation/id/:id").get((req, res) => {
     Reservation.findOne({id: req.params.id})
         .then(foundReservation => res.json(foundReservation))
 })
 
-router.route("/get/reservation/:name").get((req, res) => {
+router.route("/get/reservation/name/:name").get((req, res) => {
     Reservation.find({name: req.params.name})
         .then(foundReservation => res.json(foundReservation))
 })

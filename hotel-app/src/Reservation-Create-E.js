@@ -150,7 +150,7 @@ export default function Reservation_Create_E() {
     console.log(newReservation);
 
     axios.post(ipAddress + "create/reservation", newReservation);
-    alert(`Reservation ${newReservation.id} successful`);
+    alert(`Reservation ${newReservation.id} create successful`);
     axios.post(ipAddress + "post/sendCreateEmail", newReservation);
     navigate('/reservation/list');
   };
