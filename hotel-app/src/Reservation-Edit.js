@@ -315,6 +315,8 @@ export default function Reservation_Edit() {
                   fullWidth
                   id="name"
                   name="name"
+                  multiline
+                  minRows={0}
                   defaultValue={reservation.name}
                 />
               </Grid>
@@ -330,6 +332,8 @@ export default function Reservation_Edit() {
                   fullWidth
                   id="phone"
                   name="phone"
+                  multiline
+                  minRows={0}
                   defaultValue={reservation.phone}
                 />
               </Grid>
@@ -345,6 +349,8 @@ export default function Reservation_Edit() {
                   fullWidth
                   id="email"
                   name="email"
+                  multiline
+                  minRows={0}
                   defaultValue={reservation.email}
                 />
               </Grid>
