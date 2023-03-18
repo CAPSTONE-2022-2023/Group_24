@@ -238,19 +238,19 @@ router.route("/edit/room").post((req, res) => {
 })
 
 router.route("/edit/reservation").post((req, res) => {
-    console.log("Edit Reservation ID" + req.body.editRes.id);
+    console.log("Edit Reservation ID" + req.body.id);
 
-    Room.updateOne({ name: req.body.editRes.id }, {$set: {name: req.body.editRes.name, 
-                                                           phone: req.body.editRes.phone,
-                                                           email: req.body.editRes.email,
-                                                           guestNum: req.body.editRes.guestNum,
-                                                           arrive: req.body.editRes.arrive,
-                                                           depart: req.body.editRes.depart,
-                                                           roomName: req.body.editRes.roomName,
-                                                           requests: req.body.editRes.requests,
-                                                           price: req.body.editRes.price,
+    Reservation.updateOne({ id: req.body.id }, {$set: {name: req.body.name, 
+                                                           phone: req.body.phone,
+                                                           email: req.body.email,
+                                                           guestNum: req.body.guestNum,
+                                                           arrive: req.body.arrive,
+                                                           depart: req.body.depart,
+                                                           roomName: req.body.roomName,
+                                                           requests: req.body.requests,
+                                                           price: req.body.price,
                                                            }}).then(function () {
-        console.log(`Reservation ${req.body.editRes.id} Updated`); // Success
+        console.log(`Reservation ${req.body.id} Updated`); // Success
     }).catch(function (error) {
         console.log(error); // Failure
     });

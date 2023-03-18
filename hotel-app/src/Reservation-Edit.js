@@ -168,8 +168,8 @@ export default function Reservation_Edit() {
       return price;
     }
 
-    const newReservation = {
-      id: getRandomInt(),
+    const editReservation = {
+      id: resId,
       name: data.get('name'),
       phone: data.get('phone'),
       email: data.get('email'),
@@ -181,11 +181,11 @@ export default function Reservation_Edit() {
       requests: data.get('requests')
     }
 
-    console.log(newReservation);
+    console.log(editReservation);
 
-    axios.post(ipAddress + "edit/reservation", newReservation);
-    alert(`Reservation ${newReservation.id} update successful`);
-    axios.post(ipAddress + "post/sendUpdateEmail", newReservation);
+    axios.post(ipAddress + "edit/reservation", editReservation);
+    alert(`Reservation ${editReservation.id} update successful`);
+    axios.post(ipAddress + "post/sendUpdateEmail", editReservation);
     navigate('/reservation/list');
   };
 
