@@ -7,6 +7,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import './home.css';
 
 const theme = createTheme();
 
@@ -21,12 +22,12 @@ export default function Room_View() {
 
   var ipAddress;
 
-    if (process.env.REACT_APP_VERCEL_URL) {
-      ipAddress = "https://capstone-group24-server.onrender.com/";
-    }
-    else {
-      ipAddress = "http://localhost:3001/"
-    }
+  if (process.env.REACT_APP_VERCEL_URL) {
+    ipAddress = "https://capstone-group24-server.onrender.com/";
+  }
+  else {
+    ipAddress = "http://localhost:3001/"
+  }
 
   const deleteRoombyName = (room) => {
     console.log("Delete: " + room.name);
@@ -76,6 +77,12 @@ export default function Room_View() {
           backgroundColor: 'rgb(175, 246, 239)'
         }}
       >
+        <div class="navbar">
+          <ul>
+            <li><a href='/room/create'>Create Rooms</a></li>
+          </ul>
+        </div>
+
         <h1 style={{ textAlign: "center", color: "rgb(8, 102, 156)", backgroundColor: "primary" }}>List of All Current Rooms</h1>
         <Box display="inline-flex" justifyContent="center" flexDirection='row' backgroundColor='#rgb(175, 246, 239)' flexWrap='wrap' >
           {rooms.map(room =>

@@ -14,11 +14,16 @@ import Room_Edit from './Room-Edit';
 import Room_List from './room-list';
 import Room from './Room';
 import NavBar from './NavBar';
+import Reservation_Create_E from './Reservation-Create-E';
+import Reservation_Create_C from './Reservation-Create-C';
+import Reservation_List from './Reservation-List';
+import Reservation_Client from './Reservation-Client';
+import Reservation_Edit from './Reservation-Edit';
 
 export default function Application() {
   return (
     <BrowserRouter>
-    <NavBar />
+      <NavBar />
       <Routes>
         <Route path="/">
           <Route index element={<SignIn />} />
@@ -36,6 +41,15 @@ export default function Application() {
             <Route path="Edit" element={<Room_Edit />} />
             <Route path="List" element={<Room_List />} />
             <Route path="Insight" element={<Room />} />
+          </Route>
+          <Route path="Reservation">
+            <Route path="Create">
+              <Route path="Customer" element={<Reservation_Create_C />} />
+              <Route path="Employee" element={<Reservation_Create_E />} />
+            </Route>
+            <Route path="List" element={<Reservation_List />} />
+            <Route path="Client" element={<Reservation_Client />} />
+            <Route path="Edit" element={<Reservation_Edit />} />
           </Route>
         </Route>
       </Routes>

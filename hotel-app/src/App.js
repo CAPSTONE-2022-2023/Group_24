@@ -26,6 +26,7 @@ const theme = createTheme({
 var accountType = 0;
 
 function SignIn() {
+  console.log(accountType);
   const navigate = useNavigate();
   localStorage.clear();
   console.log(localStorage);

@@ -15,11 +15,11 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const clientPages = ['', 'Homepage/Customer', 'Room/List'];
-const clientPagesName = ['Logout', 'Homepage', 'View Room Selections'];
+const clientPages = ['', 'Homepage/Customer', 'Room/List', 'Reservation/Create/Customer'];
+const clientPagesName = ['Logout', 'Homepage', 'View Room Selections', 'Make a Reservation'];
 
-const employeePages = ['', 'Homepage/Employee', 'Room/View'];
-const employeePagesName = ['Logout', 'Homepage', 'Room Management'];
+const employeePages = ['', 'Homepage/Employee', 'Room/View','Reservation/List'];
+const employeePagesName = ['Logout', 'Homepage', 'Room Management', 'Manage Reservations'];
 
 const pages = [];
 const pagesName = [];
@@ -112,7 +112,7 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {clientPages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? clientPages.length : (localStorage.getItem("accountType") === "0" ? 0 : clientPages.length)).map((page, index) => (
+              {clientPages.slice(localStorage.length === 0 ? clientPages.length : (localStorage.getItem("accountType") === "0" ? 0 : clientPages.length)).map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
@@ -120,7 +120,7 @@ function ResponsiveAppBar() {
                   </Typography>
                 </MenuItem>
               ))}
-              {employeePages.slice(localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? employeePages.length : (localStorage.getItem("accountType") === "1" ? 0 : employeePages.length)).map((page, index) => (
+              {employeePages.slice(localStorage.length === 0 ? employeePages.length : (localStorage.getItem("accountType") === "1" ? 0 : employeePages.length)).map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
