@@ -42,9 +42,42 @@ export default function Reservation_List() {
         price: Number
     }])
 
+    const [rooms, setRooms] = useState([{
+        name: String,
+        overview: String,
+        guestNum: Number,
+        size: Number,
+        price: Number,
+        beds: String,
+        equips: [String]
+    }])
+
+    useEffect(() => {
+        fetch(ipAddress + "getAll/room").then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(jsonRes => setRooms(jsonRes));
+    })
+
+    function getRoomIndex(roomName) {
+        let roomIndex = -1;
+        rooms.forEach((room, index) => {
+            if (room.name === roomName) {
+                roomIndex = index
+            }
+        })
+        console.log("roomIndex = " + roomIndex);
+        return roomIndex;
+    }
+
     const editResbyId = (res) => {
         console.log("resId: " + res.id);
         localStorage.setItem("resId", res.id);
+        localStorage.setItem("roomIndex", getRoomIndex(res.roomName));
+        localStorage.setItem("arriveDate", res.arrive);
+        localStorage.setItem("departDate", res.depart);
+        localStorage.setItem("guestNum", res.guestNum);
         navigate('/reservation/edit');
     }
 

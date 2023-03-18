@@ -22,11 +22,21 @@ const theme = createTheme({
 export default function Reservation_Edit() {
   const navigate = useNavigate();
 
-  var currentRoomIndex = useRef(-1);
+  var currentRoomIndex = useRef(localStorage.getItem("roomIndex"));
 
   // SELECTED RESERVATION DATA
+  console.log(localStorage);
   var resId = localStorage.getItem("resId");
-  console.log("resid = " + resId);
+
+  var arriveDate = new Date(localStorage.getItem("arriveDate"));
+  const arriveDateString = arriveDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' });
+  console.log(arriveDateString);
+
+  var departDate = new Date(localStorage.getItem("departDate"));
+  const departDateString = departDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' });
+  console.log(departDateString);
+
+  var guestNum = localStorage.getItem("guestNum");
 
   var ipAddress;
 
@@ -80,26 +90,11 @@ export default function Reservation_Edit() {
 
   console.log(reservation);
 
-  rooms.forEach((room, index) => {
-    if (room.name === reservation.roomName) {
-      currentRoomIndex.current = index;
-    }
-  })
-  console.log("currentroomidex: " + currentRoomIndex.current);
-
   var currentDate = new Date();
-  var currentDateString = currentDate.toISOString().slice(0, 10);
+  //var currentDateString = currentDate.toISOString().slice(0, 10);
   var nextDate = new Date();
   nextDate.setDate(currentDate.getDate() + 1);
   var nextDateString = nextDate.toISOString().slice(0, 10);
-  console.log(nextDateString);
-
-  var arriveDate = new Date(reservation.arrive);
-  const arriveDateString = arriveDate.toLocaleDateString("fr-CA", {timeZone: 'UTC'});
-  console.log(arriveDateString);
-  var departDate = new Date(reservation.depart);
-  const departDateString = departDate.toLocaleDateString("fr-CA", {timeZone: 'UTC'});
-  console.log(departDateString);
 
   const handleChangeRoom = (event) => {
     console.log("HandleChangeRoom");
@@ -141,7 +136,7 @@ export default function Reservation_Edit() {
 
       console.log(price);
 
-      document.getElementById("grand_total").innerHTML = `$+${price}`;
+      document.getElementById("grand_total").innerHTML = `$${price}`;
     }
   }
 
@@ -257,11 +252,12 @@ export default function Reservation_Edit() {
                   <TextField
                     required
                     sx={{ width: 75 }}
-                    defaultValue={reservation.guestNum}
+                    defaultValue={guestNum}
                     InputProps={{ inputProps: { min: 1, max: 10 } }}
                     type="number"
                     id="guestNum"
                     name="guestNum"
+                    minRows={0}
                   />
                 </Grid>
               </Grid>
@@ -316,7 +312,7 @@ export default function Reservation_Edit() {
                   id="name"
                   name="name"
                   multiline
-                  minRows={0}
+                  maxRows={1}
                   defaultValue={reservation.name}
                 />
               </Grid>
@@ -333,7 +329,7 @@ export default function Reservation_Edit() {
                   id="phone"
                   name="phone"
                   multiline
-                  minRows={0}
+                  maxRows={1}
                   defaultValue={reservation.phone}
                 />
               </Grid>
@@ -350,7 +346,7 @@ export default function Reservation_Edit() {
                   id="email"
                   name="email"
                   multiline
-                  minRows={0}
+                  maxRows={1}
                   defaultValue={reservation.email}
                 />
               </Grid>

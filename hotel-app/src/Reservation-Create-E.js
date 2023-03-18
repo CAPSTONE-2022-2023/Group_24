@@ -102,7 +102,7 @@ export default function Reservation_Create_E() {
 
       console.log(price);
 
-      document.getElementById("grand_total").innerHTML = `$+${price}`;
+      document.getElementById("grand_total").innerHTML = `$${price}`;
     }
   }
 

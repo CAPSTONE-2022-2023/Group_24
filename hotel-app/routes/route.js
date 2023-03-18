@@ -114,9 +114,9 @@ router.route("/post/sendCreateEmail").post((req, res) => {
     const msg = {
       to: email, // Change to your recipient
       from: 'seneca.hotels@gmail.com', // Change to your verified sender
-      subject: 'Sending with SendGrid is Fun',
-      text: 'and easy to do anywhere, even with Node.js',
-      html: `<strong>and easy to do anywhere, even with Node.js</strong> Reservation name: ${name}, Res room: ${roomName}`,
+      subject: 'Your reservation had been made!',
+      text: 'Your reservation info: ',
+      html: `Reservation name: ${name}, Room: ${roomName}, Price: ${price}`,
     }
 
     sgMail
@@ -144,9 +144,9 @@ router.route("/post/sendUpdateEmail").post((req, res) => {
     const msg = {
       to: email, // Change to your recipient
       from: 'seneca.hotels@gmail.com', // Change to your verified sender
-      subject: 'Sending with SendGrid is Fun',
-      text: 'and easy to do anywhere, even with Node.js',
-      html: `<strong>and easy to do anywhere, even with Node.js</strong> Reservation name: ${name}, Res room: ${roomName}`,
+      subject: 'Your reservation had been updated!',
+      text: 'Your updated reservation info: ',
+      html: `Reservation name: ${name}, Room: ${roomName}, Price: ${price}`,
     }
 
     sgMail
