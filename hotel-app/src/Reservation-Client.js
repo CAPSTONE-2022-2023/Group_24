@@ -52,6 +52,16 @@ export default function Reservation_Client() {
         price: Number
     }])
 
+    const [rooms, setRooms] = useState([{
+        name: String,
+        overview: String,
+        guestNum: Number,
+        size: Number,
+        price: Number,
+        beds: String,
+        equips: [String]
+    }])
+
     useEffect(() => {
         fetch(ipAddress + "get/customer/" + localStorage.getItem("username")).then(res => {
             if (res.ok) {
@@ -64,6 +74,12 @@ export default function Reservation_Client() {
                 return res.json()
             }
         }).then(jsonRes => setReservation(jsonRes));
+
+        fetch(ipAddress + "getAll/room").then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(jsonRes => setRooms(jsonRes));
 
         if (reservation) {
             console.log("There is reservation");
@@ -91,17 +107,28 @@ export default function Reservation_Client() {
         }
     })
 
+    function getRoomIndex(roomName) {
+        let roomIndex = -1;
+        rooms.forEach((room, index) => {
+            if (room.name === roomName) {
+                roomIndex = index
+            }
+        })
+        console.log("roomIndex = " + roomIndex);
+        return roomIndex;
+    }
+
     localStorage.setItem("clientName", customer.name);
     console.log(customer.name);
 
     const editResbyId = (res) => {
         console.log("resId: " + res.id);
         localStorage.setItem("resId", res.id);
-        localStorage.setItem("roomName", res.roomName);
+        localStorage.setItem("roomIndex", getRoomIndex(res.roomName));
         localStorage.setItem("arriveDate", res.arrive);
         localStorage.setItem("departDate", res.depart);
         localStorage.setItem("guestNum", res.guestNum);
-        navigate('/reservation/edit');
+        navigate('/reservation/EditRequest');
     }
 
     const deleteResbyId = (res) => {
@@ -178,7 +205,7 @@ export default function Reservation_Client() {
                                     editResbyId(reservation);
                                 }}
                             >
-                                Edit Reservation
+                                Request Reservation Changes
                             </Button>
                             <Button
                                 type="submit"

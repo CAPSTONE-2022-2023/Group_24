@@ -4,10 +4,16 @@ const Client = require("../models/clientModel");
 const Employee = require("../models/employeeModel");
 const Room = require("../models/roomModel");
 const Reservation = require("../models/reservationModel");
-const sgMail = require('@sendgrid/mail')
+const sgMail = require('@sendgrid/mail');
+const { text } = require("body-parser");
 
 console.log(process.env.SENDGRID_API_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+function formatDate(string) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+    return new Date(string).toLocaleDateString([], options);
+}
 
 router.route("/signup/customer").post((req, res) => {
     const title = req.body.title;
@@ -151,6 +157,78 @@ router.route("/post/sendUpdateEmail").post((req, res) => {
 
     sgMail
       .send(msg)
+      .then(() => {
+        console.log('Email sent');
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+})
+
+router.route("/post/sendRequestUpdateEmail").post((req, res) => {
+    const id = req.body.requestedReservation.id;
+    const name = req.body.requestedReservation.name;
+    const guestNum = req.body.requestedReservation.guestNum;
+    const phone = req.body.requestedReservation.phone;
+    const email = req.body.requestedReservation.email;
+    const price = req.body.requestedReservation.price;
+    const arrive = req.body.requestedReservation.arrive;
+    const depart = req.body.requestedReservation.depart;
+    const requests = req.body.requestedReservation.requests;
+    const roomName = req.body.requestedReservation.roomName;
+
+    const changes = req.body.changes;
+
+    console.log(changes);
+
+    let textChanges = ``;
+
+    for(let i = 0; i < changes.length; i++){
+        if(changes[i] == "phone"){
+            textChanges+= `Phone number to ${phone}\n`
+        }
+
+        if(changes[i] == "email"){
+            textChanges+= `Email to ${email}\n`
+        }
+
+        if(changes[i] == "guestNum"){
+            textChanges+= `Number of guest to ${guestNum}\n`
+        }
+
+        if(changes[i] == "price"){
+            textChanges+= `Price updated to ${price}\n`
+        }
+
+        if(changes[i] == "arrive"){
+            textChanges+= `Arrival Date to ${formatDate(arrive)}\n`
+        }
+
+        if(changes[i] == "depart"){
+            textChanges+= `Departure Date to ${formatDate(depart)}\n`
+        }
+
+        if(changes[i] == "requests"){
+            textChanges+= `Room Requests to ${requests}\n`
+        }
+
+        if(changes[i] == "roomName"){
+            textChanges+= `Chosen Room to ${roomName}\n`
+        }
+    }
+
+    console.log(textChanges);
+
+    const msg = {
+      to: [email, 'seneca.hotels@gmail.com'], // Change to your recipient
+      from: 'seneca.hotels@gmail.com', // Change to your verified sender
+      subject: `Reservation ${id} update request`,
+      text: `Customer of Reservation ${id} requested update for the followings: `,
+      html: textChanges,
+    }
+
+    sgMail
+      .sendMultiple(msg)
       .then(() => {
         console.log('Email sent');
       })
