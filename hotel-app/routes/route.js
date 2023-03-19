@@ -164,6 +164,11 @@ router.route("/get/room/:name").get((req, res) => {
         .then(foundRoom => res.json(foundRoom))
 })
 
+router.route("/get/customer/:username").get((req, res) => {
+    Client.findOne({username: req.params.username})
+        .then(foundClient => res.json(foundClient))
+})
+
 router.route("/get/customer/:name").get((req, res) => {
     Client.findOne({name: req.params.name})
         .then(foundClient => res.json(foundClient))
@@ -180,7 +185,7 @@ router.route("/get/reservation/id/:id").get((req, res) => {
 })
 
 router.route("/get/reservation/name/:name").get((req, res) => {
-    Reservation.find({name: req.params.name})
+    Reservation.findOne({name: req.params.name})
         .then(foundReservation => res.json(foundReservation))
 })
 

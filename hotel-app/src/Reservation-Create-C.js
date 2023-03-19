@@ -19,7 +19,7 @@ const theme = createTheme({
   }
 });
 
-export default function Reservation_Create_E() {
+export default function Reservation_Create_C() {
   const navigate = useNavigate();
 
   var currentRoomIndex = useRef(-1);
@@ -52,32 +52,12 @@ export default function Reservation_Create_E() {
     equips: [String]
   }])
 
-  const [reservations, setReservations] = useState([{
-    id: String,
-    name: String,
-    phone: String,
-    guestNum: String,
-    arrive: Date,
-    depart: Date,
-    roomName: String,
-    requests: String,
-    price: Number
-  }])
-
   useEffect(() => {
     fetch(ipAddress + "getAll/room").then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(jsonRes => setRooms(jsonRes));
-  })
-
-  useEffect(() => {
-    fetch(ipAddress + "getAll/reservation").then(res => {
-        if (res.ok) {
-            return res.json()
-        }
-    }).then(jsonRes => setReservations(jsonRes));
   })
 
   console.log(rooms);
@@ -122,7 +102,7 @@ export default function Reservation_Create_E() {
 
       console.log(price);
 
-      document.getElementById("grand_total").innerHTML = `$+${price}`;
+      document.getElementById("grand_total").innerHTML = `$${price}`;
     }
   }
 
@@ -170,9 +150,9 @@ export default function Reservation_Create_E() {
     console.log(newReservation);
 
     axios.post(ipAddress + "create/reservation", newReservation);
-    alert(`Reservation ${newReservation.id} successful`);
+    alert(`Reservation ${newReservation.id} create successful`);
     axios.post(ipAddress + "post/sendCreateEmail", newReservation);
-    navigate('/Reservation/Client');
+    navigate('/reservation/client');
   };
 
   // };
@@ -180,12 +160,7 @@ export default function Reservation_Create_E() {
   //   return <Navigate to="/" />;
   // }
   // else {
-  var clientRes = reservations.find(reservation => reservation.name == (localStorage.getItem("username")));
-  console.log(clientRes);
-  if (clientRes != null) {
-    navigate('/reservation/Client');
-  }
-  else { return (
+  return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -228,7 +203,7 @@ export default function Reservation_Create_E() {
                   onChange={handleChangeRoom}
                 >
                   {rooms.map((room, index) =>
-                    <MenuItem value={index}>{room.name}</MenuItem>
+                    <MenuItem value={index}>{room.name} - ${room.price}/night</MenuItem>
                   )}
                 </Select>
               </FormControl>
@@ -303,7 +278,10 @@ export default function Reservation_Create_E() {
                   id="name"
                   label="Name"
                   name="name"
-                  autoComplete="name"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  defaultValue={localStorage.getItem("clientName")}
                 />
               </Grid>
             </Grid>
@@ -361,6 +339,5 @@ export default function Reservation_Create_E() {
       </Container>
     </ThemeProvider>
   );
-}
 }
 //}
