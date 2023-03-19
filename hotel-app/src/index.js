@@ -20,6 +20,7 @@ import Reservation_List from './Reservation-List';
 import Reservation_Client from './Reservation-Client';
 import Reservation_Edit from './Reservation-Edit';
 import Reservation_Edit_Request from './Reservation-Edit-Request';
+import Reservation_Billing from './Reservation-Billing';
 
 export default function Application() {
   return (
@@ -52,6 +53,7 @@ export default function Application() {
             <Route path="Client" element={<Reservation_Client />} />
             <Route path="Edit" element={<Reservation_Edit />} />
             <Route path="EditRequest" element={<Reservation_Edit_Request />} />
+            <Route path="Billing" element={<Reservation_Billing />} />
           </Route>
         </Route>
       </Routes>

@@ -151,8 +151,10 @@ export default function Reservation_Create_C() {
 
     axios.post(ipAddress + "create/reservation", newReservation);
     alert(`Reservation ${newReservation.id} create successful`);
-    axios.post(ipAddress + "post/sendCreateEmail", newReservation);
-    navigate('/reservation/client');
+    if (newReservation.email) {
+      axios.post(ipAddress + "post/sendCreateEmail", newReservation);
+    }
+    navigate('/reservation/billing');
   };
 
   // };
