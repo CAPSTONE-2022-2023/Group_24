@@ -17,6 +17,19 @@ function formatDate(string) {
     return new Date(string).toLocaleDateString([], options);
 }
 
+function daysBetween(arrive, depart){
+    let dateArrive = new Date(arrive);
+    let dateDepart = new Date(depart);
+
+    let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
+
+    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+    console.log("Diff Days: " + Difference_In_Days);
+
+    return Difference_In_Days;
+}
+
 export default function Reservation_Billing() {
     const navigate = useNavigate();
 
@@ -85,15 +98,18 @@ export default function Reservation_Billing() {
         }).then(jsonRes => setRooms(jsonRes));
 
         if (reservation) {
-            document.getElementById("resName").innerHTML = "Name: " + reservation.name;
-            document.getElementById("resPhone").innerHTML = "Phone Number: " + reservation.phone;
-            document.getElementById("resEmail").innerHTML = "Email: " + reservation.email;
-            document.getElementById("resRoomName").innerHTML = "Room: " + reservation.roomName;
-            //document.getElementById("resPrice").innerHTML = "Price: $" + reservation.price;
-            document.getElementById("resGuestNum").innerHTML = "Number of Guest(s): " + reservation.guestNum;
-            document.getElementById("resArrive").innerHTML = "Will Arrive on: " + formatDate(reservation.arrive);
-            document.getElementById("resDepart").innerHTML = "Will Depart on: " + formatDate(reservation.depart);
-            document.getElementById("resRequest").innerHTML = "Request(s): " + reservation.requests;
+            document.getElementById("resName").innerHTML = reservation.name;
+            document.getElementById("resPhone").innerHTML = reservation.phone;
+            document.getElementById("resEmail").innerHTML = reservation.email;
+            document.getElementById("resRoomName").innerHTML = reservation.roomName;
+            document.getElementById("resPrice").innerHTML = reservation.price;
+            document.getElementById("resGuestNum").innerHTML = reservation.guestNum;
+            document.getElementById("resArrive").innerHTML = formatDate(reservation.arrive);
+            document.getElementById("resDepart").innerHTML = formatDate(reservation.depart);
+            document.getElementById("resDays").innerHTML = daysBetween(reservation.arrive, reservation.depart)
+            document.getElementById("resRequest").innerHTML = reservation.requests;
+            document.getElementById("resTotalTax").innerHTML = reservation.price*5/100;
+            document.getElementById("resGrandTotal").innerHTML = reservation.price + (reservation.price*5/100);
         }
     })
 
@@ -113,12 +129,9 @@ export default function Reservation_Billing() {
                 </ul>
             </div>
 
-            {/* <div style={{ marginBottom: "50px" }} class="nameMesg">
-                <h1 id="nameMesg-h1" style={{ textAlign: "center", fontFamily: "'Playfair Display',serif" }}>You Currently have no Active Reservation</h1>
-            </div> */}
             <Box id="mainbox" backgroundColor='#rgb(175, 246, 239)'>
                 <div id="mainDiv" style={{ display: 'flex', justifyContent: "center", marginBottom: "50px" }}>
-                    <Box width='800px' height='800px'
+                    <Box width='800px' height='975px'
                         sx={{
                             display: 'flex',
                             backgroundColor: 'white',
@@ -147,63 +160,158 @@ export default function Reservation_Billing() {
                                     Seneca Hotel
                                 </Typography>
                             </Grid>
-                            <Grid container justifyContent="left">
+                            <Grid container justifyContent="space-between" width="inherit">
                                 <h6>1750 Finch Ave. East Toronto, Ont. M2J 2X5</h6>
+                                <h1 style={{ marginRight: "40px", color: "#1976d2" }}>RECEIPT</h1>
                             </Grid>
                         </Grid>
 
-                        <Grid container rowSpacing={3}>
-                            <h3 style={{ marginLeft: "20px", color: "#1976d2" }}>Customer Details</h3>
+                        <Divider style={{ width: '90%', color: "#1976d2" }} />
+
+                        <Grid container rowSpacing={2}>
+                            <h2 style={{ marginLeft: "20px", color: "#1976d2" }}>Customer Details</h2>
                         </Grid>
 
-                        <Grid container rowSpacing={3}>
-                            <h4 id="resName" style={{ marginLeft: "20px" }}></h4>
+                        <Grid container display="grid" alignContent="center" gridAutoFlow="column" width="80%">
+                            <Grid container>
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Name: </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Phone Number: </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Email: </h4>
+                                </Grid>
+                            </Grid>
+
+                            <Grid container>
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resName" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resPhone" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resEmail" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+                            </Grid>
                         </Grid>
 
-                        <Grid container rowSpacing={3}>
-                            <h4 id="resPhone" style={{ marginLeft: "20px" }}></h4>
+                        <Divider style={{ width: '90%', color: "#1976d2" }} />
+
+                        <Grid container rowSpacing={2}>
+                            <h2 style={{ marginLeft: "20px", color: "#1976d2" }}>Reservation Details</h2>
                         </Grid>
 
-                        <Grid container rowSpacing={3}>
-                            <h4 id="resEmail" style={{ marginLeft: "20px" }}></h4>
+                        <Grid container display="grid" alignContent="center" gridAutoFlow="column" width="80%">
+                            <Grid container>
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Room: </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Number of Guest(s): </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Arrival Date: </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Departure Date: </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Nights: </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Request(s): </h4>
+                                </Grid>
+                            </Grid>
+
+                            <Grid container>
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resRoomName" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resGuestNum" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resArrive" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resDepart" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resDays" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resRequest" style={{ marginLeft: "20px", maxWidth: "470px", overflowWrap: "break-word"}}></h4>
+                                </Grid>
+                            </Grid>
                         </Grid>
 
-                        <Grid container rowSpacing={3}>
-                            <h3 style={{ marginLeft: "20px", color: "#1976d2" }}>Reservation Details</h3>
+                        <Divider style={{ width: '90%', color: "#1976d2" }} />
+
+                        <Grid container rowSpacing={2}>
+                            <h2 style={{ marginLeft: "20px", color: "#1976d2" }}>Totals</h2>
                         </Grid>
 
-                        <Grid container rowSpacing={3}>
-                            <h4 id="resRoomName" style={{ marginLeft: "20px" }}></h4>
+                        <Grid container display="grid" alignContent="center" gridAutoFlow="column" width="50%">
+                            <Grid container>
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Tax Rate: </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Total Charges: </h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Total Tax: </h4>
+                                </Grid>
+                            </Grid>
+
+                            <Grid container>
+                                <Grid container rowSpacing={2}>
+                                    <h4 style={{ marginLeft: "20px" }}>5%</h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resPrice" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resTotalTax" style={{ marginLeft: "20px" }}></h4>
+                                </Grid>
+                            </Grid>
                         </Grid>
 
-                        {/* <Grid container rowSpacing={3}>
-                            <h4 id="resPrice" style={{ marginLeft: "20px" }}></h4>
-                        </Grid> */}
+                        <Divider style={{ width: '40%', backgroundColor: "#1976d2", borderWidth: "1px", marginRight: "90px"}} />
 
-                        <Grid container rowSpacing={3}>
-                            <h4 id="resGuestNum" style={{ marginLeft: "20px" }}></h4>
-                        </Grid>
+                        <Grid container display="grid" alignContent="center" gridAutoFlow="column" width="50%">
+                            <Grid container>
+                                <Grid container rowSpacing={2}>
+                                    <h4 >Grand Total: </h4>
+                                </Grid>
+                            </Grid>
 
-                        <Grid container rowSpacing={3}>
-                            {/* <h4 style={{ marginLeft: "20px" }}>Will Arrive on: {formatDate(reservation.arrive)}</h4> */}
-                            <h4 id="resArrive" style={{ marginLeft: "20px" }}>Arrival Date: </h4>
-                        </Grid>
-
-                        <Grid container rowSpacing={3}>
-                            {/* <h4 style={{ marginLeft: "20px" }}>Will Depart on: {formatDate(reservation.depart)}</h4> */}
-                            <h4 id="resDepart" style={{ marginLeft: "20px" }}>Departure Date: </h4>
-                        </Grid>
-
-                        <Grid container rowSpacing={3}>
-                            <h4 id="resDays" style={{ marginLeft: "20px" }}>Nights: </h4>
-                        </Grid>
-
-                        <Grid container rowSpacing={3}>
-                            <h4 id="resRequest" style={{ marginLeft: "20px" }}>Request(s): </h4>
-                        </Grid>
-
-                        <Grid container rowSpacing={3}>
-                            <h3 style={{ marginLeft: "20px", color: "#1976d2" }}>Totals</h3>
+                            <Grid container>
+                                <Grid container rowSpacing={2}>
+                                    <h4 id="resGrandTotal" style={{ marginLeft: "20px" }}>$</h4>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Box>
                     &nbsp;
