@@ -181,7 +181,7 @@ export default function Room_Create() {
                   required
                   sx={{ width: 80 }}
                   defaultValue={parseFloat(0).toFixed(2)}
-                  InputProps={{ inputProps: { min: 0 } }}
+                  InputProps={{ inputProps: { min: 1 } }}
                   id="price"
                   name="price"
                   autoComplete="price"

@@ -10,7 +10,7 @@ import axios from "axios";
 const theme = createTheme();
 
 function formatDate(string) {
-    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    var options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
     return new Date(string).toLocaleDateString([], options);
 }
 
@@ -34,6 +34,7 @@ export default function Reservation_List() {
         id: String,
         name: String,
         phone: String,
+        email: String,
         guestNum: String,
         arrive: Date,
         depart: Date,
@@ -42,9 +43,42 @@ export default function Reservation_List() {
         price: Number
     }])
 
+    const [rooms, setRooms] = useState([{
+        name: String,
+        overview: String,
+        guestNum: Number,
+        size: Number,
+        price: Number,
+        beds: String,
+        equips: [String]
+    }])
+
+    useEffect(() => {
+        fetch(ipAddress + "getAll/room").then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(jsonRes => setRooms(jsonRes));
+    })
+
+    function getRoomIndex(roomName) {
+        let roomIndex = -1;
+        rooms.forEach((room, index) => {
+            if (room.name === roomName) {
+                roomIndex = index
+            }
+        })
+        console.log("roomIndex = " + roomIndex);
+        return roomIndex;
+    }
+
     const editResbyId = (res) => {
         console.log("resId: " + res.id);
         localStorage.setItem("resId", res.id);
+        localStorage.setItem("roomIndex", getRoomIndex(res.roomName));
+        localStorage.setItem("arriveDate", res.arrive);
+        localStorage.setItem("departDate", res.depart);
+        localStorage.setItem("guestNum", res.guestNum);
         navigate('/reservation/edit');
     }
 
@@ -89,6 +123,10 @@ export default function Reservation_List() {
 
                             <Grid container rowSpacing={3}>
                                 <h4 style={{ marginLeft: "20px" }}>Phone Number: {reservation.phone}</h4>
+                            </Grid>
+
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Email: {reservation.email}</h4>
                             </Grid>
 
                             <Grid container rowSpacing={3}>

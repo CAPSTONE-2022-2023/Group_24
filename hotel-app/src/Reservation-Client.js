@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './home.css';
 import axios from "axios";
 
 const theme = createTheme();
 
 function formatDate(string) {
-    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    var options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
     return new Date(string).toLocaleDateString([], options);
 }
 
 export default function Reservation_Client() {
     const navigate = useNavigate();
-    const handleClick = (event) => {
-        event.preventDefault();
-        localStorage.setItem("username", "");
-        localStorage.setItem("password", "");
-        navigate("/");
-    };
 
     // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
     //     return <Navigate to="/" />;
@@ -36,16 +30,20 @@ export default function Reservation_Client() {
         ipAddress = "http://localhost:3001/"
     }
 
-    const reservationIdLocal = (id, requests) => {
-        console.log("Local reservation Id: " + id);
-        localStorage.setItem("localreservationId", id);
-        localStorage.setItem("localreservationRequests", requests)
-    }
+    const [customer, setCustomer] = useState([{
+        title: String,
+        name: String,
+        phone: String,
+        address: String,
+        username: String,
+        password: String
+    }])
 
-    const [reservations, setReservations] = useState([{
+    const [reservation, setReservation] = useState([{
         id: String,
         name: String,
         phone: String,
+        email: String,
         guestNum: String,
         arrive: Date,
         depart: Date,
@@ -54,14 +52,83 @@ export default function Reservation_Client() {
         price: Number
     }])
 
-    const deleteResbyName = (res) => {
-        //
+    const [rooms, setRooms] = useState([{
+        name: String,
+        overview: String,
+        guestNum: Number,
+        size: Number,
+        price: Number,
+        beds: String,
+        equips: [String]
+    }])
+
+    useEffect(() => {
+        fetch(ipAddress + "get/customer/" + localStorage.getItem("username")).then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(jsonRes => setCustomer(jsonRes));
+
+        fetch(ipAddress + "get/reservation/name/" + customer.name).then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(jsonRes => setReservation(jsonRes));
+
+        fetch(ipAddress + "getAll/room").then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(jsonRes => setRooms(jsonRes));
+
+        if (reservation) {
+            console.log("There is reservation");
+            console.log(reservation);
+            document.getElementById("bookingLink").style.display = "none";
+            document.getElementById("mainDiv").style.display = "flex";
+            document.getElementById("mainbox").style.height = "initial"
+            document.getElementById("nameMesg-h1").innerHTML = "Your Active Reservation"
+            document.getElementById("resName").innerHTML = reservation.name;
+            document.getElementById("resPhone").innerHTML = "Phone Number: " + reservation.phone;
+            document.getElementById("resEmail").innerHTML = "Email: " + reservation.email;
+            document.getElementById("resRoomName").innerHTML = "Name of Room: " + reservation.roomName;
+            document.getElementById("resPrice").innerHTML = "Price: $" + reservation.price;
+            document.getElementById("resGuestNum").innerHTML = "Number of Guest(s): " + reservation.guestNum;
+            document.getElementById("resArrive").innerHTML = "Will Arrive on: " + formatDate(reservation.arrive);
+            document.getElementById("resDepart").innerHTML = "Will Depart on: " + formatDate(reservation.depart);
+            document.getElementById("resRequest").innerHTML = "Request(s): " + reservation.requests;
+        }
+        else {
+            console.log("There is NO reservation");
+            document.getElementById("bookingLink").style.display = "initial";
+            document.getElementById("mainbox").style.height = `${window.innerHeight / 4}px`;
+            document.getElementById("nameMesg-h1").innerHTML = "You Currently have no Active Reservation"
+            document.getElementById("mainDiv").style.display = "none";
+        }
+    })
+
+    function getRoomIndex(roomName) {
+        let roomIndex = -1;
+        rooms.forEach((room, index) => {
+            if (room.name === roomName) {
+                roomIndex = index
+            }
+        })
+        console.log("roomIndex = " + roomIndex);
+        return roomIndex;
     }
+
+    localStorage.setItem("clientName", customer.name);
+    console.log(customer.name);
 
     const editResbyId = (res) => {
         console.log("resId: " + res.id);
         localStorage.setItem("resId", res.id);
-        navigate('/reservation/edit');
+        localStorage.setItem("roomIndex", getRoomIndex(res.roomName));
+        localStorage.setItem("arriveDate", res.arrive);
+        localStorage.setItem("departDate", res.depart);
+        localStorage.setItem("guestNum", res.guestNum);
+        navigate('/reservation/EditRequest');
     }
 
     const deleteResbyId = (res) => {
@@ -69,93 +136,92 @@ export default function Reservation_Client() {
         axios.delete(ipAddress + "delete/reservation", { data: res });
     }
 
-    useEffect(() => {
-        fetch(ipAddress + "getAll/reservation").then(res => {
-            if (res.ok) {
-                return res.json()
-            }
-        }).then(jsonRes => setReservations(jsonRes));
-    })
-
     return <ThemeProvider theme={theme}>
         <div class="body">
             <div class="navbar">
+                <ul>
+                    <li><a id="bookingLink" href='/reservation/create/Customer'>Start Booking Reservation</a></li>
+                </ul>
             </div>
 
             <div style={{ marginBottom: "50px" }} class="nameMesg">
-                <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif" }}>You Currently have an Active Reservation</h1>
+                <h1 id="nameMesg-h1" style={{ textAlign: "center", fontFamily: "'Playfair Display',serif" }}>You Currently have no Active Reservation</h1>
             </div>
-            <Box backgroundColor='#rgb(175, 246, 239)'>
-                {reservations.filter(reservation => reservation.name == (localStorage.getItem("username"))).map(filteredReservation =>
-                    <div>
-                        <Box width='350px' height='500px' overflow='auto'
-                            sx={{
-                                backgroundColor: 'primary.light',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                flexDirection: 'column'
-                            }}
-                            border="3px solid rgb(8, 102, 156)" color="white">
-                            <Grid container spacing={0} justifyContent="center">
-                                <h1 style={{ textAlign: "center" }}>{filteredReservation.name}</h1>
-                            </Grid>
+            <Box id="mainbox" backgroundColor='#rgb(175, 246, 239)'>
+                <div id="mainDiv" style={{ display: 'flex', justifyContent: "center", marginBottom: "50px" }}>
+                    <Box width='800px' height='475px'
+                        sx={{
+                            display: 'flex',
+                            backgroundColor: 'primary.light',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column'
+                        }}
+                        border="3px solid rgb(8, 102, 156)" color="white">
+                        <Grid container spacing={0} justifyContent="center">
+                            <h1 id="resName" style={{ textAlign: "center" }}></h1>
+                        </Grid>
 
-                            <Grid container rowSpacing={3}>
-                                <h4 style={{ marginLeft: "20px" }}>Phone Number: {filteredReservation.phone}</h4>
-                            </Grid>
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resPhone" style={{ marginLeft: "20px" }}></h4>
+                        </Grid>
 
-                            <Grid container rowSpacing={3}>
-                                <h4 style={{ marginLeft: "20px" }}>Name of Room: {filteredReservation.roomName}</h4>
-                            </Grid>
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resEmail" style={{ marginLeft: "20px" }}></h4>
+                        </Grid>
 
-                            <Grid container rowSpacing={3}>
-                                <h4 style={{ marginLeft: "20px" }}>Price of Room: ${filteredReservation.price}</h4>
-                            </Grid>
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resRoomName" style={{ marginLeft: "20px" }}></h4>
+                        </Grid>
 
-                            <Grid container rowSpacing={3}>
-                                <h4 style={{ marginLeft: "20px" }}>Number of Guest(s): {filteredReservation.guestNum}</h4>
-                            </Grid>
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resPrice" style={{ marginLeft: "20px" }}></h4>
+                        </Grid>
 
-                            <Grid container rowSpacing={3}>
-                                <h4 style={{ marginLeft: "20px" }}>Will Arrive on: {formatDate(filteredReservation.arrive)}</h4>
-                            </Grid>
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resGuestNum" style={{ marginLeft: "20px" }}></h4>
+                        </Grid>
 
-                            <Grid container rowSpacing={3}>
-                                <h4 style={{ marginLeft: "20px" }}>Will Depart on: {formatDate(filteredReservation.depart)}</h4>
-                            </Grid>
+                        <Grid container rowSpacing={3}>
+                            {/* <h4 style={{ marginLeft: "20px" }}>Will Arrive on: {formatDate(reservation.arrive)}</h4> */}
+                            <h4 id="resArrive" style={{ marginLeft: "20px" }}>Will Arrive on: </h4>
+                        </Grid>
 
-                            <Grid container rowSpacing={3}>
-                                <h4 style={{ marginLeft: "20px" }}>Request(s): {filteredReservation.requests}</h4>
-                            </Grid>
+                        <Grid container rowSpacing={3}>
+                            {/* <h4 style={{ marginLeft: "20px" }}>Will Depart on: {formatDate(reservation.depart)}</h4> */}
+                            <h4 id="resDepart" style={{ marginLeft: "20px" }}>Will Depart on: </h4>
+                        </Grid>
 
-                            <Grid container justifyContent="center">
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{ mt: 1, mb: 1 }}
-                                    onClick={() => {
-                                        editResbyId(filteredReservation);
-                                    }}
-                                >
-                                    Edit Reservation
-                                </Button>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{ mt: 1, mb: 1 }}
-                                    onClick={() => {
-                                        // delete function
-                                        deleteResbyId(filteredReservation);
-                                    }}
-                                >
-                                    Delete Reservation
-                                </Button>
-                            </Grid>
-                        </Box>
-                        &nbsp;
-                    </div>
-                )}
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resRequest" style={{ marginLeft: "20px" }}>Request(s): </h4>
+                        </Grid>
+
+                        <Grid container justifyContent="center">
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{ mt: 2, mb: 1, mr: 2 }}
+                                onClick={() => {
+                                    editResbyId(reservation);
+                                }}
+                            >
+                                Request Reservation Changes
+                            </Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{ mt: 2, mb: 1, ml: 2 }}
+                                onClick={() => {
+                                    // delete function
+                                    deleteResbyId(reservation);
+                                }}
+                            >
+                                Cancel Reservation
+                            </Button>
+                        </Grid>
+                    </Box>
+                    &nbsp;
+                </div>
             </Box>
             <div class="footer">
                 <div class="cont">

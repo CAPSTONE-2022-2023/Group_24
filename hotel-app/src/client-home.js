@@ -16,15 +16,8 @@ const theme = createTheme({
 });
 
 export default function CHome() {
-    const navigate = useNavigate();
     console.log(localStorage);
-    const handleClick = (event) => {
-        event.preventDefault();
-        localStorage.setItem("username", "");
-        localStorage.setItem("password", "");
-        navigate("/");
-    };
-
+    
     if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
         return <Navigate to="/" />;
     }
