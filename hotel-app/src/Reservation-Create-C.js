@@ -42,7 +42,7 @@ export default function Reservation_Create_C() {
     ipAddress = "http://localhost:3001/"
   }
 
-  const [rooms, setRooms] = useState([{
+  var [rooms, setRooms] = useState([{
     name: String,
     overview: String,
     guestNum: Number,
@@ -52,6 +52,28 @@ export default function Reservation_Create_C() {
     equips: [String]
   }])
 
+  const [reservations, setReservations] = useState([{
+    id: String,
+    name: String,
+    phone: String,
+    guestNum: String,
+    arrive: Date,
+    depart: Date,
+    roomName: String,
+    requests: String,
+    price: Number
+  }])
+
+  const [filteredRooms, setFilteredRooms] = useState([]);
+
+  useEffect(() => {
+    fetch(ipAddress + "getAll/reservation").then(res => {
+        if (res.ok) {
+            return res.json()
+        }
+    }).then(jsonRes => setReservations(jsonRes));
+  })
+
   useEffect(() => {
     fetch(ipAddress + "getAll/room").then(res => {
       if (res.ok) {
@@ -60,7 +82,9 @@ export default function Reservation_Create_C() {
     }).then(jsonRes => setRooms(jsonRes));
   })
 
-  console.log(rooms);
+  useEffect(() => {
+    setFilteredRooms(rooms.filter((room) => !reservations.some(reservation => reservation.roomName == room.name)));
+  }, [rooms]);
 
   const handleChangeRoom = (event) => {
     console.log("HandleChangeRoom");
@@ -94,7 +118,7 @@ export default function Reservation_Create_C() {
     console.log("Curren room index = " + roomIndex);
 
     if (roomIndex >= 0) {
-      price = rooms[roomIndex].price * Difference_In_Days;
+      price = filteredRooms[roomIndex].price * Difference_In_Days;
 
       console.log(price);
 
@@ -127,7 +151,7 @@ export default function Reservation_Create_C() {
 
       console.log(Difference_In_Days);
 
-      let price = rooms[roomIndex].price * Difference_In_Days;
+      let price = filteredRooms[roomIndex].price * Difference_In_Days;
 
       console.log(price);
 
@@ -143,7 +167,7 @@ export default function Reservation_Create_C() {
       arrive: data.get('arrive'),
       depart: data.get('depart'),
       price: parseFloat(Number(getPrice(data.get('roomName')))).toFixed(2),
-      roomName: rooms[data.get('roomName')].name,
+      roomName: filteredRooms[data.get('roomName')].name,
       requests: data.get('requests')
     }
 
@@ -204,8 +228,8 @@ export default function Reservation_Create_C() {
                   label="Room"
                   onChange={handleChangeRoom}
                 >
-                  {rooms.map((room, index) =>
-                    <MenuItem value={index}>{room.name} - ${room.price}/night</MenuItem>
+                  {filteredRooms.map((filteredRoom, index) =>
+                    <MenuItem value={index}>{filteredRoom.name} - ${filteredRoom.price}/night</MenuItem>
                   )}
                 </Select>
               </FormControl>
