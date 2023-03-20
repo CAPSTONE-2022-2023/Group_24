@@ -4,6 +4,9 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
+import AdbIcon from '@mui/icons-material/Adb';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import './home.css';
 import axios from "axios";
 
@@ -14,7 +17,7 @@ function formatDate(string) {
     return new Date(string).toLocaleDateString([], options);
 }
 
-export default function Reservation_Client() {
+export default function Reservation_Billing() {
     const navigate = useNavigate();
 
     // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
@@ -82,84 +85,79 @@ export default function Reservation_Client() {
         }).then(jsonRes => setRooms(jsonRes));
 
         if (reservation) {
-            console.log("There is reservation");
-            console.log(reservation);
-            document.getElementById("bookingLink").style.display = "none";
-            document.getElementById("mainDiv").style.display = "flex";
-            document.getElementById("mainbox").style.height = "initial"
-            document.getElementById("nameMesg-h1").innerHTML = "Your Active Reservation"
-            document.getElementById("resName").innerHTML = reservation.name;
+            document.getElementById("resName").innerHTML = "Name: " + reservation.name;
             document.getElementById("resPhone").innerHTML = "Phone Number: " + reservation.phone;
             document.getElementById("resEmail").innerHTML = "Email: " + reservation.email;
-            document.getElementById("resRoomName").innerHTML = "Name of Room: " + reservation.roomName;
-            document.getElementById("resPrice").innerHTML = "Price: $" + reservation.price;
+            document.getElementById("resRoomName").innerHTML = "Room: " + reservation.roomName;
+            //document.getElementById("resPrice").innerHTML = "Price: $" + reservation.price;
             document.getElementById("resGuestNum").innerHTML = "Number of Guest(s): " + reservation.guestNum;
             document.getElementById("resArrive").innerHTML = "Will Arrive on: " + formatDate(reservation.arrive);
             document.getElementById("resDepart").innerHTML = "Will Depart on: " + formatDate(reservation.depart);
             document.getElementById("resRequest").innerHTML = "Request(s): " + reservation.requests;
         }
-        else {
-            console.log("There is NO reservation");
-            document.getElementById("bookingLink").style.display = "initial";
-            document.getElementById("mainbox").style.height = `${window.innerHeight / 4}px`;
-            document.getElementById("nameMesg-h1").innerHTML = "You Currently have no Active Reservation"
-            document.getElementById("mainDiv").style.display = "none";
-        }
     })
 
-    function getRoomIndex(roomName) {
-        let roomIndex = -1;
-        rooms.forEach((room, index) => {
-            if (room.name === roomName) {
-                roomIndex = index
-            }
-        })
-        console.log("roomIndex = " + roomIndex);
-        return roomIndex;
-    }
-
     localStorage.setItem("clientName", customer.name);
-    console.log(customer.name);
 
-    const editResbyId = (res) => {
-        console.log("resId: " + res.id);
-        localStorage.setItem("resId", res.id);
-        localStorage.setItem("roomIndex", getRoomIndex(res.roomName));
-        localStorage.setItem("arriveDate", res.arrive);
-        localStorage.setItem("departDate", res.depart);
-        localStorage.setItem("guestNum", res.guestNum);
-        navigate('/reservation/EditRequest');
-    }
-
-    const deleteResbyId = (res) => {
-        console.log("Cancel reservation id: " + res.id);
-        axios.delete(ipAddress + "delete/reservation", { data: res });
+    const proceedtoPayment = (res) => {
+        navigate('/reservation/Client');
     }
 
     return <ThemeProvider theme={theme}>
         <div class="body">
             <div class="navbar">
                 <ul>
-                    <li><a id="bookingLink" href='/reservation/create/Customer'>Start Booking Reservation</a></li>
+                    <li><a id="PaymentLink" onClick={() => {
+                        proceedtoPayment(reservation);
+                    }}>Proceed to Payment</a></li>
                 </ul>
             </div>
 
-            <div style={{ marginBottom: "50px" }} class="nameMesg">
+            {/* <div style={{ marginBottom: "50px" }} class="nameMesg">
                 <h1 id="nameMesg-h1" style={{ textAlign: "center", fontFamily: "'Playfair Display',serif" }}>You Currently have no Active Reservation</h1>
-            </div>
+            </div> */}
             <Box id="mainbox" backgroundColor='#rgb(175, 246, 239)'>
                 <div id="mainDiv" style={{ display: 'flex', justifyContent: "center", marginBottom: "50px" }}>
-                    <Box width='800px' height='475px'
+                    <Box width='800px' height='800px'
                         sx={{
                             display: 'flex',
-                            backgroundColor: 'primary.light',
-                            justifyContent: 'center',
+                            backgroundColor: 'white',
                             alignItems: 'center',
-                            flexDirection: 'column'
+                            flexDirection: 'column',
                         }}
-                        border="3px solid rgb(8, 102, 156)" color="white">
-                        <Grid container spacing={0} justifyContent="center">
-                            <h1 id="resName" style={{ textAlign: "center" }}></h1>
+                        border="3px solid rgb(8, 102, 156)" color="black">
+                        <Grid container sx={{ ml: 4, mt: 6 }}>
+                            <Grid container justifyContent="left" sx={{ ml: 0, my: -3 }}>
+                                <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, color: "#1976d2", mt: 0.2, mr: 1 }} />
+                                <Typography
+                                    variant="h6"
+                                    noWrap
+                                    component="a"
+                                    sx={{
+                                        mr: 2,
+                                        mb: 2,
+                                        display: { xs: 'none', md: 'flex' },
+                                        fontFamily: 'monospace',
+                                        fontWeight: 700,
+                                        letterSpacing: '.3rem',
+                                        color: '#1976d2',
+                                        textDecoration: 'none',
+                                    }}
+                                >
+                                    Seneca Hotel
+                                </Typography>
+                            </Grid>
+                            <Grid container justifyContent="left">
+                                <h6>1750 Finch Ave. East Toronto, Ont. M2J 2X5</h6>
+                            </Grid>
+                        </Grid>
+
+                        <Grid container rowSpacing={3}>
+                            <h3 style={{ marginLeft: "20px", color: "#1976d2" }}>Customer Details</h3>
+                        </Grid>
+
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resName" style={{ marginLeft: "20px" }}></h4>
                         </Grid>
 
                         <Grid container rowSpacing={3}>
@@ -171,12 +169,16 @@ export default function Reservation_Client() {
                         </Grid>
 
                         <Grid container rowSpacing={3}>
-                            <h4 id="resRoomName" style={{ marginLeft: "20px" }}></h4>
+                            <h3 style={{ marginLeft: "20px", color: "#1976d2" }}>Reservation Details</h3>
                         </Grid>
 
                         <Grid container rowSpacing={3}>
-                            <h4 id="resPrice" style={{ marginLeft: "20px" }}></h4>
+                            <h4 id="resRoomName" style={{ marginLeft: "20px" }}></h4>
                         </Grid>
+
+                        {/* <Grid container rowSpacing={3}>
+                            <h4 id="resPrice" style={{ marginLeft: "20px" }}></h4>
+                        </Grid> */}
 
                         <Grid container rowSpacing={3}>
                             <h4 id="resGuestNum" style={{ marginLeft: "20px" }}></h4>
@@ -184,40 +186,24 @@ export default function Reservation_Client() {
 
                         <Grid container rowSpacing={3}>
                             {/* <h4 style={{ marginLeft: "20px" }}>Will Arrive on: {formatDate(reservation.arrive)}</h4> */}
-                            <h4 id="resArrive" style={{ marginLeft: "20px" }}>Will Arrive on: </h4>
+                            <h4 id="resArrive" style={{ marginLeft: "20px" }}>Arrival Date: </h4>
                         </Grid>
 
                         <Grid container rowSpacing={3}>
                             {/* <h4 style={{ marginLeft: "20px" }}>Will Depart on: {formatDate(reservation.depart)}</h4> */}
-                            <h4 id="resDepart" style={{ marginLeft: "20px" }}>Will Depart on: </h4>
+                            <h4 id="resDepart" style={{ marginLeft: "20px" }}>Departure Date: </h4>
+                        </Grid>
+
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resDays" style={{ marginLeft: "20px" }}>Nights: </h4>
                         </Grid>
 
                         <Grid container rowSpacing={3}>
                             <h4 id="resRequest" style={{ marginLeft: "20px" }}>Request(s): </h4>
                         </Grid>
 
-                        <Grid container justifyContent="center">
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                sx={{ mt: 2, mb: 1, mr: 2 }}
-                                onClick={() => {
-                                    editResbyId(reservation);
-                                }}
-                            >
-                                Request Reservation Changes
-                            </Button>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                sx={{ mt: 2, mb: 1, ml: 2 }}
-                                onClick={() => {
-                                    // delete function
-                                    deleteResbyId(reservation);
-                                }}
-                            >
-                                Cancel Reservation
-                            </Button>
+                        <Grid container rowSpacing={3}>
+                            <h3 style={{ marginLeft: "20px", color: "#1976d2" }}>Totals</h3>
                         </Grid>
                     </Box>
                     &nbsp;

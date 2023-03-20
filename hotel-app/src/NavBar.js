@@ -15,8 +15,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const clientPages = ['', 'Homepage/Customer', 'Room/List', 'Reservation/Create/Customer'];
-const clientPagesName = ['Logout', 'Homepage', 'View Room Selections', 'Make a Reservation'];
+const clientPages = ['', 'Homepage/Customer', 'Room/List', 'Reservation/Client'];
+const clientPagesName = ['Logout', 'Homepage', 'View Room Selections', 'Your Reservation'];
 
 const employeePages = ['', 'Homepage/Employee', 'Room/View','Reservation/List'];
 const employeePagesName = ['Logout', 'Homepage', 'Room Management', 'Manage Reservations'];

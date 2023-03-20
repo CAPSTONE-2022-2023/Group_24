@@ -19,19 +19,26 @@ const theme = createTheme({
   }
 });
 
-export default function Reservation_Create_C() {
+export default function Reservation_Edit_Request() {
   const navigate = useNavigate();
 
-  var currentRoomIndex = useRef(-1);
+  var currentRoomIndex = useRef(localStorage.getItem("roomIndex"));
 
-  var currentDate = new Date();
-  var currentDateString = currentDate.toISOString().slice(0, 10);
-  //var previousDate = new Date();
-  //previousDate.setDate(currentDate.getDate() - 1);
-  //var previousDateString = previousDate.toISOString().slice(0, 10);
-  var nextDate = new Date();
-  nextDate.setDate(currentDate.getDate() + 1);
-  var nextDateString = nextDate.toISOString().slice(0, 10);
+  // SELECTED RESERVATION DATA
+  console.log(localStorage);
+  var resId = localStorage.getItem("resId");
+
+  var clientName = localStorage.getItem("clientName");
+
+  var arriveDate = new Date(localStorage.getItem("arriveDate"));
+  const arriveDateString = arriveDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' });
+  console.log(arriveDateString);
+
+  var departDate = new Date(localStorage.getItem("departDate"));
+  const departDateString = departDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' });
+  console.log(departDateString);
+
+  var guestNum = localStorage.getItem("guestNum");
 
   var ipAddress;
 
@@ -62,6 +69,35 @@ export default function Reservation_Create_C() {
 
   console.log(rooms);
 
+  const [reservation, setReservation] = useState([{
+    id: String,
+    name: String,
+    phone: String,
+    email: String,
+    guestNum: String,
+    arrive: Date,
+    depart: Date,
+    roomName: String,
+    requests: String,
+    price: Number
+  }])
+
+  useEffect(() => {
+    fetch(ipAddress + "get/reservation/id/" + resId).then(res => {
+      if (res.ok) {
+        return res.json()
+      }
+    }).then(jsonRes => setReservation(jsonRes));
+  })
+
+  console.log(reservation);
+
+  var currentDate = new Date();
+  //var currentDateString = currentDate.toISOString().slice(0, 10);
+  var nextDate = new Date();
+  nextDate.setDate(currentDate.getDate() + 1);
+  var nextDateString = nextDate.toISOString().slice(0, 10);
+
   const handleChangeRoom = (event) => {
     console.log("HandleChangeRoom");
     event.preventDefault();
@@ -87,7 +123,7 @@ export default function Reservation_Create_C() {
 
     console.log("Diff Days: " + Difference_In_Days);
 
-    if (Difference_In_Days == 0) {
+    if (Difference_In_Days === 0) {
       Difference_In_Days = 1;
     }
 
@@ -134,8 +170,8 @@ export default function Reservation_Create_C() {
       return price;
     }
 
-    const newReservation = {
-      id: getRandomInt(),
+    const editReservation = {
+      id: resId,
       name: data.get('name'),
       phone: data.get('phone'),
       email: data.get('email'),
@@ -147,14 +183,68 @@ export default function Reservation_Create_C() {
       requests: data.get('requests')
     }
 
-    console.log(newReservation);
+    console.log(editReservation);
 
-    axios.post(ipAddress + "create/reservation", newReservation);
-    alert(`Reservation ${newReservation.id} create successful`);
-    if (newReservation.email) {
-      axios.post(ipAddress + "post/sendCreateEmail", newReservation);
+    function compareRes(){
+      console.log("compareRes");
+      console.log(reservation.arrive.slice(0,10));
+      console.log(editReservation.arrive);
+      
+      const changes = [];
+      if(reservation.phone != editReservation.phone){
+        changes.push("phone");
+      }
+
+      if(reservation.email != editReservation.email){
+        changes.push("email");
+      }
+
+      if(reservation.roomName != editReservation.roomName){
+        changes.push("roomName");
+      }
+
+      if(reservation.guestNum != editReservation.guestNum){
+        changes.push("guestNum");
+      }
+
+      if(reservation.arrive.slice(0,10) != editReservation.arrive){
+        changes.push("arrive");
+      }
+
+      if(reservation.depart.slice(0,10) != editReservation.depart){
+        changes.push("depart");
+      }
+
+      if(reservation.requests != editReservation.requests){
+        changes.push("requests");
+      }
+
+      if(reservation.price != editReservation.price){
+        changes.push("price");
+      }
+
+      console.log(changes);
+      return changes;
     }
-    navigate('/reservation/billing');
+
+    const updateRequest = {
+      requestedReservation: editReservation,
+      changes: compareRes()
+    }
+
+    console.log("Update Request");
+    console.log(updateRequest);
+
+    // axios.post(ipAddress + "edit/reservation", editReservation);
+    if(updateRequest.changes.length == 0){
+      console.log("No changes was made");
+      alert(`No changes was made to Reservation ${editReservation.id}. Heading back to client's reservation page...`);
+    }
+    else{
+      alert(`Reservation ${editReservation.id} update request sent. Please wait for respond from our staff`);
+      axios.post(ipAddress + "post/sendRequestUpdateEmail", updateRequest);
+    }
+    navigate('/reservation/client');
   };
 
   // };
@@ -175,23 +265,24 @@ export default function Reservation_Create_C() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Create Reservation
+            Update Reservation Request
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: 500 }}>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3 }}
+              sx={{ mt: 3, mb: 6 }}
             >
-              Create Reservation
+              Send Update Request...
             </Button>
+
             <Grid container spacing={2} justifyContent="center" sx={{ mb: 3 }}>
               <Grid item>
                 <h3>Grand Total: </h3>
               </Grid>
               <Grid item>
-                <h3 id="grand_total">$0</h3>
+                <h3 id="grand_total">${reservation.price}</h3>
               </Grid>
             </Grid>
 
@@ -202,10 +293,11 @@ export default function Reservation_Create_C() {
                   name='roomName'
                   id="roomName-select"
                   label="Room"
+                  defaultValue={currentRoomIndex.current}
                   onChange={handleChangeRoom}
                 >
                   {rooms.map((room, index) =>
-                    <MenuItem value={index}>{room.name} - ${room.price}/night</MenuItem>
+                    <MenuItem value={index}>{room.name}</MenuItem>
                   )}
                 </Select>
               </FormControl>
@@ -218,12 +310,12 @@ export default function Reservation_Create_C() {
                   <TextField
                     required
                     sx={{ width: 75 }}
-                    defaultValue={1}
+                    defaultValue={guestNum}
                     InputProps={{ inputProps: { min: 1, max: 10 } }}
                     type="number"
                     id="guestNum"
                     name="guestNum"
-                    autoComplete="guestNum"
+                    minRows={0}
                   />
                 </Grid>
               </Grid>
@@ -236,13 +328,12 @@ export default function Reservation_Create_C() {
                   <TextField
                     required
                     sx={{ width: 160 }}
-                    defaultValue={currentDateString}
-                    InputProps={{ inputProps: { min: currentDateString } }}
+                    defaultValue={arriveDateString}
+                    InputProps={{ inputProps: { min: nextDateString } }}
                     type="date"
                     id="arrive"
                     name="arrive"
                     onChange={handleChangeUpdatePrice}
-                    autoComplete="arrive"
                   />
                 </Grid>
               </Grid>
@@ -255,13 +346,12 @@ export default function Reservation_Create_C() {
                   <TextField
                     required
                     sx={{ width: 160 }}
-                    defaultValue={nextDateString}
-                    InputProps={{ inputProps: { min: currentDateString } }}
+                    defaultValue={departDateString}
+                    InputProps={{ inputProps: { min: nextDateString } }}
                     type="date"
                     id="depart"
                     name="depart"
                     onChange={handleChangeUpdatePrice}
-                    autoComplete="depart"
                   />
                 </Grid>
               </Grid>
@@ -278,12 +368,11 @@ export default function Reservation_Create_C() {
                   required
                   fullWidth
                   id="name"
-                  label="Name"
                   name="name"
                   InputProps={{
                     readOnly: true,
                   }}
-                  defaultValue={localStorage.getItem("clientName")}
+                  defaultValue={clientName}
                 />
               </Grid>
             </Grid>
@@ -297,9 +386,10 @@ export default function Reservation_Create_C() {
                   required
                   fullWidth
                   id="phone"
-                  label="Phone"
                   name="phone"
-                  autoComplete="phone"
+                  multiline
+                  maxRows={1}
+                  defaultValue={reservation.phone}
                 />
               </Grid>
             </Grid>
@@ -313,9 +403,10 @@ export default function Reservation_Create_C() {
                   required
                   fullWidth
                   id="email"
-                  label="Email"
                   name="email"
-                  autoComplete="email"
+                  multiline
+                  maxRows={1}
+                  defaultValue={reservation.email}
                 />
               </Grid>
             </Grid>
@@ -324,7 +415,7 @@ export default function Reservation_Create_C() {
               <Grid container direction="column" justifyContent="space-evenly" alignItems="center">
                 <h5>Additional Room Requests:</h5>
               </Grid>
-              <Grid id="request_grid" container rowGap={2} direction="column" justifyContent="space-evenly" alignItems="center">
+              <Grid container rowGap={2} direction="column" justifyContent="space-evenly" alignItems="center">
                 <TextField
                   required
                   sx={{ width: 450 }}
@@ -332,7 +423,7 @@ export default function Reservation_Create_C() {
                   name="requests"
                   multiline
                   minRows={3}
-                  label="Room Requests"
+                  defaultValue={reservation.requests}
                 />
               </Grid>
             </Grid>

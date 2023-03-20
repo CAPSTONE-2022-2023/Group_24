@@ -4,10 +4,16 @@ const Client = require("../models/clientModel");
 const Employee = require("../models/employeeModel");
 const Room = require("../models/roomModel");
 const Reservation = require("../models/reservationModel");
-const sgMail = require('@sendgrid/mail')
+const sgMail = require('@sendgrid/mail');
+const { text } = require("body-parser");
 
 console.log(process.env.SENDGRID_API_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+function formatDate(string) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+    return new Date(string).toLocaleDateString([], options);
+}
 
 router.route("/signup/customer").post((req, res) => {
     const title = req.body.title;
@@ -159,9 +165,86 @@ router.route("/post/sendUpdateEmail").post((req, res) => {
       })
 })
 
+router.route("/post/sendRequestUpdateEmail").post((req, res) => {
+    const id = req.body.requestedReservation.id;
+    const name = req.body.requestedReservation.name;
+    const guestNum = req.body.requestedReservation.guestNum;
+    const phone = req.body.requestedReservation.phone;
+    const email = req.body.requestedReservation.email;
+    const price = req.body.requestedReservation.price;
+    const arrive = req.body.requestedReservation.arrive;
+    const depart = req.body.requestedReservation.depart;
+    const requests = req.body.requestedReservation.requests;
+    const roomName = req.body.requestedReservation.roomName;
+
+    const changes = req.body.changes;
+
+    console.log(changes);
+
+    let textChanges = ``;
+
+    for(let i = 0; i < changes.length; i++){
+        if(changes[i] == "phone"){
+            textChanges+= `Phone number to ${phone}\n`
+        }
+
+        if(changes[i] == "email"){
+            textChanges+= `Email to ${email}\n`
+        }
+
+        if(changes[i] == "guestNum"){
+            textChanges+= `Number of guest to ${guestNum}\n`
+        }
+
+        if(changes[i] == "price"){
+            textChanges+= `Price updated to ${price}\n`
+        }
+
+        if(changes[i] == "arrive"){
+            textChanges+= `Arrival Date to ${formatDate(arrive)}\n`
+        }
+
+        if(changes[i] == "depart"){
+            textChanges+= `Departure Date to ${formatDate(depart)}\n`
+        }
+
+        if(changes[i] == "requests"){
+            textChanges+= `Room Requests to ${requests}\n`
+        }
+
+        if(changes[i] == "roomName"){
+            textChanges+= `Chosen Room to ${roomName}\n`
+        }
+    }
+
+    console.log(textChanges);
+
+    const msg = {
+      to: [email, 'seneca.hotels@gmail.com'], // Change to your recipient
+      from: 'seneca.hotels@gmail.com', // Change to your verified sender
+      subject: `Reservation ${id} update request`,
+      text: `Customer of Reservation ${id} requested update for the followings: `,
+      html: textChanges,
+    }
+
+    sgMail
+      .sendMultiple(msg)
+      .then(() => {
+        console.log('Email sent');
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+})
+
 router.route("/get/room/:name").get((req, res) => {
     Room.findOne({name: req.params.name})
         .then(foundRoom => res.json(foundRoom))
+})
+
+router.route("/get/customer/:username").get((req, res) => {
+    Client.findOne({username: req.params.username})
+        .then(foundClient => res.json(foundClient))
 })
 
 router.route("/get/customer/:name").get((req, res) => {
@@ -180,7 +263,7 @@ router.route("/get/reservation/id/:id").get((req, res) => {
 })
 
 router.route("/get/reservation/name/:name").get((req, res) => {
-    Reservation.find({name: req.params.name})
+    Reservation.findOne({name: req.params.name})
         .then(foundReservation => res.json(foundReservation))
 })
 
@@ -238,19 +321,19 @@ router.route("/edit/room").post((req, res) => {
 })
 
 router.route("/edit/reservation").post((req, res) => {
-    console.log("Edit Reservation ID" + req.body.editRes.id);
+    console.log("Edit Reservation ID" + req.body.id);
 
-    Room.updateOne({ name: req.body.editRes.id }, {$set: {name: req.body.editRes.name, 
-                                                           phone: req.body.editRes.phone,
-                                                           email: req.body.editRes.email,
-                                                           guestNum: req.body.editRes.guestNum,
-                                                           arrive: req.body.editRes.arrive,
-                                                           depart: req.body.editRes.depart,
-                                                           roomName: req.body.editRes.roomName,
-                                                           requests: req.body.editRes.requests,
-                                                           price: req.body.editRes.price,
+    Reservation.updateOne({ id: req.body.id }, {$set: {name: req.body.name, 
+                                                           phone: req.body.phone,
+                                                           email: req.body.email,
+                                                           guestNum: req.body.guestNum,
+                                                           arrive: req.body.arrive,
+                                                           depart: req.body.depart,
+                                                           roomName: req.body.roomName,
+                                                           requests: req.body.requests,
+                                                           price: req.body.price,
                                                            }}).then(function () {
-        console.log(`Reservation ${req.body.editRes.id} Updated`); // Success
+        console.log(`Reservation ${req.body.id} Updated`); // Success
     }).catch(function (error) {
         console.log(error); // Failure
     });

@@ -10,7 +10,7 @@ import axios from "axios";
 const theme = createTheme();
 
 function formatDate(string) {
-    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    var options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
     return new Date(string).toLocaleDateString([], options);
 }
 
@@ -34,6 +34,7 @@ export default function Reservation_List() {
         id: String,
         name: String,
         phone: String,
+        email: String,
         guestNum: String,
         arrive: Date,
         depart: Date,
@@ -122,6 +123,10 @@ export default function Reservation_List() {
 
                             <Grid container rowSpacing={3}>
                                 <h4 style={{ marginLeft: "20px" }}>Phone Number: {reservation.phone}</h4>
+                            </Grid>
+
+                            <Grid container rowSpacing={3}>
+                                <h4 style={{ marginLeft: "20px" }}>Email: {reservation.email}</h4>
                             </Grid>
 
                             <Grid container rowSpacing={3}>
