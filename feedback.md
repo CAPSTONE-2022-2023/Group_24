@@ -20,3 +20,18 @@
 ### Documentation (10/10)
 - In the future, make sure to create meaningful PR titles.
 - The issues that were created were well documented.
+
+# BTS630
+
+## Sprint 2 (17/20)
+
+### Performance (4/4)
+- All students attended all meetings.
+
+### Documentation (5/6)
+- In the future, make sure to create PRs.
+
+### Sprint Implementation (8/10)
+- Still has bugs with allowing clients to create their own reservation.
+
+

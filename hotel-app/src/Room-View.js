@@ -65,6 +65,41 @@ export default function Room_View() {
     }).then(jsonRes => setRooms(jsonRes));
   })
 
+  const [reservations, setReservations] = useState([{
+    id: String,
+    name: String,
+    phone: String,
+    guestNum: String,
+    arrive: Date,
+    depart: Date,
+    roomName: String,
+    requests: String,
+    price: Number
+}])
+
+useEffect(() => {
+    fetch(ipAddress + "getAll/reservation").then(res => {
+        if (res.ok) {
+            return res.json()
+        }
+    }).then(jsonRes => setReservations(jsonRes));
+})
+/*
+function getrooms(date){
+  let rooms = {};
+  for(var i=0;i<reservations.length();i++){
+    if(date === reservations[i].arrive){
+      rooms.push(reservations[i].roomName)
+    }
+  }
+  return rooms.map(room => <Grid><li><h4>room</h4></li></Grid>) 
+}
+*/
+function formatDate(string) {
+  var options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(string).toLocaleDateString([], options);
+}
+
   return <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="fs">
       <CssBaseline />
@@ -159,7 +194,42 @@ export default function Room_View() {
             </div>
           )}
         </Box>
+
+        <h1 style={{ textAlign: "center", color: "rgb(8, 102, 156)", backgroundColor: "primary" }}>List of All Booked Rooms</h1>
+        <table>
+        {reservations.map(reservation =>
+        <Box display="inline-flex" justifyContent="center" flexDirection='row' backgroundColor='#rgb(175, 246, 239)' flexWrap='wrap' >
+          
+            <Box flexDirection='row' width='auto' height='auto' overflow='auto'
+            sx={{
+              backgroundColor: 'primary.light',
+              flexWrap: 'wrap',
+              m: 1,
+              ml: 4
+            }}
+            border="3px solid rgb(8, 102, 156)" color="white">
+              <tr>
+                <td><h2>{formatDate(reservation.arrive)}</h2></td>
+              </tr>
+              
+                <tr><h2>{reservation.roomName}</h2></tr>
+              
+            </Box>
+        </Box>
+        )}
+        </table>
       </Box>
     </Container>
+    <div class="footer">
+                <div class="cont">
+                    <h2>Contact</h2>
+                    <ul>
+                        <li>Phone: 	647.265.3838 or 416.764.9900</li>
+                        <li>Email: marcel.jar@senecacollege.ca</li>
+                        <li>Adress: 1750 Finch Ave. East Toronto, Ont. M2J 2X5</li>
+                    </ul>
+                </div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3628.508225944447!2d-79.35366273673891!3d43.79468761841798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4d31babbf5ce7%3A0x5812aa25d9fb9912!2sSeneca%20College%20Newnham%20Campus!5e0!3m2!1sen!2sca!4v1670305586001!5m2!1sen!2sca" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
   </ThemeProvider>
 }
