@@ -96,21 +96,20 @@ export default function Room_List() {
                 </div>
             </div>
             <div class="roomlistTable">
-                <table style={{ textAlign: "center", display: "flex", flexWrap: "wrap", marginBottom: "20px", justifyContent:'center', alignItems:'center'}}>
-                    {rooms.map(filteredRoom => {
-                        if (!reservations.some(reservation => reservation.roomName == filteredRoom.name)) {
-                        return <a href='Insight' style={{paddingLeft: "10px", paddingRight: "10px"}} onClick={() => {
-                            roomNameLocal(filteredRoom.name, filteredRoom.equips);
-                          }}>
-                            <div style={{ position: "relative", textAlign: "center"}}>
-                                <img src={suite} class="img" alt="Suite" style={{ width: "100%" }} />
-                                <div class="centered" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", width: "80%", backgroundColor: "rgba(0, 0, 0, .4)", borderRadius: "25px" }}>
-                                    <h1 style={{ fontFamily: "'Playfair Display',serif" }}>{filteredRoom.name}</h1>
-                                    <p style={{ textAlign: "center", margin: "0 0 10px" }}>Ideal for up to {filteredRoom.guestNum} guest(s) with {filteredRoom.beds} beds - Approximately {filteredRoom.size} sq.ft</p>
-                                </div>
+                {/* revert back to non filter on later date */}
+                <table style={{ textAlign: "center", display: "flex", flexWrap: "wrap", marginBottom: "20px", justifyContent: 'center', alignItems: 'center' }}>
+                    {rooms.map(filteredRoom => <a href='Insight' style={{ paddingLeft: "10px", paddingRight: "10px" }} onClick={() => {
+                        roomNameLocal(filteredRoom.name, filteredRoom.equips);
+                    }}>
+                        <div style={{ position: "relative", textAlign: "center" }}>
+                            <img src={suite} class="img" alt="Suite" style={{ width: "100%" }} />
+                            <div class="centered" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", width: "80%", backgroundColor: "rgba(0, 0, 0, .4)", borderRadius: "25px" }}>
+                                <h1 style={{ fontFamily: "'Playfair Display',serif" }}>{filteredRoom.name}</h1>
+                                <p style={{ textAlign: "center", margin: "0 0 10px" }}>Ideal for up to {filteredRoom.guestNum} guest(s) with {filteredRoom.beds} beds - Approximately {filteredRoom.size} sq.ft</p>
                             </div>
-                        </a>
-                    }})}
+                        </div>
+                    </a>
+                    )}
                 </table>
             </div>
             <div class="footer">

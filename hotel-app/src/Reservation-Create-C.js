@@ -68,9 +68,9 @@ export default function Reservation_Create_C() {
 
   useEffect(() => {
     fetch(ipAddress + "getAll/reservation").then(res => {
-        if (res.ok) {
-            return res.json()
-        }
+      if (res.ok) {
+        return res.json()
+      }
     }).then(jsonRes => setReservations(jsonRes));
   })
 
@@ -261,7 +261,7 @@ export default function Reservation_Create_C() {
                     required
                     sx={{ width: 160 }}
                     defaultValue={currentDateString}
-                    InputProps={{ inputProps: { min: currentDateString } }}
+                    InputProps={{ inputProps: { min: currentDateString} }}
                     type="date"
                     id="arrive"
                     name="arrive"

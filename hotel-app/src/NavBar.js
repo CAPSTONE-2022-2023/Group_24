@@ -15,11 +15,11 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const clientPages = ['', 'Homepage/Customer', 'Room/List', 'Reservation/Client'];
-const clientPagesName = ['Logout', 'Homepage', 'View Room Selections', 'Your Reservation'];
+const clientPages = ['', 'Reservation/Client', 'Room/List'];
+const clientPagesName = ['Logout', 'Your Reservation', 'View Room Catalogue'];
 
-const employeePages = ['', 'Homepage/Employee', 'Room/View','Reservation/List'];
-const employeePagesName = ['Logout', 'Homepage', 'Room Management', 'Manage Reservations'];
+const employeePages = ['', 'Reservation/List', 'Room/View'];
+const employeePagesName = ['Logout', 'Manage Reservations', 'Manage Rooms'];
 
 const pages = [];
 const pagesName = [];
@@ -68,7 +68,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href={localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? "/" : (localStorage.getItem("accountType") === "0" ? "../Reservation/Client" : "../Reservation/List")}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },

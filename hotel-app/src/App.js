@@ -82,7 +82,7 @@ function SignIn() {
           localStorage.setItem("username", clients[i].username);
           localStorage.setItem("password", clients[i].password);
           localStorage.setItem("accountType", 0);
-          navigate('/homepage/customer', { state: clients[i] });
+          navigate('/Reservation/Client', { state: clients[i] });
         }
       }
     }
@@ -95,7 +95,7 @@ function SignIn() {
           localStorage.setItem("username", employees[i].username);
           localStorage.setItem("password", employees[i].password);
           localStorage.setItem("accountType", 1);
-          navigate('/homepage/employee', { state: employees[i] });
+          navigate('/Reservation/List', { state: employees[i] });
         }
       }
     }

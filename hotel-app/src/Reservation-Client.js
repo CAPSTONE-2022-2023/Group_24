@@ -81,6 +81,8 @@ export default function Reservation_Client() {
             }
         }).then(jsonRes => setRooms(jsonRes));
 
+        console.log(localStorage.getItem("accountType"));
+
         if (reservation) {
             console.log("There is reservation");
             console.log(reservation);
@@ -183,12 +185,10 @@ export default function Reservation_Client() {
                         </Grid>
 
                         <Grid container rowSpacing={3}>
-                            {/* <h4 style={{ marginLeft: "20px" }}>Will Arrive on: {formatDate(reservation.arrive)}</h4> */}
                             <h4 id="resArrive" style={{ marginLeft: "20px" }}>Will Arrive on: </h4>
                         </Grid>
 
                         <Grid container rowSpacing={3}>
-                            {/* <h4 style={{ marginLeft: "20px" }}>Will Depart on: {formatDate(reservation.depart)}</h4> */}
                             <h4 id="resDepart" style={{ marginLeft: "20px" }}>Will Depart on: </h4>
                         </Grid>
 
