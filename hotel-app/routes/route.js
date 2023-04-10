@@ -338,4 +338,8 @@ router.route("/edit/reservation").post((req, res) => {
         console.log(error); // Failure
     });
 })
+
+router.post('/stripe/charge', postCharge);
+
+
 module.exports = router;
