@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import AdbIcon from '@mui/icons-material/Adb';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -17,7 +17,7 @@ function formatDate(string) {
     return new Date(string).toLocaleDateString([], options);
 }
 
-function daysBetween(arrive, depart){
+function daysBetween(arrive, depart) {
     let dateArrive = new Date(arrive);
     let dateDepart = new Date(depart);
 
@@ -33,10 +33,7 @@ function daysBetween(arrive, depart){
 export default function Reservation_Billing() {
     const navigate = useNavigate();
 
-    // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
-    //     return <Navigate to="/" />;
-    // }
-    // else {
+
     var ipAddress;
 
     if (process.env.REACT_APP_VERCEL_URL) {
@@ -79,6 +76,10 @@ export default function Reservation_Billing() {
     }])
 
     useEffect(() => {
+        if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+            navigate("/");
+        }
+
         fetch(ipAddress + "get/customer/" + localStorage.getItem("username")).then(res => {
             if (res.ok) {
                 return res.json()
@@ -108,8 +109,8 @@ export default function Reservation_Billing() {
             document.getElementById("resDepart").innerHTML = formatDate(reservation.depart);
             document.getElementById("resDays").innerHTML = daysBetween(reservation.arrive, reservation.depart)
             document.getElementById("resRequest").innerHTML = reservation.requests;
-            document.getElementById("resTotalTax").innerHTML = reservation.price*5/100;
-            document.getElementById("resGrandTotal").innerHTML = reservation.price + (reservation.price*5/100);
+            document.getElementById("resTotalTax").innerHTML = reservation.price * 5 / 100;
+            document.getElementById("resGrandTotal").innerHTML = reservation.price + (reservation.price * 5 / 100);
             localStorage.setItem("reservationTotal", reservation.price);
         }
     })
@@ -258,7 +259,7 @@ export default function Reservation_Billing() {
                                 </Grid>
 
                                 <Grid container rowSpacing={2}>
-                                    <h4 id="resRequest" style={{ marginLeft: "20px", maxWidth: "470px", overflowWrap: "break-word"}}></h4>
+                                    <h4 id="resRequest" style={{ marginLeft: "20px", maxWidth: "470px", overflowWrap: "break-word" }}></h4>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -299,7 +300,7 @@ export default function Reservation_Billing() {
                             </Grid>
                         </Grid>
 
-                        <Divider style={{ width: '40%', backgroundColor: "#1976d2", borderWidth: "1px", marginRight: "90px"}} />
+                        <Divider style={{ width: '40%', backgroundColor: "#1976d2", borderWidth: "1px", marginRight: "90px" }} />
 
                         <Grid container display="grid" alignContent="center" gridAutoFlow="column" width="50%">
                             <Grid container>
@@ -331,5 +332,4 @@ export default function Reservation_Billing() {
             </div>
         </div>
     </ThemeProvider>
-    // }
 }

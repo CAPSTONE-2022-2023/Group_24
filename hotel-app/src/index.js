@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import './index.css';
 import SignIn from './App';
 import SignUp from './Signup';
@@ -61,10 +61,15 @@ export default function Application() {
             <Route path="Billing" element={<Reservation_Billing />} />
             <Route path="Payment" element={<Elements stripe={stripePromise}><Reservation_Payment /></Elements>} />
           </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </BrowserRouter >
   );
+}
+
+function PageNotFound() {
+  return <Navigate to="/" />;
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

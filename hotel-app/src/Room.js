@@ -20,22 +20,10 @@ const theme = createTheme({
 
 export default function Room() {
     const navigate = useNavigate();
-    const handleClick = (event) => {
-        event.preventDefault();
-        localStorage.setItem("username", "");
-        localStorage.setItem("password", "");
-        navigate("/");
-    };
-
     var roomName = localStorage.getItem("localRoomName");
     var roomEquips = localStorage.getItem("localRoomEquips").split(",");
     console.log("Room:" + roomName);
 
-
-    // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
-    //     return <Navigate to="/" />;
-    // }
-    // else {
     var ipAddress;
 
     if (process.env.REACT_APP_VERCEL_URL) {
@@ -56,6 +44,10 @@ export default function Room() {
     }])
 
     useEffect(() => {
+        if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+            navigate("/");
+        }
+        
         fetch(ipAddress + "get/room/" + roomName).then(res => {
             if (res.ok) {
                 return res.json()
@@ -66,7 +58,7 @@ export default function Room() {
     return <ThemeProvider theme={theme}>
         <div class="body">
             <div>
-                <img src={suite} class="img" alt="Suite" style={{width: "99.6%", height: "47vh",padding: "0px", margin: "0px 0px 0px"}} />
+                <img src={suite} class="img" alt="Suite" style={{ width: "99.6%", height: "47vh", padding: "0px", margin: "0px 0px 0px" }} />
             </div>
             {/* <div class="gallery">
                 <img src={single} class="img" alt="Single Bed" />
@@ -76,7 +68,7 @@ export default function Room() {
 
             <div style={{ marginBottom: "50px" }} class="nameMesg">
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>{room.name}</h1>
-                <p style={{ textAlign: "center", margin: "20px 20px 10px"}}>{room.overview}</p>
+                <p style={{ textAlign: "center", margin: "20px 20px 10px" }}>{room.overview}</p>
                 <div class="container" style={{ textAlign: "center", marginLeft: "550px", marginRight: "550px", marginTop: "25px" }}>
                     <a href='Reservations'>Book Now</a>
                 </div>
@@ -84,12 +76,12 @@ export default function Room() {
 
             <div class="main" style={{ backgroundColor: "rgba(0, 0, 0, .1)" }}>
                 <div class="left" style={{ width: "50%", backgroundColor: "rgba(0, 128, 255, .1)", borderRadius: "25px" }}>
-                    <h1 style={{ textAlign: "center"}}><FontAwesomeIcon icon={faBed} /></h1>
+                    <h1 style={{ textAlign: "center" }}><FontAwesomeIcon icon={faBed} /></h1>
                     <h2 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginBottom: "0px" }}>Room Detail</h2>
-                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>Ideal up to {room.guestNum} guest(s)</p>
-                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>Approximately {room.size} sq ft</p>
-                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>{room.beds} Bed(s)</p>
-                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>${room.price}/night</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px" }}>Ideal up to {room.guestNum} guest(s)</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px" }}>Approximately {room.size} sq ft</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px" }}>{room.beds} Bed(s)</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px" }}>${room.price}/night</p>
                 </div>
                 <div class="right" style={{ width: "100%" }}>
                     <h2 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginBottom: "0px" }}>Downtown Toronto's Most Luxurious Accommodations</h2>
@@ -103,13 +95,13 @@ export default function Room() {
                 </div>
             </div>
 
-            <div class="gallery" style={{padding: "0px", margin: "0px"}}>
-                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
-                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
-                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
+            <div class="gallery" style={{ padding: "0px", margin: "0px" }}>
+                <img src={suite} class="img" alt="Suite" style={{ padding: "0px", margin: "0px" }} />
+                <img src={suite} class="img" alt="Suite" style={{ padding: "0px", margin: "0px" }} />
+                <img src={suite} class="img" alt="Suite" style={{ padding: "0px", margin: "0px" }} />
             </div>
 
-            <div class="footer" style={{marginTop: "-5px"}}>
+            <div class="footer" style={{ marginTop: "-5px" }}>
                 <div class="cont">
                     <h2>Contact</h2>
                     <ul>
@@ -122,5 +114,4 @@ export default function Room() {
             </div>
         </div>
     </ThemeProvider>
-    // }
 }

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import './home.css';
 import axios from "axios";
 
@@ -17,10 +17,6 @@ function formatDate(string) {
 export default function Reservation_Client() {
     const navigate = useNavigate();
 
-    // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
-    //     return <Navigate to="/" />;
-    // }
-    // else {
     var ipAddress;
 
     if (process.env.REACT_APP_VERCEL_URL) {
@@ -63,6 +59,10 @@ export default function Reservation_Client() {
     }])
 
     useEffect(() => {
+        if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+            navigate("/");
+        }
+
         fetch(ipAddress + "get/customer/" + localStorage.getItem("username")).then(res => {
             if (res.ok) {
                 return res.json()
@@ -246,5 +246,4 @@ export default function Reservation_Client() {
             </div>
         </div>
     </ThemeProvider>
-    // }
 }

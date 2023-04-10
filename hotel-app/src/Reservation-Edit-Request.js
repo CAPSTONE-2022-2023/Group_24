@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 
 const theme = createTheme({
@@ -185,41 +185,41 @@ export default function Reservation_Edit_Request() {
 
     console.log(editReservation);
 
-    function compareRes(){
+    function compareRes() {
       console.log("compareRes");
-      console.log(reservation.arrive.slice(0,10));
+      console.log(reservation.arrive.slice(0, 10));
       console.log(editReservation.arrive);
-      
+
       const changes = [];
-      if(reservation.phone != editReservation.phone){
+      if (reservation.phone != editReservation.phone) {
         changes.push("phone");
       }
 
-      if(reservation.email != editReservation.email){
+      if (reservation.email != editReservation.email) {
         changes.push("email");
       }
 
-      if(reservation.roomName != editReservation.roomName){
+      if (reservation.roomName != editReservation.roomName) {
         changes.push("roomName");
       }
 
-      if(reservation.guestNum != editReservation.guestNum){
+      if (reservation.guestNum != editReservation.guestNum) {
         changes.push("guestNum");
       }
 
-      if(reservation.arrive.slice(0,10) != editReservation.arrive){
+      if (reservation.arrive.slice(0, 10) != editReservation.arrive) {
         changes.push("arrive");
       }
 
-      if(reservation.depart.slice(0,10) != editReservation.depart){
+      if (reservation.depart.slice(0, 10) != editReservation.depart) {
         changes.push("depart");
       }
 
-      if(reservation.requests != editReservation.requests){
+      if (reservation.requests != editReservation.requests) {
         changes.push("requests");
       }
 
-      if(reservation.price != editReservation.price){
+      if (reservation.price != editReservation.price) {
         changes.push("price");
       }
 
@@ -236,11 +236,11 @@ export default function Reservation_Edit_Request() {
     console.log(updateRequest);
 
     // axios.post(ipAddress + "edit/reservation", editReservation);
-    if(updateRequest.changes.length == 0){
+    if (updateRequest.changes.length == 0) {
       console.log("No changes was made");
       alert(`No changes was made to Reservation ${editReservation.id}. Heading back to client's reservation page...`);
     }
-    else{
+    else {
       alert(`Reservation ${editReservation.id} update request sent. Please wait for respond from our staff`);
       axios.post(ipAddress + "post/sendRequestUpdateEmail", updateRequest);
     }
@@ -248,189 +248,189 @@ export default function Reservation_Edit_Request() {
   };
 
   // };
-  // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
-  //   return <Navigate to="/" />;
-  // }
-  // else {
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            Update Reservation Request
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: 500 }}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 6 }}
-            >
-              Send Update Request...
-            </Button>
+  if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+    return <Navigate to="/" />;
+  }
+  else {
+    return (
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              Update Reservation Request
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: 500 }}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 6 }}
+              >
+                Send Update Request...
+              </Button>
 
-            <Grid container spacing={2} justifyContent="center" sx={{ mb: 3 }}>
-              <Grid item>
-                <h3>Grand Total: </h3>
-              </Grid>
-              <Grid item>
-                <h3 id="grand_total">${reservation.price}</h3>
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={2} justifyContent="center">
-              <FormControl fullWidth>
-                <InputLabel id="title-select-roomName">Select Room</InputLabel>
-                <Select
-                  name='roomName'
-                  id="roomName-select"
-                  label="Room"
-                  defaultValue={currentRoomIndex.current}
-                  onChange={handleChangeRoom}
-                >
-                  {rooms.map((room, index) =>
-                    <MenuItem value={index}>{room.name}</MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-
-              <Grid container spacing={1} justifyContent="center" sx={{ mt: 1 }}>
+              <Grid container spacing={2} justifyContent="center" sx={{ mb: 3 }}>
                 <Grid item>
-                  <h5>Number of Guests </h5>
+                  <h3>Grand Total: </h3>
                 </Grid>
                 <Grid item>
+                  <h3 id="grand_total">${reservation.price}</h3>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} justifyContent="center">
+                <FormControl fullWidth>
+                  <InputLabel id="title-select-roomName">Select Room</InputLabel>
+                  <Select
+                    name='roomName'
+                    id="roomName-select"
+                    label="Room"
+                    defaultValue={currentRoomIndex.current}
+                    onChange={handleChangeRoom}
+                  >
+                    {rooms.map((room, index) =>
+                      <MenuItem value={index}>{room.name}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+
+                <Grid container spacing={1} justifyContent="center" sx={{ mt: 1 }}>
+                  <Grid item>
+                    <h5>Number of Guests </h5>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      required
+                      sx={{ width: 75 }}
+                      defaultValue={guestNum}
+                      InputProps={{ inputProps: { min: 1, max: 10 } }}
+                      type="number"
+                      id="guestNum"
+                      name="guestNum"
+                      minRows={0}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1} justifyContent="center" sx={{ mt: 0 }}>
+                  <Grid item>
+                    <h5>Date of Arrival:</h5>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      required
+                      sx={{ width: 160 }}
+                      defaultValue={arriveDateString}
+                      InputProps={{ inputProps: { min: nextDateString } }}
+                      type="date"
+                      id="arrive"
+                      name="arrive"
+                      onChange={handleChangeUpdatePrice}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={1} justifyContent="center" sx={{ mt: 0 }}>
+                  <Grid item>
+                    <h5>Date of Departure:</h5>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      required
+                      sx={{ width: 160 }}
+                      defaultValue={departDateString}
+                      InputProps={{ inputProps: { min: nextDateString } }}
+                      type="date"
+                      id="depart"
+                      name="depart"
+                      onChange={handleChangeUpdatePrice}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid item xs={12} >
+                  <h3><b>GUEST DETAILS: </b></h3>
+                </Grid>
+
+                <Grid item xs={3} >
+                  <h5>Full Name:</h5>
+                </Grid>
+                <Grid item xs={9}>
                   <TextField
                     required
-                    sx={{ width: 75 }}
-                    defaultValue={guestNum}
-                    InputProps={{ inputProps: { min: 1, max: 10 } }}
-                    type="number"
-                    id="guestNum"
-                    name="guestNum"
-                    minRows={0}
+                    fullWidth
+                    id="name"
+                    name="name"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    defaultValue={clientName}
                   />
                 </Grid>
               </Grid>
 
-              <Grid container spacing={1} justifyContent="center" sx={{ mt: 0 }}>
-                <Grid item>
-                  <h5>Date of Arrival:</h5>
+              <Grid container spacing={0} justifyContent="center" sx={{ mt: 1 }}>
+                <Grid item xs={3}>
+                  <h5>Phone:</h5>
                 </Grid>
-                <Grid item>
+                <Grid item xs={6}>
                   <TextField
                     required
-                    sx={{ width: 160 }}
-                    defaultValue={arriveDateString}
-                    InputProps={{ inputProps: { min: nextDateString } }}
-                    type="date"
-                    id="arrive"
-                    name="arrive"
-                    onChange={handleChangeUpdatePrice}
+                    fullWidth
+                    id="phone"
+                    name="phone"
+                    multiline
+                    maxRows={1}
+                    defaultValue={reservation.phone}
                   />
                 </Grid>
               </Grid>
 
-              <Grid container spacing={1} justifyContent="center" sx={{ mt: 0 }}>
-                <Grid item>
-                  <h5>Date of Departure:</h5>
+              <Grid container spacing={0} justifyContent="center" sx={{ mt: 1 }}>
+                <Grid item xs={3}>
+                  <h5>Email:</h5>
                 </Grid>
-                <Grid item>
+                <Grid item xs={6}>
                   <TextField
                     required
-                    sx={{ width: 160 }}
-                    defaultValue={departDateString}
-                    InputProps={{ inputProps: { min: nextDateString } }}
-                    type="date"
-                    id="depart"
-                    name="depart"
-                    onChange={handleChangeUpdatePrice}
+                    fullWidth
+                    id="email"
+                    name="email"
+                    multiline
+                    maxRows={1}
+                    defaultValue={reservation.email}
                   />
                 </Grid>
               </Grid>
 
-              <Grid item xs={12} >
-                <h3><b>GUEST DETAILS: </b></h3>
+              <Grid container spacing={1} justifyContent="center" sx={{ mt: 1, mb: 4 }}>
+                <Grid container direction="column" justifyContent="space-evenly" alignItems="center">
+                  <h5>Additional Room Requests:</h5>
+                </Grid>
+                <Grid container rowGap={2} direction="column" justifyContent="space-evenly" alignItems="center">
+                  <TextField
+                    required
+                    sx={{ width: 450 }}
+                    id="requests"
+                    name="requests"
+                    multiline
+                    minRows={3}
+                    defaultValue={reservation.requests}
+                  />
+                </Grid>
               </Grid>
-
-              <Grid item xs={3} >
-                <h5>Full Name:</h5>
-              </Grid>
-              <Grid item xs={9}>
-                <TextField
-                  required
-                  fullWidth
-                  id="name"
-                  name="name"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  defaultValue={clientName}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={0} justifyContent="center" sx={{ mt: 1 }}>
-              <Grid item xs={3}>
-                <h5>Phone:</h5>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="phone"
-                  name="phone"
-                  multiline
-                  maxRows={1}
-                  defaultValue={reservation.phone}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={0} justifyContent="center" sx={{ mt: 1 }}>
-              <Grid item xs={3}>
-                <h5>Email:</h5>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  name="email"
-                  multiline
-                  maxRows={1}
-                  defaultValue={reservation.email}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={1} justifyContent="center" sx={{ mt: 1, mb: 4 }}>
-              <Grid container direction="column" justifyContent="space-evenly" alignItems="center">
-                <h5>Additional Room Requests:</h5>
-              </Grid>
-              <Grid container rowGap={2} direction="column" justifyContent="space-evenly" alignItems="center">
-                <TextField
-                  required
-                  sx={{ width: 450 }}
-                  id="requests"
-                  name="requests"
-                  multiline
-                  minRows={3}
-                  defaultValue={reservation.requests}
-                />
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
-  );
+        </Container>
+      </ThemeProvider>
+    );
+  }
 }
-//}
