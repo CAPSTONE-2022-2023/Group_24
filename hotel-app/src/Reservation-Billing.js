@@ -110,13 +110,14 @@ export default function Reservation_Billing() {
             document.getElementById("resRequest").innerHTML = reservation.requests;
             document.getElementById("resTotalTax").innerHTML = reservation.price*5/100;
             document.getElementById("resGrandTotal").innerHTML = reservation.price + (reservation.price*5/100);
+            localStorage.setItem("reservationTotal", reservation.price);
         }
     })
 
     localStorage.setItem("clientName", customer.name);
 
     const proceedtoPayment = (res) => {
-        navigate('/reservation/Client');
+        navigate('/reservation/Payment');
     }
 
     return <ThemeProvider theme={theme}>
