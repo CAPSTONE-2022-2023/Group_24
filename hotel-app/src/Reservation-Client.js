@@ -86,9 +86,15 @@ export default function Reservation_Client() {
             console.log(reservation);
             document.getElementById("bookingLink").style.display = "none";
             document.getElementById("mainDiv").style.display = "flex";
-            document.getElementById("mainbox").style.height = "initial"
-            document.getElementById("nameMesg-h1").innerHTML = "Your Active Reservation"
+            document.getElementById("mainbox").style.height = "initial";
+            document.getElementById("nameMesg-h1").innerHTML = "Your Active Reservation";
             document.getElementById("resName").innerHTML = reservation.name;
+            if (localStorage.getItem("paymentStatus") == "Paid") {
+                document.getElementById("resStatus").innerHTML = "Payment Status: Paid";
+            }
+            else {
+                document.getElementById("resStatus").innerHTML = "Payment Status: Not Paid";
+            }
             document.getElementById("resPhone").innerHTML = "Phone Number: " + reservation.phone;
             document.getElementById("resEmail").innerHTML = "Email: " + reservation.email;
             document.getElementById("resRoomName").innerHTML = "Name of Room: " + reservation.roomName;
@@ -149,7 +155,7 @@ export default function Reservation_Client() {
             </div>
             <Box id="mainbox" backgroundColor='#rgb(175, 246, 239)'>
                 <div id="mainDiv" style={{ display: 'flex', justifyContent: "center", marginBottom: "50px" }}>
-                    <Box width='800px' height='475px'
+                    <Box width='800px' height='550px'
                         sx={{
                             display: 'flex',
                             backgroundColor: 'primary.light',
@@ -160,6 +166,10 @@ export default function Reservation_Client() {
                         border="3px solid rgb(8, 102, 156)" color="white">
                         <Grid container spacing={0} justifyContent="center">
                             <h1 id="resName" style={{ textAlign: "center" }}></h1>
+                        </Grid>
+
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resStatus" style={{ marginLeft: "20px" }}></h4>
                         </Grid>
 
                         <Grid container rowSpacing={3}>
