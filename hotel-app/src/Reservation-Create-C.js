@@ -83,7 +83,7 @@ export default function Reservation_Create_C() {
   })
 
   useEffect(() => {
-    setFilteredRooms(rooms.filter((room) => !reservations.some(reservation => reservation.roomName == room.name)));
+    setFilteredRooms(rooms.filter((room) => !reservations.some(reservation => reservation.roomName === room.name)));
   }, [rooms]);
 
   const handleChangeRoom = (event) => {
@@ -111,7 +111,7 @@ export default function Reservation_Create_C() {
 
     console.log("Diff Days: " + Difference_In_Days);
 
-    if (Difference_In_Days == 0) {
+    if (Difference_In_Days === 0) {
       Difference_In_Days = 1;
     }
 

@@ -87,7 +87,7 @@ export default function Reservation_Create_E() {
 
     console.log("Diff Days: " + Difference_In_Days);
 
-    if (Difference_In_Days == 0) {
+    if (Difference_In_Days === 0) {
       Difference_In_Days = 1;
     }
 
@@ -202,9 +202,9 @@ export default function Reservation_Create_E() {
                     label="Room"
                     onChange={handleChangeRoom}
                   >
-                    {rooms.map((room, index) =>
-                      <MenuItem value={index}>{room.name}</MenuItem>
-                    )}
+                    {rooms.map((filteredRoom, index) =>
+                      <MenuItem value={index}>{filteredRoom.name} - ${filteredRoom.price}/night</MenuItem>
+                      )}
                   </Select>
                 </FormControl>
 

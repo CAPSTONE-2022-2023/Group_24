@@ -1,14 +1,13 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AdbIcon from '@mui/icons-material/Adb';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import './home.css';
-import axios from "axios";
+// import axios from "axios";
 
 const theme = createTheme();
 

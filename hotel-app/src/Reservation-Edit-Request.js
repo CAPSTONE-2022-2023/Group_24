@@ -146,9 +146,9 @@ export default function Reservation_Edit_Request() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    function getRandomInt() {
-      return Math.floor(Math.random() * 1000);
-    }
+    // function getRandomInt() {
+    //   return Math.floor(Math.random() * 1000);
+    // }
 
     function getPrice(roomIndex) {
       /*
@@ -191,35 +191,35 @@ export default function Reservation_Edit_Request() {
       console.log(editReservation.arrive);
 
       const changes = [];
-      if (reservation.phone != editReservation.phone) {
+      if (reservation.phone !== editReservation.phone) {
         changes.push("phone");
       }
 
-      if (reservation.email != editReservation.email) {
+      if (reservation.email !== editReservation.email) {
         changes.push("email");
       }
 
-      if (reservation.roomName != editReservation.roomName) {
+      if (reservation.roomName !== editReservation.roomName) {
         changes.push("roomName");
       }
 
-      if (reservation.guestNum != editReservation.guestNum) {
+      if (reservation.guestNum !== editReservation.guestNum) {
         changes.push("guestNum");
       }
 
-      if (reservation.arrive.slice(0, 10) != editReservation.arrive) {
+      if (reservation.arrive.slice(0, 10) !== editReservation.arrive) {
         changes.push("arrive");
       }
 
-      if (reservation.depart.slice(0, 10) != editReservation.depart) {
+      if (reservation.depart.slice(0, 10) !== editReservation.depart) {
         changes.push("depart");
       }
 
-      if (reservation.requests != editReservation.requests) {
+      if (reservation.requests !== editReservation.requests) {
         changes.push("requests");
       }
 
-      if (reservation.price != editReservation.price) {
+      if (reservation.price !== editReservation.price) {
         changes.push("price");
       }
 
@@ -236,7 +236,7 @@ export default function Reservation_Edit_Request() {
     console.log(updateRequest);
 
     // axios.post(ipAddress + "edit/reservation", editReservation);
-    if (updateRequest.changes.length == 0) {
+    if (updateRequest.changes.length === 0) {
       console.log("No changes was made");
       alert(`No changes was made to Reservation ${editReservation.id}. Heading back to client's reservation page...`);
     }

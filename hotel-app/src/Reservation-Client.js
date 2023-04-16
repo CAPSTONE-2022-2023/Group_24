@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './home.css';
 import axios from "axios";
 
@@ -91,8 +91,9 @@ export default function Reservation_Client() {
             document.getElementById("mainbox").style.height = "initial";
             document.getElementById("nameMesg-h1").innerHTML = "Your Active Reservation";
             document.getElementById("resName").innerHTML = reservation.name;
-            if (localStorage.getItem("paymentStatus") == "Paid") {
+            if (localStorage.getItem("paymentStatus") === "Paid") {
                 document.getElementById("resStatus").innerHTML = "Payment Status: Paid";
+                //Add a to payment button and style.display = none
             }
             else {
                 document.getElementById("resStatus").innerHTML = "Payment Status: Not Paid";

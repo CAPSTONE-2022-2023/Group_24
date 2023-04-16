@@ -115,7 +115,7 @@ function ResponsiveAppBar() {
               {clientPages.slice(localStorage.length === 0 ? clientPages.length : (localStorage.getItem("accountType") === "0" ? 0 : clientPages.length)).map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                    <Link onClick={page === 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
                       to={`/${page}`}>{clientPagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
                   </Typography>
                 </MenuItem>
@@ -123,7 +123,7 @@ function ResponsiveAppBar() {
               {employeePages.slice(localStorage.length === 0 ? employeePages.length : (localStorage.getItem("accountType") === "1" ? 0 : employeePages.length)).map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                    <Link onClick={page === 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
                       to={`/${page}`}>{employeePagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
                   </Typography>
                 </MenuItem>
@@ -156,7 +156,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                <Link onClick={page === 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
                   to={`/${page}`}>{clientPagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
               </Button>
             ))}
@@ -167,7 +167,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                <Link onClick={page === 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
                   to={`/${page}`}>{employeePagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
               </Button>
             ))}

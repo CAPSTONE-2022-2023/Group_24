@@ -144,9 +144,9 @@ export default function Reservation_Edit() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    function getRandomInt() {
-      return Math.floor(Math.random() * 1000);
-    }
+    // function getRandomInt() {
+    //   return Math.floor(Math.random() * 1000);
+    // }
 
     function getPrice(roomIndex) {
       /*

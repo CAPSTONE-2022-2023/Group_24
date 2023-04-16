@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './home.css';
 import suite from './images/suite.jpg';
 import single from './images/single.jpg';
@@ -23,6 +23,7 @@ export default function Room() {
     var roomName = localStorage.getItem("localRoomName");
     var roomEquips = localStorage.getItem("localRoomEquips").split(",");
     console.log("Room:" + roomName);
+    console.log(roomEquips)
 
     var ipAddress;
 
@@ -53,6 +54,17 @@ export default function Room() {
                 return res.json()
             }
         }).then(jsonRes => setRoom(jsonRes));
+
+        if(roomEquips.length === 0){
+            document.getElementById("equip_title").innerHTML = "The room is basically furnished, equipped to provide you a basic comfort.";
+            document.getElementById("equip_ul").style.display = "none";
+        }
+        else{
+            if(roomEquips[0] === ""){
+                document.getElementById("equip_title").innerHTML = "The room is basically furnished, equipped to provide you a basic comfort.";
+                document.getElementById("equip_ul").style.display = "none";
+            }
+        }
     })
 
     return <ThemeProvider theme={theme}>
@@ -60,11 +72,6 @@ export default function Room() {
             <div>
                 <img src={suite} class="img" alt="Suite" style={{ width: "99.6%", height: "47vh", padding: "0px", margin: "0px 0px 0px" }} />
             </div>
-            {/* <div class="gallery">
-                <img src={single} class="img" alt="Single Bed" />
-                <img src={double} class="img" alt="Double Bed" />
-                <img src={suite} class="img" alt="Suite" />
-            </div> */}
 
             <div style={{ marginBottom: "50px" }} class="nameMesg">
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>{room.name}</h1>
@@ -85,12 +92,15 @@ export default function Room() {
                 </div>
                 <div class="right" style={{ width: "100%" }}>
                     <h2 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginBottom: "0px" }}>Downtown Toronto's Most Luxurious Accommodations</h2>
-                    <p>All rooms are equipped with the following:</p>
-                    <ul style={{ marginTop: "-10px", marginLeft: "10px", listStyleType: "square", fontSize: "20px" }}>
+                    <p id="equip_title">In addition to the basic furnitures, the room is equipped with the following:</p>
+                    <ul id="equip_ul" style={{ marginTop: "-10px", marginLeft: "10px", listStyleType: "square", fontSize: "20px" }}>
 
                         {roomEquips.map(equip => {
-                            return <li style={{ marginTop: "5px" }}>{equip}</li>;
+                            if(equip !== ""){
+                                return <li style={{ marginTop: "5px" }}>{equip}</li>;
+                            }
                         })}
+
                     </ul>
                 </div>
             </div>

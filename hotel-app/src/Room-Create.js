@@ -29,7 +29,7 @@ export default function Room_Create() {
 
     const equipments = [];
     for (let i = 1; i < 11; i++) {
-      if (data.get(`equip${i}`) != "") {
+      if (data.get(`equip${i}`) !== "") {
         equipments.push(data.get(`equip${i}`).trim())
       }
     }

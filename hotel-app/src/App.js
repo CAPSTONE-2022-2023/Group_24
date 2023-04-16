@@ -23,7 +23,7 @@ const theme = createTheme({
   }
 });
 
-var accountType = 0;
+var accountType = -1;
 
 function SignIn() {
   console.log(accountType);
@@ -73,8 +73,17 @@ function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     var arrLength = 0;
+    var error = 0;
 
-    if (accountType == 0) {
+    if(document.getElementById("employee_checkbox").checked === true){
+      accountType = 1;
+    }
+    else{
+      accountType = 0;
+    }
+    console.log("Employee checkbox " + accountType);
+
+    if (accountType === 0) {
       arrLength = clients.length;
       for (var i = 0; i < arrLength; i++) {
         console.log(clients[i].username);
@@ -82,21 +91,43 @@ function SignIn() {
           localStorage.setItem("username", clients[i].username);
           localStorage.setItem("password", clients[i].password);
           localStorage.setItem("accountType", 0);
+          error = 0;
           navigate('/Reservation/Client', { state: clients[i] });
+          break;
         }
+        else{
+          error = 1;
+        }
+      }
+
+      console.log("error");
+
+      if(error === 1){
+        alert("Error signing in. Username/Password/Account Type is incorrect. Please try again.");
       }
     }
 
-    if (accountType == 1) {
+    if (accountType === 1) {
       arrLength = employees.length;
-      for (var i = 0; i < arrLength; i++) {
-        console.log(employees[i].username);
-        if (employees[i].username === data.get('username') && employees[i].password === data.get('password')) {
-          localStorage.setItem("username", employees[i].username);
-          localStorage.setItem("password", employees[i].password);
+      for (var y = 0; y < arrLength; y++) {
+        console.log(employees[y].username);
+        if (employees[y].username === data.get('username') && employees[y].password === data.get('password')) {
+          localStorage.setItem("username", employees[y].username);
+          localStorage.setItem("password", employees[y].password);
           localStorage.setItem("accountType", 1);
-          navigate('/Reservation/List', { state: employees[i] });
+          error = 0;
+          navigate('/Reservation/List', { state: employees[y] });
+          break;
         }
+        else{
+          error = 1;
+        }
+      }
+
+      console.log("error");
+
+      if(error === 1){
+        alert("Error signing in. Username/Password/Account Type is incorrect. Please try again.");
       }
     }
   }
@@ -151,7 +182,7 @@ function SignIn() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox onChange={handleChange} value="accType" color="primary" />}
+              control={<Checkbox onChange={handleChange} value="accType" color="primary" id='employee_checkbox' />}
               label="Are you an employee?"
             />
             <Button
