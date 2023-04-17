@@ -147,8 +147,14 @@ export default function Reservation_Edit_Request() {
 
     let price = 0;
 
-    let dateArrive = new Date(document.getElementById(":r5:").value);
-    let dateDepart = new Date(document.getElementById(":r9:").value);
+    if (process.env.REACT_APP_VERCEL_URL) {
+      dateArrive = new Date(document.getElementById(":r2:").value);
+      dateDepart = new Date(document.getElementById(":r4:").value);
+    }
+    else {
+      dateArrive = new Date(document.getElementById(":r5:").value);
+      dateDepart = new Date(document.getElementById(":r9:").value);
+    }
 
     let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
@@ -183,8 +189,14 @@ export default function Reservation_Edit_Request() {
       /*
       get price according to the room selected and multiply it with the nights staying. result should be the price charged to customer
       */
-      let dateArrive = new Date(document.getElementById(":r5:").value);
-      let dateDepart = new Date(document.getElementById(":r9:").value);
+      if (process.env.REACT_APP_VERCEL_URL) {
+        dateArrive = new Date(document.getElementById(":r2:").value);
+        dateDepart = new Date(document.getElementById(":r4:").value);
+      }
+      else {
+        dateArrive = new Date(document.getElementById(":r5:").value);
+        dateDepart = new Date(document.getElementById(":r9:").value);
+      }
 
       let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
@@ -212,7 +224,14 @@ export default function Reservation_Edit_Request() {
       requests: data.get('requests')
     }
 
-    console.log(editReservation);
+    if (process.env.REACT_APP_VERCEL_URL) {
+      editReservation.arrive = document.getElementById(":r2:").value;
+      editReservation.depart = document.getElementById(":r4:").value;
+    }
+    else{
+      editReservation.arrive = document.getElementById(":r5:").value;
+      editReservation.depart = document.getElementById(":r9:").value;
+    }
 
     function compareRes() {
       console.log("compareRes");

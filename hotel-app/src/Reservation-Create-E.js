@@ -126,9 +126,6 @@ export default function Reservation_Create_E() {
       dateDepart = new Date(document.getElementById(":r9:").value);
     }
 
-    // dateArrive = new Date(document.getElementById(":r5:").value);
-    // dateDepart = new Date(document.getElementById(":r9:").value);
-
     let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
