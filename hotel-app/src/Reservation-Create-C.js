@@ -190,6 +190,7 @@ export default function Reservation_Create_C() {
     if (newReservation.email) {
       axios.post(ipAddress + "post/sendCreateEmail", newReservation);
     }
+    localStorage.setItem("paymentStatus", "UnPaid");
     navigate('/reservation/billing');
   };
 

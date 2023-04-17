@@ -107,6 +107,12 @@ export default function Reservation_Edit() {
     }).then(jsonRes => setReservation(jsonRes));
   })
 
+  const shouldDisableDate = (date) => {
+    if(blackoutDates.current !== undefined){
+      return blackoutDates.current.includes(date.toISOString().split('T')[0]);
+    }
+  }
+
   const handleChangeRoom = (event) => {
     console.log("HandleChangeRoom");
     event.preventDefault();
