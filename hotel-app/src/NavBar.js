@@ -15,11 +15,11 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const clientPages = ['', 'Homepage/Customer', 'Room/List', 'Reservation/Client'];
-const clientPagesName = ['Logout', 'Homepage', 'View Room Selections', 'Your Reservation'];
+const clientPages = ['', 'Reservation/Client', 'Room/List'];
+const clientPagesName = ['Logout', 'Your Reservation', 'View Room Catalogue'];
 
-const employeePages = ['', 'Homepage/Employee', 'Room/View','Reservation/List'];
-const employeePagesName = ['Logout', 'Homepage', 'Room Management', 'Manage Reservations'];
+const employeePages = ['', 'Reservation/List', 'Room/View'];
+const employeePagesName = ['Logout', 'Manage Reservations', 'Manage Rooms'];
 
 const pages = [];
 const pagesName = [];
@@ -68,7 +68,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href={localStorage.getItem("username") === null || localStorage.getItem("username") === "" || localStorage.length === 0 ? "/" : (localStorage.getItem("accountType") === "0" ? "../Reservation/Client" : "../Reservation/List")}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -115,7 +115,7 @@ function ResponsiveAppBar() {
               {clientPages.slice(localStorage.length === 0 ? clientPages.length : (localStorage.getItem("accountType") === "0" ? 0 : clientPages.length)).map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                    <Link onClick={page === 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
                       to={`/${page}`}>{clientPagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
                   </Typography>
                 </MenuItem>
@@ -123,7 +123,7 @@ function ResponsiveAppBar() {
               {employeePages.slice(localStorage.length === 0 ? employeePages.length : (localStorage.getItem("accountType") === "1" ? 0 : employeePages.length)).map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                    <Link onClick={page === 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
                       to={`/${page}`}>{employeePagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
                   </Typography>
                 </MenuItem>
@@ -156,7 +156,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                <Link onClick={page === 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
                   to={`/${page}`}>{clientPagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
               </Button>
             ))}
@@ -167,7 +167,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link onClick={page == 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
+                <Link onClick={page === 0 && handleClick} style={{ textDecoration: "none", color: "white" }}
                   to={`/${page}`}>{employeePagesName[localStorage.getItem("username") === null || localStorage.getItem("username") === "" ? index + 1 : index]}</Link>
               </Button>
             ))}

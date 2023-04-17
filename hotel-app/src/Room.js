@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './home.css';
 import suite from './images/suite.jpg';
 import single from './images/single.jpg';
@@ -20,22 +20,11 @@ const theme = createTheme({
 
 export default function Room() {
     const navigate = useNavigate();
-    const handleClick = (event) => {
-        event.preventDefault();
-        localStorage.setItem("username", "");
-        localStorage.setItem("password", "");
-        navigate("/");
-    };
-
     var roomName = localStorage.getItem("localRoomName");
     var roomEquips = localStorage.getItem("localRoomEquips").split(",");
     console.log("Room:" + roomName);
+    console.log(roomEquips)
 
-
-    // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
-    //     return <Navigate to="/" />;
-    // }
-    // else {
     var ipAddress;
 
     if (process.env.REACT_APP_VERCEL_URL) {
@@ -56,60 +45,73 @@ export default function Room() {
     }])
 
     useEffect(() => {
+        if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+            navigate("/");
+        }
+        
         fetch(ipAddress + "get/room/" + roomName).then(res => {
             if (res.ok) {
                 return res.json()
             }
         }).then(jsonRes => setRoom(jsonRes));
+
+        if(roomEquips.length === 0){
+            document.getElementById("equip_title").innerHTML = "The room is basically furnished, equipped to provide you a basic comfort.";
+            document.getElementById("equip_ul").style.display = "none";
+        }
+        else{
+            if(roomEquips[0] === ""){
+                document.getElementById("equip_title").innerHTML = "The room is basically furnished, equipped to provide you a basic comfort.";
+                document.getElementById("equip_ul").style.display = "none";
+            }
+        }
     })
 
     return <ThemeProvider theme={theme}>
         <div class="body">
             <div>
-                <img src={suite} class="img" alt="Suite" style={{width: "99.6%", height: "47vh",padding: "0px", margin: "0px 0px 0px"}} />
+                <img src={suite} class="img" alt="Suite" style={{ width: "99.6%", height: "47vh", padding: "0px", margin: "0px 0px 0px" }} />
             </div>
-            {/* <div class="gallery">
-                <img src={single} class="img" alt="Single Bed" />
-                <img src={double} class="img" alt="Double Bed" />
-                <img src={suite} class="img" alt="Suite" />
-            </div> */}
 
             <div style={{ marginBottom: "50px" }} class="nameMesg">
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>{room.name}</h1>
-                <p style={{ textAlign: "center", margin: "20px 20px 10px"}}>{room.overview}</p>
+                <p style={{ textAlign: "center", margin: "20px 20px 10px" }}>{room.overview}</p>
                 <div class="container" style={{ textAlign: "center", marginLeft: "550px", marginRight: "550px", marginTop: "25px" }}>
-                    <a href='Reservations'>Book Now</a>
+                    <a href='/Reservation/Client'>Book Now</a>
                 </div>
             </div>
 
             <div class="main" style={{ backgroundColor: "rgba(0, 0, 0, .1)" }}>
                 <div class="left" style={{ width: "50%", backgroundColor: "rgba(0, 128, 255, .1)", borderRadius: "25px" }}>
-                    <h1 style={{ textAlign: "center"}}><FontAwesomeIcon icon={faBed} /></h1>
+                    <h1 style={{ textAlign: "center" }}><FontAwesomeIcon icon={faBed} /></h1>
                     <h2 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginBottom: "0px" }}>Room Detail</h2>
-                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>Ideal up to {room.guestNum} guest(s)</p>
-                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>Approximately {room.size} sq ft</p>
-                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>{room.beds} Bed(s)</p>
-                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px"}}>${room.price}/night</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px" }}>Ideal up to {room.guestNum} guest(s)</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px" }}>Approximately {room.size} sq ft</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px" }}>{room.beds} Bed(s)</p>
+                    <p style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", padding: "0px" }}>${room.price}/night</p>
                 </div>
                 <div class="right" style={{ width: "100%" }}>
                     <h2 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginBottom: "0px" }}>Downtown Toronto's Most Luxurious Accommodations</h2>
-                    <p>All rooms are equipped with the following:</p>
-                    <ul style={{ marginTop: "-10px", marginLeft: "10px", listStyleType: "square", fontSize: "20px" }}>
+                    <p id="equip_title">In addition to the basic furnitures, the room is equipped with the following:</p>
+                    <ul id="equip_ul" style={{ marginTop: "-10px", marginLeft: "10px", listStyleType: "square", fontSize: "20px" }}>
 
                         {roomEquips.map(equip => {
-                            return <li style={{ marginTop: "5px" }}>{equip}</li>;
+                            if(equip !== ""){
+                                return <li style={{ marginTop: "5px" }}>{equip}</li>;
+                            }
                         })}
+
                     </ul>
                 </div>
             </div>
 
-            <div class="gallery" style={{padding: "0px", margin: "0px"}}>
-                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
-                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
-                <img src={suite} class="img" alt="Suite" style={{padding: "0px", margin: "0px"}} />
+            <div class="gallery" style={{ padding: "0px", margin: "0px" }}>
+                <img src={suite} class="img" alt="Suite" style={{ padding: "0px", margin: "0px" }} />
+                <img src={suite} class="img" alt="Suite" style={{ padding: "0px", margin: "0px" }} />
+                <img src={suite} class="img" alt="Suite" style={{ padding: "0px", margin: "0px" }} />
             </div>
 
-            <div class="footer" style={{marginTop: "-5px"}}>
+            <div class="footer" style={{ marginTop: "-5px" }}>
                 <div class="cont">
                     <h2>Contact</h2>
                     <ul>
@@ -122,5 +124,4 @@ export default function Room() {
             </div>
         </div>
     </ThemeProvider>
-    // }
 }

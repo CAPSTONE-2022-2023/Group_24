@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import './index.css';
 import SignIn from './App';
 import SignUp from './Signup';
@@ -21,6 +21,11 @@ import Reservation_Client from './Reservation-Client';
 import Reservation_Edit from './Reservation-Edit';
 import Reservation_Edit_Request from './Reservation-Edit-Request';
 import Reservation_Billing from './Reservation-Billing';
+import Reservation_Payment from './Reservation-Payment';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_51MvBIeBJiqAjR4SVdwO4CmjvrNMKgWfOYWlQc7xDFFfRc8Rdk3rAtY71olkius9ZuMOfcM8eyElhJQQRuAmr0J6J00B2PqNP42');
 
 export default function Application() {
   return (
@@ -54,11 +59,17 @@ export default function Application() {
             <Route path="Edit" element={<Reservation_Edit />} />
             <Route path="EditRequest" element={<Reservation_Edit_Request />} />
             <Route path="Billing" element={<Reservation_Billing />} />
+            <Route path="Payment" element={<Elements stripe={stripePromise}><Reservation_Payment /></Elements>} />
           </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </BrowserRouter >
   );
+}
+
+function PageNotFound() {
+  return <Navigate to="/" />;
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

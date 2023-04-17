@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate, Navigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -29,6 +30,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -62,6 +65,7 @@ export default function SignUp() {
 
     axios.post(ipAddress + "signup/customer", newClient);
     alert("Client account sign up sucessful. Thank you " + data.get('firstName') + " for joining us!");
+    navigate('/');
   };
 
   return (

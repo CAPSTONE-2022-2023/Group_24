@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './home.css';
 import suite from './images/suite.jpg';
 import single from './images/single.jpg';
@@ -16,17 +16,7 @@ const theme = createTheme({
 
 export default function Room_List() {
     const navigate = useNavigate();
-    const handleClick = (event) => {
-        event.preventDefault();
-        localStorage.setItem("username", "");
-        localStorage.setItem("password", "");
-        navigate("/");
-    };
 
-    // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
-    //     return <Navigate to="/" />;
-    // }
-    // else {
     var ipAddress;
 
     if (process.env.REACT_APP_VERCEL_URL) {
@@ -65,20 +55,30 @@ export default function Room_List() {
     }])
 
     useEffect(() => {
+        if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+            navigate("/");
+        }
+
         fetch(ipAddress + "getAll/room").then(res => {
             if (res.ok) {
                 return res.json()
             }
         }).then(jsonRes => setRooms(jsonRes));
-    })
 
-    useEffect(() => {
         fetch(ipAddress + "getAll/reservation").then(res => {
             if (res.ok) {
                 return res.json()
             }
         }).then(jsonRes => setReservations(jsonRes));
     })
+
+    // useEffect(() => {
+    //     fetch(ipAddress + "getAll/reservation").then(res => {
+    //         if (res.ok) {
+    //             return res.json()
+    //         }
+    //     }).then(jsonRes => setReservations(jsonRes));
+    // })
 
     return <ThemeProvider theme={theme}>
         <div class="body">
@@ -92,25 +92,24 @@ export default function Room_List() {
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>Our Signature Room Collection</h1>
                 <p style={{ textAlign: "center", margin: "0 0 10px" }}>Enjoy our Signature or Signature Plus guestrooms that are elegantly decorated to complement the breathtaking views of the Toronto skyline or Lake Ontario, from the over-sized opening window, accentuated by 9’ high ceilings.</p>
                 <div class="container" style={{ textAlign: "center", marginLeft: "550px", marginRight: "550px", marginTop: "25px" }}>
-                    <a href='Reservations'>Book Now</a>
+                    <a href='/Reservation/Client'>Book Now</a>
                 </div>
             </div>
             <div class="roomlistTable">
-                <table style={{ textAlign: "center", display: "flex", flexWrap: "wrap", marginBottom: "20px", justifyContent:'center', alignItems:'center'}}>
-                    {rooms.map(filteredRoom => {
-                        if (!reservations.some(reservation => reservation.roomName == filteredRoom.name)) {
-                        return <a href='Insight' style={{paddingLeft: "10px", paddingRight: "10px"}} onClick={() => {
-                            roomNameLocal(filteredRoom.name, filteredRoom.equips);
-                          }}>
-                            <div style={{ position: "relative", textAlign: "center"}}>
-                                <img src={suite} class="img" alt="Suite" style={{ width: "100%" }} />
-                                <div class="centered" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", width: "80%", backgroundColor: "rgba(0, 0, 0, .4)", borderRadius: "25px" }}>
-                                    <h1 style={{ fontFamily: "'Playfair Display',serif" }}>{filteredRoom.name}</h1>
-                                    <p style={{ textAlign: "center", margin: "0 0 10px" }}>Ideal for up to {filteredRoom.guestNum} guest(s) with {filteredRoom.beds} beds - Approximately {filteredRoom.size} sq.ft</p>
-                                </div>
+                {/* revert back to non filter on later date */}
+                <table style={{ textAlign: "center", display: "flex", flexWrap: "wrap", marginBottom: "20px", justifyContent: 'center', alignItems: 'center' }}>
+                    {rooms.map(filteredRoom => <a href='Insight' style={{ paddingLeft: "10px", paddingRight: "10px" }} onClick={() => {
+                        roomNameLocal(filteredRoom.name, filteredRoom.equips);
+                    }}>
+                        <div style={{ position: "relative", textAlign: "center" }}>
+                            <img src={suite} class="img" alt="Suite" style={{ width: "100%" }} />
+                            <div class="centered" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", width: "80%", backgroundColor: "rgba(0, 0, 0, .4)", borderRadius: "25px" }}>
+                                <h1 style={{ fontFamily: "'Playfair Display',serif" }}>{filteredRoom.name}</h1>
+                                <p style={{ textAlign: "center", margin: "0 0 10px" }}>Ideal for up to {filteredRoom.guestNum} guest(s) with {filteredRoom.beds} beds - Approximately {filteredRoom.size} sq.ft</p>
                             </div>
-                        </a>
-                    }})}
+                        </div>
+                    </a>
+                    )}
                 </table>
             </div>
             <div class="footer">
@@ -126,5 +125,4 @@ export default function Room_List() {
             </div>
         </div>
     </ThemeProvider>
-    // }
 }

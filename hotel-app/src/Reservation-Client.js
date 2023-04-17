@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -17,10 +17,6 @@ function formatDate(string) {
 export default function Reservation_Client() {
     const navigate = useNavigate();
 
-    // if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
-    //     return <Navigate to="/" />;
-    // }
-    // else {
     var ipAddress;
 
     if (process.env.REACT_APP_VERCEL_URL) {
@@ -63,6 +59,10 @@ export default function Reservation_Client() {
     }])
 
     useEffect(() => {
+        if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
+            navigate("/");
+        }
+
         fetch(ipAddress + "get/customer/" + localStorage.getItem("username")).then(res => {
             if (res.ok) {
                 return res.json()
@@ -81,14 +81,23 @@ export default function Reservation_Client() {
             }
         }).then(jsonRes => setRooms(jsonRes));
 
+        console.log(localStorage.getItem("accountType"));
+
         if (reservation) {
             console.log("There is reservation");
             console.log(reservation);
             document.getElementById("bookingLink").style.display = "none";
             document.getElementById("mainDiv").style.display = "flex";
-            document.getElementById("mainbox").style.height = "initial"
-            document.getElementById("nameMesg-h1").innerHTML = "Your Active Reservation"
+            document.getElementById("mainbox").style.height = "initial";
+            document.getElementById("nameMesg-h1").innerHTML = "Your Active Reservation";
             document.getElementById("resName").innerHTML = reservation.name;
+            if (localStorage.getItem("paymentStatus") === "Paid") {
+                document.getElementById("resStatus").innerHTML = "Payment Status: Paid";
+                //Add a to payment button and style.display = none
+            }
+            else {
+                document.getElementById("resStatus").innerHTML = "Payment Status: Not Paid";
+            }
             document.getElementById("resPhone").innerHTML = "Phone Number: " + reservation.phone;
             document.getElementById("resEmail").innerHTML = "Email: " + reservation.email;
             document.getElementById("resRoomName").innerHTML = "Name of Room: " + reservation.roomName;
@@ -149,7 +158,7 @@ export default function Reservation_Client() {
             </div>
             <Box id="mainbox" backgroundColor='#rgb(175, 246, 239)'>
                 <div id="mainDiv" style={{ display: 'flex', justifyContent: "center", marginBottom: "50px" }}>
-                    <Box width='800px' height='475px'
+                    <Box width='800px' height='550px'
                         sx={{
                             display: 'flex',
                             backgroundColor: 'primary.light',
@@ -160,6 +169,10 @@ export default function Reservation_Client() {
                         border="3px solid rgb(8, 102, 156)" color="white">
                         <Grid container spacing={0} justifyContent="center">
                             <h1 id="resName" style={{ textAlign: "center" }}></h1>
+                        </Grid>
+
+                        <Grid container rowSpacing={3}>
+                            <h4 id="resStatus" style={{ marginLeft: "20px" }}></h4>
                         </Grid>
 
                         <Grid container rowSpacing={3}>
@@ -183,12 +196,10 @@ export default function Reservation_Client() {
                         </Grid>
 
                         <Grid container rowSpacing={3}>
-                            {/* <h4 style={{ marginLeft: "20px" }}>Will Arrive on: {formatDate(reservation.arrive)}</h4> */}
                             <h4 id="resArrive" style={{ marginLeft: "20px" }}>Will Arrive on: </h4>
                         </Grid>
 
                         <Grid container rowSpacing={3}>
-                            {/* <h4 style={{ marginLeft: "20px" }}>Will Depart on: {formatDate(reservation.depart)}</h4> */}
                             <h4 id="resDepart" style={{ marginLeft: "20px" }}>Will Depart on: </h4>
                         </Grid>
 
@@ -236,5 +247,4 @@ export default function Reservation_Client() {
             </div>
         </div>
     </ThemeProvider>
-    // }
 }
