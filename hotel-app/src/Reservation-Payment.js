@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, Navigate } from "react-router-dom";
 import Divider from '@mui/material/Divider';
 import './home.css';
+import { useState } from 'react';
 
 const theme = createTheme();
 
@@ -14,6 +15,10 @@ export default function Reservation_Payment() {
     const navigate = useNavigate();
     const elements = useElements;
     const stripe = useStripe;
+    const [cardNumber, setCardNumber] = useState("");
+    const [month, setMonth] = useState("");
+    const [year, setYear] = useState("");
+    const [cvc, setCVC] = useState("");
 
     var ipAddress;
 
@@ -27,21 +32,28 @@ export default function Reservation_Payment() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const cardElementContainer = document.querySelector('#card-element');
-        let formValid = !cardElementContainer.classList.contains('StripeElement--invalid');
-        let formComplete = cardElementContainer.classList.contains('StripeElement--complete');
-
-        if (!formValid) {
-            alert(`Your card in not valid!`);
-        }
-        else if (!formComplete) {
-            alert(`You have not filled in all the fields!`);
-        }
-        else {
+        const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+        
+        try {
+            const token = await stripe.tokens.create({
+                card: {
+                    number: cardNumber,
+                    exp_month: month,
+                    exp_year: year,
+                    cvc: cvc,
+                },
+            });
+            if (token) 
+        {
             localStorage.setItem("paymentStatus", "Paid");
             alert(`Payment successfully received!`);
             navigate('/reservation/Client');
         }
+        } catch (error) {
+            console.log("Error");
+        } 
+        
+        
     }
 
     if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
@@ -88,8 +100,34 @@ export default function Reservation_Payment() {
                                 <div className="checkout-form">
                                     <p>Amount: ${localStorage.getItem("grandTotal")}</p>
                                     <form id="payment-form" onSubmit={handleSubmit}>
-                                        <label htmlFor="card-element">Credit Card</label>
-                                        <CardElement id="card-element" />
+                                    <label>Card Number:
+                                            <input
+                                                type="text" 
+                                                value={cardNumber}
+                                                onChange={(e) => setCardNumber(e.target.value)}
+                                            />
+                                            </label>
+                                            <label>Expiry Month:
+                                            <input
+                                                type="text" 
+                                                value={month}
+                                                onChange={(e) => setMonth(e.target.value)}
+                                            />
+                                            </label>
+                                            <label>Expiry Year:
+                                            <input
+                                                type="text" 
+                                                value={year}
+                                                onChange={(e) => setYear(e.target.value)}
+                                            />
+                                            </label>
+                                            <label>CVC:
+                                            <input
+                                                type="text" 
+                                                value={cvc}
+                                                onChange={(e) => setCVC(e.target.value)}
+                                            />
+                                            </label>
                                         <Button type="submit" className="order-button">
                                             Pay
                                         </Button>
