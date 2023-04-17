@@ -9,6 +9,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, Navigate } from "react-router-dom";
+
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import axios from "axios";
 
 const theme = createTheme({
@@ -23,6 +29,7 @@ export default function Reservation_Edit() {
   const navigate = useNavigate();
 
   var currentRoomIndex = useRef(localStorage.getItem("roomIndex"));
+  var blackoutDates = useRef();
 
   // SELECTED RESERVATION DATA
   console.log(localStorage);
@@ -30,11 +37,9 @@ export default function Reservation_Edit() {
 
   var arriveDate = new Date(localStorage.getItem("arriveDate"));
   const arriveDateString = arriveDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' });
-  console.log(arriveDateString);
 
   var departDate = new Date(localStorage.getItem("departDate"));
   const departDateString = departDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' });
-  console.log(departDateString);
 
   var guestNum = localStorage.getItem("guestNum");
 
@@ -57,15 +62,17 @@ export default function Reservation_Edit() {
     equips: [String]
   }])
 
-  useEffect(() => {
-    fetch(ipAddress + "getAll/room").then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-    }).then(jsonRes => setRooms(jsonRes));
-  })
-
-  console.log(rooms);
+  const [reservations, setReservations] = useState([{
+    id: String,
+    name: String,
+    phone: String,
+    guestNum: String,
+    arrive: Date,
+    depart: Date,
+    roomName: String,
+    requests: String,
+    price: Number
+  }])
 
   const [reservation, setReservation] = useState([{
     id: String,
@@ -81,6 +88,18 @@ export default function Reservation_Edit() {
   }])
 
   useEffect(() => {
+    fetch(ipAddress + "getAll/room").then(res => {
+      if (res.ok) {
+        return res.json()
+      }
+    }).then(jsonRes => setRooms(jsonRes));
+
+    fetch(ipAddress + "getAll/reservation").then(res => {
+      if (res.ok) {
+        return res.json()
+      }
+    }).then(jsonRes => setReservations(jsonRes));
+
     fetch(ipAddress + "get/reservation/id/" + resId).then(res => {
       if (res.ok) {
         return res.json()
@@ -88,19 +107,27 @@ export default function Reservation_Edit() {
     }).then(jsonRes => setReservation(jsonRes));
   })
 
-  console.log(reservation);
-
-  var currentDate = new Date();
-  //var currentDateString = currentDate.toISOString().slice(0, 10);
-  var nextDate = new Date();
-  nextDate.setDate(currentDate.getDate() + 1);
-  var nextDateString = nextDate.toISOString().slice(0, 10);
-
   const handleChangeRoom = (event) => {
     console.log("HandleChangeRoom");
     event.preventDefault();
     currentRoomIndex.current = event.target.value;
     console.log("Room index = " + currentRoomIndex.current);
+
+    blackoutDates.current = [];
+
+    reservations.map(reservation => {
+      if (reservation.roomName == rooms[currentRoomIndex.current].name) {
+        console.log(reservation.roomName);
+        console.log(rooms[currentRoomIndex.current].name)
+        console.log(reservation.arrive);
+        console.log(reservation.depart);
+        var arriveDate = new Date(reservation.arrive);
+        blackoutDates.current.push(arriveDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
+        var departDate = new Date(reservation.depart);
+        blackoutDates.current.push(departDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
+      }
+    })
+
     handleChangeUpdatePrice();
   }
 
@@ -112,8 +139,8 @@ export default function Reservation_Edit() {
 
     let price = 0;
 
-    let dateArrive = new Date(document.getElementById("arrive").value);
-    let dateDepart = new Date(document.getElementById("depart").value);
+    let dateArrive = new Date(document.getElementById(":r5:").value);
+    let dateDepart = new Date(document.getElementById(":r9:").value);
 
     let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
@@ -144,16 +171,12 @@ export default function Reservation_Edit() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    // function getRandomInt() {
-    //   return Math.floor(Math.random() * 1000);
-    // }
-
     function getPrice(roomIndex) {
       /*
       get price according to the room selected and multiply it with the nights staying. result should be the price charged to customer
       */
-      let dateArrive = new Date(data.get('arrive'));
-      let dateDepart = new Date(data.get('depart'));
+      let dateArrive = new Date(document.getElementById(":r5:").value);
+      let dateDepart = new Date(document.getElementById(":r9:").value);  
 
       let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
@@ -174,8 +197,8 @@ export default function Reservation_Edit() {
       phone: data.get('phone'),
       email: data.get('email'),
       guestNum: data.get('guestNum'),
-      arrive: data.get('arrive'),
-      depart: data.get('depart'),
+      arrive: document.getElementById(":r5:").value,
+      depart: document.getElementById(":r9:").value,
       price: parseFloat(Number(getPrice(data.get('roomName')))).toFixed(2),
       roomName: rooms[data.get('roomName')].name,
       requests: data.get('requests')
@@ -267,16 +290,19 @@ export default function Reservation_Edit() {
                     <h5>Date of Arrival:</h5>
                   </Grid>
                   <Grid item>
-                    <TextField
-                      required
-                      sx={{ width: 160 }}
-                      defaultValue={arriveDateString}
-                      InputProps={{ inputProps: { min: nextDateString } }}
-                      type="date"
-                      id="arrive"
-                      name="arrive"
-                      onChange={handleChangeUpdatePrice}
-                    />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        label="Arrival Date"
+                        defaultValue={dayjs(arriveDateString, "YYYY-MM-DD")}
+                        minDate={dayjs().add(1, 'day')}
+                        required
+                        disablePast
+                        className="arrive"
+                        format="YYYY-MM-DD"
+                        shouldDisableDate={shouldDisableDate}
+                        onChange={() => handleChangeUpdatePrice()}
+                        />
+                    </LocalizationProvider>
                   </Grid>
                 </Grid>
 
@@ -285,16 +311,19 @@ export default function Reservation_Edit() {
                     <h5>Date of Departure:</h5>
                   </Grid>
                   <Grid item>
-                    <TextField
-                      required
-                      sx={{ width: 160 }}
-                      defaultValue={departDateString}
-                      InputProps={{ inputProps: { min: nextDateString } }}
-                      type="date"
-                      id="depart"
-                      name="depart"
-                      onChange={handleChangeUpdatePrice}
-                    />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        label="Departure Date"
+                        defaultValue={dayjs(departDateString, "YYYY-MM-DD")}
+                        minDate={dayjs().add(1, 'day')}
+                        required
+                        disablePast
+                        className="depart"
+                        format="YYYY-MM-DD"
+                        shouldDisableDate={shouldDisableDate}
+                        onChange={() => handleChangeUpdatePrice()}
+                        />
+                    </LocalizationProvider>
                   </Grid>
                 </Grid>
 

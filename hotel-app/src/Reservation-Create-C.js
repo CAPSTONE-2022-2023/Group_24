@@ -74,13 +74,11 @@ export default function Reservation_Create_C() {
         return res.json()
       }
     }).then(jsonRes => setRooms(jsonRes));
-
-    console.log(blackoutDates);
   })
 
-  const shouldDisableDate = date => {
+  const shouldDisableDate = (date) => {
     if(blackoutDates.current !== undefined){
-      return blackoutDates.current.includes(date);
+      return blackoutDates.current.includes(date.toISOString().split('T')[0]);
     }
   }
 
@@ -90,7 +88,7 @@ export default function Reservation_Create_C() {
     currentRoomIndex.current = event.target.value;
     console.log("Room index = " + currentRoomIndex.current);
 
-    blackoutDates.current = []  ;
+    blackoutDates.current = [];
 
     reservations.map(reservation => {
       if (reservation.roomName == rooms[currentRoomIndex.current].name) {
@@ -118,9 +116,6 @@ export default function Reservation_Create_C() {
 
     let dateArrive = new Date(document.getElementById(":r5:").value);
     let dateDepart = new Date(document.getElementById(":r9:").value);
-
-    console.log(dateArrive);
-    console.log(dateDepart);
 
     let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
@@ -280,6 +275,7 @@ export default function Reservation_Create_C() {
                         required
                         disablePast
                         className="arrive"
+                        format="YYYY-MM-DD"
                         shouldDisableDate={shouldDisableDate}
                         onChange={() => handleChangeUpdatePrice()}
                         />
@@ -299,6 +295,7 @@ export default function Reservation_Create_C() {
                         required
                         disablePast
                         className="depart"
+                        format="YYYY-MM-DD"
                         shouldDisableDate={shouldDisableDate}
                         onChange={() => handleChangeUpdatePrice()}
                         />
