@@ -77,7 +77,7 @@ export default function Reservation_Create_C() {
   })
 
   const shouldDisableDate = (date) => {
-    if(blackoutDates.current !== undefined){
+    if (blackoutDates.current !== undefined) {
       return blackoutDates.current.includes(date.toISOString().split('T')[0]);
     }
   }
@@ -114,8 +114,17 @@ export default function Reservation_Create_C() {
 
     let price = 0;
 
-    let dateArrive = new Date(document.getElementById(":r5:").value);
-    let dateDepart = new Date(document.getElementById(":r9:").value);
+    let dateArrive;
+    let dateDepart;
+
+    if (process.env.REACT_APP_VERCEL_URL) {
+      dateArrive = new Date(document.getElementById(":r2:").value);
+      dateDepart = new Date(document.getElementById(":r4:").value);
+    }
+    else {
+      dateArrive = new Date(document.getElementById(":r5:").value);
+      dateDepart = new Date(document.getElementById(":r9:").value);
+    }
 
     let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
@@ -154,8 +163,17 @@ export default function Reservation_Create_C() {
       /*
       get price according to the room selected and multiply it with the nights staying. result should be the price charged to customer
       */
-      let dateArrive = new Date(document.getElementById(":r5:").value);
-      let dateDepart = new Date(document.getElementById(":r9:").value);
+      let dateArrive;
+      let dateDepart;
+
+      if (process.env.REACT_APP_VERCEL_URL) {
+        dateArrive = new Date(document.getElementById(":r2:").value);
+        dateDepart = new Date(document.getElementById(":r4:").value);
+      }
+      else {
+        dateArrive = new Date(document.getElementById(":r5:").value);
+        dateDepart = new Date(document.getElementById(":r9:").value);
+      }
 
       let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
@@ -183,7 +201,14 @@ export default function Reservation_Create_C() {
       requests: data.get('requests')
     }
 
-    console.log(newReservation);
+    if (process.env.REACT_APP_VERCEL_URL) {
+      newReservation.arrive = document.getElementById(":r2:").value;
+      newReservation.depart = document.getElementById(":r4:").value;
+    }
+    else{
+      newReservation.arrive = document.getElementById(":r5:").value;
+      newReservation.depart = document.getElementById(":r9:").value;
+    }
 
     axios.post(ipAddress + "create/reservation", newReservation);
     alert(`Reservation ${newReservation.id} create successful`);
@@ -270,7 +295,7 @@ export default function Reservation_Create_C() {
                   </Grid>
                   <Grid item>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker 
+                      <DatePicker
                         label="Arrival Date"
                         defaultValue={dayjs()}
                         required
@@ -279,7 +304,7 @@ export default function Reservation_Create_C() {
                         format="YYYY-MM-DD"
                         shouldDisableDate={shouldDisableDate}
                         onChange={() => handleChangeUpdatePrice()}
-                        />
+                      />
                     </LocalizationProvider>
                   </Grid>
                 </Grid>
@@ -290,7 +315,7 @@ export default function Reservation_Create_C() {
                   </Grid>
                   <Grid item>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker 
+                      <DatePicker
                         label="Departure Date"
                         defaultValue={dayjs()}
                         required
@@ -299,7 +324,7 @@ export default function Reservation_Create_C() {
                         format="YYYY-MM-DD"
                         shouldDisableDate={shouldDisableDate}
                         onChange={() => handleChangeUpdatePrice()}
-                        />
+                      />
                     </LocalizationProvider>
                   </Grid>
                 </Grid>
