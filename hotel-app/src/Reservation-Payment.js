@@ -50,7 +50,7 @@ export default function Reservation_Payment() {
             navigate('/reservation/Client');
         }
         } catch (error) {
-            console.log("Error");
+            alert(`The card information you have entered is invalid!`);
         } 
         
         
