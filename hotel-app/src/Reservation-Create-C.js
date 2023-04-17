@@ -181,8 +181,8 @@ export default function Reservation_Create_C() {
       phone: data.get('phone'),
       email: data.get('email'),
       guestNum: data.get('guestNum'),
-      arrive: data.get('arrive'),
-      depart: data.get('depart'),
+      arrive: document.getElementById(":r5:").value,
+      depart: document.getElementById(":r9:").value,
       price: parseFloat(Number(getPrice(data.get('roomName')))).toFixed(2),
       roomName: rooms[data.get('roomName')].name,
       requests: data.get('requests')
