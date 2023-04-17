@@ -86,7 +86,7 @@ export default function Reservation_Payment() {
                             <Grid container display="grid" alignContent="center" gridAutoFlow="column" width="50%">
 
                                 <div className="checkout-form">
-                                    <p>Amount: ${localStorage.getItem("reservationTotal")}</p>
+                                    <p>Amount: ${localStorage.getItem("grandTotal")}</p>
                                     <form id="payment-form" onSubmit={handleSubmit}>
                                         <label htmlFor="card-element">Credit Card</label>
                                         <CardElement id="card-element" />
