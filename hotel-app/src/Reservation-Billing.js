@@ -111,6 +111,7 @@ export default function Reservation_Billing() {
             document.getElementById("resTotalTax").innerHTML = reservation.price * 5 / 100;
             document.getElementById("resGrandTotal").innerHTML = reservation.price + (reservation.price * 5 / 100);
             localStorage.setItem("reservationTotal", reservation.price);
+            localStorage.setItem("grandTotal", reservation.price + (reservation.price * 5 / 100));
         }
     })
 
