@@ -151,6 +151,9 @@ export default function Reservation_Edit() {
 
     let price = 0;
 
+    let dateArrive;
+    let dateDepart;
+
     if (process.env.REACT_APP_VERCEL_URL) {
       dateArrive = new Date(document.getElementById(":r2:").value);
       dateDepart = new Date(document.getElementById(":r4:").value);
@@ -193,6 +196,9 @@ export default function Reservation_Edit() {
       /*
       get price according to the room selected and multiply it with the nights staying. result should be the price charged to customer
       */
+      let dateArrive;
+      let dateDepart;
+
       if (process.env.REACT_APP_VERCEL_URL) {
         dateArrive = new Date(document.getElementById(":r2:").value);
         dateDepart = new Date(document.getElementById(":r4:").value);
@@ -293,8 +299,8 @@ export default function Reservation_Edit() {
                     onChange={handleChangeRoom}
                   >
                     {rooms.map((room, index) =>
-                      <MenuItem value={index}>{room.name}</MenuItem>
-                    )}
+                      <MenuItem value={index}>{room.name} - ${room.price}/night</MenuItem>
+                      )}
                   </Select>
                 </FormControl>
 
