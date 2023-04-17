@@ -1,4 +1,4 @@
-import { CardElement, AddressElement } from "@stripe/react-stripe-js";
+import { CardElement, AddressElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -12,6 +12,8 @@ const theme = createTheme();
 
 export default function Reservation_Payment() {
     const navigate = useNavigate();
+    const elements = useElements;
+    const stripe = useStripe;
 
     var ipAddress;
 
@@ -22,10 +24,24 @@ export default function Reservation_Payment() {
         ipAddress = "http://localhost:3001/"
     }
 
-    function handleSubmit() {
-        localStorage.setItem("paymentStatus", "Paid");
-        alert(`Payment successfully received!`);
-        navigate('/reservation/Client');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const cardElementContainer = document.querySelector('#card-element');
+        let formValid = !cardElementContainer.classList.contains('StripeElement--invalid');
+        let formComplete = cardElementContainer.classList.contains('StripeElement--complete');
+
+        if (!formValid) {
+            alert(`Your card in not valid!`);
+        }
+        else if (!formComplete) {
+            alert(`You have not filled in all the fields!`);
+        }
+        else {
+            localStorage.setItem("paymentStatus", "Paid");
+            alert(`Payment successfully received!`);
+            navigate('/reservation/Client');
+        }
     }
 
     if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
@@ -56,7 +72,7 @@ export default function Reservation_Payment() {
                             </Grid>
 
                             <Grid container display="grid" alignContent="center" gridAutoFlow="column" width="80%">
-                                <AddressElement options={{
+                                <AddressElement id="address-element" options={{
                                     mode: "billing"
                                 }} />
                             </Grid>
