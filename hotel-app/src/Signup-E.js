@@ -34,14 +34,6 @@ export default function SignUp_E() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-      phone: data.get('phone'),
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      empCode: data.get('emp-code')
-    });
 
     if (data.get('emp-code') !== "1111") {
       alert("Wrong employee password, please try again!");

@@ -35,15 +35,6 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-      phone: data.get('phone'),
-      title: data.get('title'),
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      address: data.get('address')
-    });
 
     const newClient = {
       title: data.get('title'),

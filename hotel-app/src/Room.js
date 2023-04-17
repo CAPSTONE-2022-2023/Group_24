@@ -22,8 +22,7 @@ export default function Room() {
     const navigate = useNavigate();
     var roomName = localStorage.getItem("localRoomName");
     var roomEquips = localStorage.getItem("localRoomEquips").split(",");
-    console.log("Room:" + roomName);
-    console.log(roomEquips)
+    
 
     var ipAddress;
 

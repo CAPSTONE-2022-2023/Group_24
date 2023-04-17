@@ -38,24 +38,12 @@ export default function Room_Edit() {
   var oldBeds = localStorage.getItem("roomBeds");
   var oldEquips = JSON.parse(localStorage.getItem("roomEquips"));
 
-  console.log("Old name: " + oldName);
-  console.log("Old Overview: " + oldOverview);
-  console.log("Old GuestNum: " + oldGuestNum);
-  console.log("Old Size: " + oldSize);
-  console.log("Old Price: " + oldPrice);
-  console.log("Old Beds: " + oldBeds);
-
   const bedArray = oldBeds.split(" ", 2);
-  console.log(bedArray);
   const oldBedNum = Number(bedArray[0]);
   const oldBedType = bedArray[1];
 
   if (oldBedType === "California") {
     oldBedType.concat(" ", "King");
-  }
-
-  for (var i = 0; i < oldEquips.length; i++) {
-    console.log(oldEquips[i]);
   }
 
   const handleSubmit = (event) => {
@@ -68,17 +56,6 @@ export default function Room_Edit() {
         equipments.push(data.get(`equip${i}`).trim())
       }
     }
-
-    console.log({
-      oldName: oldName,
-      name: data.get('name'),
-      overview: data.get('overview').trim(),
-      guestNum: data.get('guestNum'),
-      size: data.get('size'),
-      price: parseFloat(Number(data.get('price'))).toFixed(2),
-      beds: data.get('bedNum') + " " + data.get('bedType'),
-      equips: equipments
-    });
 
     const newRoom = {
       name: data.get('name'),

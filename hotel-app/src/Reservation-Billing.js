@@ -24,8 +24,6 @@ function daysBetween(arrive, depart) {
 
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-    console.log("Diff Days: " + Difference_In_Days);
-
     return Difference_In_Days;
 }
 

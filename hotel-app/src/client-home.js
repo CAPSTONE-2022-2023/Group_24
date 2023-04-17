@@ -16,7 +16,6 @@ const theme = createTheme({
 });
 
 export default function CHome() {
-    console.log(localStorage);
     
     if (localStorage.getItem("username") === null || localStorage.getItem("username") === "") {
         return <Navigate to="/" />;

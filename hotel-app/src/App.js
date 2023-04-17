@@ -26,10 +26,10 @@ const theme = createTheme({
 var accountType = -1;
 
 function SignIn() {
-  console.log(accountType);
+  
   const navigate = useNavigate();
   localStorage.clear();
-  console.log(localStorage);
+  
   const [clients, setClients] = useState([{
     name: '',
     phone: 0,
@@ -81,12 +81,12 @@ function SignIn() {
     else{
       accountType = 0;
     }
-    console.log("Employee checkbox " + accountType);
+    
 
     if (accountType === 0) {
       arrLength = clients.length;
       for (var i = 0; i < arrLength; i++) {
-        console.log(clients[i].username);
+        
         if (clients[i].username === data.get('username') && clients[i].password === data.get('password')) {
           localStorage.setItem("username", clients[i].username);
           localStorage.setItem("password", clients[i].password);
@@ -100,7 +100,7 @@ function SignIn() {
         }
       }
 
-      console.log("error");
+      
 
       if(error === 1){
         alert("Error signing in. Username/Password/Account Type is incorrect. Please try again.");
@@ -110,7 +110,7 @@ function SignIn() {
     if (accountType === 1) {
       arrLength = employees.length;
       for (var y = 0; y < arrLength; y++) {
-        console.log(employees[y].username);
+       
         if (employees[y].username === data.get('username') && employees[y].password === data.get('password')) {
           localStorage.setItem("username", employees[y].username);
           localStorage.setItem("password", employees[y].password);
@@ -124,7 +124,7 @@ function SignIn() {
         }
       }
 
-      console.log("error");
+     
 
       if(error === 1){
         alert("Error signing in. Username/Password/Account Type is incorrect. Please try again.");
@@ -138,7 +138,7 @@ function SignIn() {
     } else {
       accountType = 0;
     }
-    console.log("Account Type: " + accountType);
+    
   };
 
   return (

@@ -27,7 +27,6 @@ export default function Room_List() {
     }
 
     const roomNameLocal = (name, equips) => {
-        console.log("Local Room Name: " + name);
         localStorage.setItem("localRoomName", name);
         localStorage.setItem("localRoomEquips", equips)
     }

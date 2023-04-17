@@ -7,7 +7,6 @@ const Reservation = require("../models/reservationModel");
 const sgMail = require('@sendgrid/mail');
 const { text } = require("body-parser");
 
-console.log(process.env.SENDGRID_API_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 function formatDate(string) {
@@ -128,7 +127,7 @@ router.route("/post/sendCreateEmail").post((req, res) => {
     sgMail
       .send(msg)
       .then(() => {
-        console.log('Email sent');
+        
       })
       .catch((error) => {
         console.error(error);
@@ -179,7 +178,7 @@ router.route("/post/sendRequestUpdateEmail").post((req, res) => {
 
     const changes = req.body.changes;
 
-    console.log(changes);
+    
 
     let textChanges = ``;
 
@@ -217,7 +216,7 @@ router.route("/post/sendRequestUpdateEmail").post((req, res) => {
         }
     }
 
-    console.log(textChanges);
+    
 
     const msg = {
       to: [email, 'seneca.hotels@gmail.com'], // Change to your recipient
@@ -230,7 +229,7 @@ router.route("/post/sendRequestUpdateEmail").post((req, res) => {
     sgMail
       .sendMultiple(msg)
       .then(() => {
-        console.log('Email sent');
+        
       })
       .catch((error) => {
         console.error(error);
@@ -289,23 +288,22 @@ router.route("/getAll/reservation").get((req, res) => {
 
 router.route("/delete/room").delete((req, res) => {
     Room.deleteOne({ name: req.body.name }).then(function () {
-        console.log(req.body.name + "Room Deleted"); // Success
+       // Success
     }).catch(function (error) {
-        console.log(error); // Failure
+    // Failure
     });
 })
 
 router.route("/delete/reservation").delete((req, res) => {
     Reservation.deleteOne({ id: req.body.id }).then(function () {
-        console.log("Reversation Cancel/Deleted"); // Success
+         // Success
     }).catch(function (error) {
-        console.log(error); // Failure
+         // Failure
     });
 })
 
 router.route("/edit/room").post((req, res) => {
-    console.log("Old Room name" + req.body.oldRoomName);
-    console.log("Edit Room name" + req.body.editRoom.name);
+    
 
     Room.updateOne({ name: req.body.oldRoomName }, {$set: {name: req.body.editRoom.name, 
                                                            overview: req.body.editRoom.overview,
@@ -314,14 +312,14 @@ router.route("/edit/room").post((req, res) => {
                                                            price: req.body.editRoom.price,
                                                            beds: req.body.editRoom.beds,
                                                            equips: req.body.editRoom.equips}}).then(function () {
-        console.log(req.body.oldRoomName + "Room Updated to " + req.body.editRoom.name + " Room"); // Success
+         // Success
     }).catch(function (error) {
-        console.log(error); // Failure
+         // Failure
     });
 })
 
 router.route("/edit/reservation").post((req, res) => {
-    console.log("Edit Reservation ID" + req.body.id);
+    
 
     Reservation.updateOne({ id: req.body.id }, {$set: {name: req.body.name, 
                                                            phone: req.body.phone,
@@ -333,9 +331,9 @@ router.route("/edit/reservation").post((req, res) => {
                                                            requests: req.body.requests,
                                                            price: req.body.price,
                                                            }}).then(function () {
-        console.log(`Reservation ${req.body.id} Updated`); // Success
+        // Success
     }).catch(function (error) {
-        console.log(error); // Failure
+         // Failure
     });
 })
 module.exports = router;

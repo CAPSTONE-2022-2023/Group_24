@@ -24,13 +24,13 @@ export default function Room_View() {
   }
 
   const deleteRoombyName = (room) => {
-    console.log("Delete: " + room.name);
+    
 
     axios.delete(ipAddress + "delete/room", { data: room });
   }
 
   const editRoombyName = (room) => {
-    console.log("Edit: " + room.name);
+    
     localStorage.setItem("roomName", room.name);
     localStorage.setItem("roomOverview", room.overview);
     localStorage.setItem("roomGuestNum", room.guestNum);

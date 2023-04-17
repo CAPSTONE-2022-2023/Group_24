@@ -81,11 +81,7 @@ export default function Reservation_Client() {
             }
         }).then(jsonRes => setRooms(jsonRes));
 
-        console.log(localStorage.getItem("accountType"));
-
         if (reservation) {
-            console.log("There is reservation");
-            console.log(reservation);
             document.getElementById("bookingLink").style.display = "none";
             document.getElementById("mainDiv").style.display = "flex";
             document.getElementById("mainbox").style.height = "initial";
@@ -108,7 +104,6 @@ export default function Reservation_Client() {
             document.getElementById("resRequest").innerHTML = "Request(s): " + reservation.requests;
         }
         else {
-            console.log("There is NO reservation");
             document.getElementById("bookingLink").style.display = "initial";
             document.getElementById("mainbox").style.height = `${window.innerHeight / 4}px`;
             document.getElementById("nameMesg-h1").innerHTML = "You Currently have no Active Reservation"
@@ -123,15 +118,12 @@ export default function Reservation_Client() {
                 roomIndex = index
             }
         })
-        console.log("roomIndex = " + roomIndex);
         return roomIndex;
     }
 
     localStorage.setItem("clientName", customer.name);
-    console.log(customer.name);
 
     const editResbyId = (res) => {
-        console.log("resId: " + res.id);
         localStorage.setItem("resId", res.id);
         localStorage.setItem("roomIndex", getRoomIndex(res.roomName));
         localStorage.setItem("arriveDate", res.arrive);
@@ -141,7 +133,6 @@ export default function Reservation_Client() {
     }
 
     const deleteResbyId = (res) => {
-        console.log("Cancel reservation id: " + res.id);
         axios.delete(ipAddress + "delete/reservation", { data: res });
     }
 

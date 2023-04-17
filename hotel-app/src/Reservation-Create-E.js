@@ -83,19 +83,13 @@ export default function Reservation_Create_E() {
   }
 
   const handleChangeRoom = (event) => {
-    console.log("HandleChangeRoom");
     event.preventDefault();
     currentRoomIndex.current = event.target.value;
-    console.log("Room index = " + currentRoomIndex.current);
 
     blackoutDates.current = [];
 
     reservations.map(reservation => {
       if (reservation.roomName == rooms[currentRoomIndex.current].name) {
-        console.log(reservation.roomName);
-        console.log(rooms[currentRoomIndex.current].name)
-        console.log(reservation.arrive);
-        console.log(reservation.depart);
         var arriveDate = new Date(reservation.arrive);
         blackoutDates.current.push(arriveDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
         var departDate = new Date(reservation.depart);
@@ -107,10 +101,8 @@ export default function Reservation_Create_E() {
   }
 
   function handleChangeUpdatePrice() {
-    console.log("HANDLE_CHANGE_UPDATE_PRICE");
 
     let roomIndex = currentRoomIndex.current.valueOf();
-    console.log("roomIndex = " + roomIndex);
 
     let price = 0;
 
@@ -121,22 +113,16 @@ export default function Reservation_Create_E() {
 
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-    console.log("Diff Days: " + Difference_In_Days);
 
     if (Difference_In_Days === 0) {
       Difference_In_Days = 1;
     }
 
-    console.log("Curren room index = " + roomIndex);
 
     if (roomIndex >= 0) {
       price = rooms[roomIndex].price * Difference_In_Days;
 
-      console.log(price);
-
       price = parseFloat(Number(price)).toFixed(2)
-
-      console.log(price);
 
       document.getElementById("grand_total").innerHTML = `$${price}`;
     }
@@ -161,11 +147,7 @@ export default function Reservation_Create_E() {
 
       let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-      console.log(Difference_In_Days);
-
       let price = rooms[roomIndex].price * Difference_In_Days;
-
-      console.log(price);
 
       return price;
     }
@@ -182,8 +164,6 @@ export default function Reservation_Create_E() {
       roomName: rooms[data.get('roomName')].name,
       requests: data.get('requests')
     }
-
-    console.log(newReservation);
 
     axios.post(ipAddress + "create/reservation", newReservation);
     alert(`Reservation ${newReservation.id} create successful`);

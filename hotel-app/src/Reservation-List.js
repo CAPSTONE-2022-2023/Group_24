@@ -64,12 +64,12 @@ export default function Reservation_List() {
                 roomIndex = index
             }
         })
-        console.log("roomIndex = " + roomIndex);
+   
         return roomIndex;
     }
 
     const editResbyId = (res) => {
-        console.log("resId: " + res.id);
+       
         localStorage.setItem("resId", res.id);
         localStorage.setItem("roomIndex", getRoomIndex(res.roomName));
         localStorage.setItem("arriveDate", res.arrive);
@@ -79,7 +79,7 @@ export default function Reservation_List() {
     }
 
     const deleteResbyId = (res) => {
-        console.log("Cancel reservation id: " + res.id);
+        
         axios.delete(ipAddress + "delete/reservation", { data: res });
     }
 

@@ -34,15 +34,7 @@ export default function Room_Create() {
       }
     }
 
-    console.log({
-      name: data.get('name'),
-      overview: data.get('overview').trim(),
-      guestNum: data.get('guestNum'),
-      size: data.get('size'),
-      price: parseFloat(Number(data.get('price'))).toFixed(2),
-      beds: data.get('bedNum') + " " + data.get('bedType'),
-      equips: equipments
-    });
+    
 
     const newRoom = {
       name: data.get('name'),
