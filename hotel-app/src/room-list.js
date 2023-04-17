@@ -92,7 +92,7 @@ export default function Room_List() {
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>Our Signature Room Collection</h1>
                 <p style={{ textAlign: "center", margin: "0 0 10px" }}>Enjoy our Signature or Signature Plus guestrooms that are elegantly decorated to complement the breathtaking views of the Toronto skyline or Lake Ontario, from the over-sized opening window, accentuated by 9’ high ceilings.</p>
                 <div class="container" style={{ textAlign: "center", marginLeft: "550px", marginRight: "550px", marginTop: "25px" }}>
-                    <a href='Reservations'>Book Now</a>
+                    <a href='/Reservation/Client'>Book Now</a>
                 </div>
             </div>
             <div class="roomlistTable">

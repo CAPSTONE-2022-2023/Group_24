@@ -69,11 +69,11 @@ export default function Reservation_Create_E() {
       }
     }).then(jsonRes => setRooms(jsonRes));
 
-    fetch(ipAddress + "getAll/room").then(res => {
+    fetch(ipAddress + "getAll/reservation").then(res => {
       if (res.ok) {
         return res.json()
       }
-    }).then(jsonRes => setRooms(jsonRes));
+    }).then(jsonRes => setReservations(jsonRes));
   })
 
   const shouldDisableDate = (date) => {

@@ -108,7 +108,7 @@ export default function Reservation_Edit() {
   })
 
   const shouldDisableDate = (date) => {
-    if(blackoutDates.current !== undefined){
+    if (blackoutDates.current !== undefined) {
       return blackoutDates.current.includes(date.toISOString().split('T')[0]);
     }
   }
@@ -121,16 +121,22 @@ export default function Reservation_Edit() {
 
     blackoutDates.current = [];
 
-    reservations.map(reservation => {
-      if (reservation.roomName == rooms[currentRoomIndex.current].name) {
-        console.log(reservation.roomName);
-        console.log(rooms[currentRoomIndex.current].name)
-        console.log(reservation.arrive);
-        console.log(reservation.depart);
-        var arriveDate = new Date(reservation.arrive);
-        blackoutDates.current.push(arriveDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
-        var departDate = new Date(reservation.depart);
-        blackoutDates.current.push(departDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
+    reservations.map(currReservation => {
+      if (currReservation.roomName === rooms[currentRoomIndex.current].name) {
+        var arriveDate = new Date(currReservation.arrive);
+        var departDate = new Date(currReservation.depart);
+        if (currReservation.roomName !== reservation.roomName) {
+          blackoutDates.current.push(arriveDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
+          blackoutDates.current.push(departDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
+        }
+        else {
+          if (currReservation.arrive !== reservation.arrive) {
+            if (currReservation.depart !== reservation.depart) {
+              blackoutDates.current.push(arriveDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
+              blackoutDates.current.push(departDate.toLocaleDateString("fr-CA", { timeZone: 'UTC' }));
+            }
+          }
+        }
       }
     })
 
@@ -182,7 +188,7 @@ export default function Reservation_Edit() {
       get price according to the room selected and multiply it with the nights staying. result should be the price charged to customer
       */
       let dateArrive = new Date(document.getElementById(":r5:").value);
-      let dateDepart = new Date(document.getElementById(":r9:").value);  
+      let dateDepart = new Date(document.getElementById(":r9:").value);
 
       let Difference_In_Time = dateDepart.getTime() - dateArrive.getTime();
 
@@ -296,8 +302,8 @@ export default function Reservation_Edit() {
                     <h5>Date of Arrival:</h5>
                   </Grid>
                   <Grid item>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker 
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
                         label="Arrival Date"
                         defaultValue={dayjs(arriveDateString, "YYYY-MM-DD")}
                         minDate={dayjs().add(1, 'day')}
@@ -307,7 +313,7 @@ export default function Reservation_Edit() {
                         format="YYYY-MM-DD"
                         shouldDisableDate={shouldDisableDate}
                         onChange={() => handleChangeUpdatePrice()}
-                        />
+                      />
                     </LocalizationProvider>
                   </Grid>
                 </Grid>
@@ -317,8 +323,8 @@ export default function Reservation_Edit() {
                     <h5>Date of Departure:</h5>
                   </Grid>
                   <Grid item>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker 
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
                         label="Departure Date"
                         defaultValue={dayjs(departDateString, "YYYY-MM-DD")}
                         minDate={dayjs().add(1, 'day')}
@@ -328,7 +334,7 @@ export default function Reservation_Edit() {
                         format="YYYY-MM-DD"
                         shouldDisableDate={shouldDisableDate}
                         onChange={() => handleChangeUpdatePrice()}
-                        />
+                      />
                     </LocalizationProvider>
                   </Grid>
                 </Grid>

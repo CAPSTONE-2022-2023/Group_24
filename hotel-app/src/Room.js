@@ -77,7 +77,7 @@ export default function Room() {
                 <h1 style={{ textAlign: "center", fontFamily: "'Playfair Display',serif", marginTop: "50px" }}>{room.name}</h1>
                 <p style={{ textAlign: "center", margin: "20px 20px 10px" }}>{room.overview}</p>
                 <div class="container" style={{ textAlign: "center", marginLeft: "550px", marginRight: "550px", marginTop: "25px" }}>
-                    <a href='Reservation/Client'>Book Now</a>
+                    <a href='/Reservation/Client'>Book Now</a>
                 </div>
             </div>
 
